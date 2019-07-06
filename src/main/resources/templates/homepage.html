@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						E-<small>Health Card</small>
+					</h1>
+				</section>
+				<!-- Main content -->
+				<section class="content">
+					<div class="box box-solid box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Input the Patient ID</h3>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="box box-success">
+										<div class="box-header with-border">
+											<h3 class="box-title">Valid Patient Id is required</h3>
+										</div>
+										<form action="" id="regform">
+											<div class="box-body">
+												<div class="form-group ordinary" style="display: none;">
+													<label for="patientId">Patient ID</label> <input
+														type="text" class="form-control regno-ordinary"
+														id="patientId" name="patientId"
+														placeholder="Eg: PAT9262838" />
+													<p>
+														<span class="emsg hidden">Enter a valid patient Id</span>
+													</p>
+												</div>
+											</div>
+											<!-- /.box-body -->
+											<div class="box-footer">
+												<button type="submit" class="btn btn-primary buttoni">Search
+													Patient</button>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="callout callout-success" id="resultContainer"
+										style="display: none;">
+										<h4>Results</h4>
+										<table class="table table-bordered">
+											<tr>
+												<th style="width: 10px">#</th>
+												<th>Module Name</th>
+												<th>Grade</th>
+												<th>Details</th>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+				</section>
+				<!-- /.content -->
+			</div>
+			<!-- /.container -->
+		</div>
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

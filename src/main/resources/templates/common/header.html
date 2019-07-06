@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head th:fragment="common-header">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>E-Health Card</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<link rel="stylesheet"
+	href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="/bower_components/font-awesome/css/font-awesome.min.css" />
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="/bower_components/Ionicons/css/ionicons.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/dist/css/AdminLTE.min.css" />
+
+<link rel="stylesheet"
+	href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+
+<link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css" />
+
+<!-- Google Font -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+
+<style>
+.emsg {
+	color: red;
+}
+
+.hidden {
+	visibility: hidden;
+}
+</style>
+</head>
+<body>
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header class="main-header" th:fragment="main-header">
+			<nav class="navbar navbar-static-top">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="#" class="navbar-brand"><b>E</b>HealthCard</a>
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse" data-target="#navbar-collapse">
+							<i class="fa fa-bars"></i>
+						</button>
+					</div>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse pull-left"
+						id="navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li><a href="#">Admissions<span class="sr-only">(current)</span></a></li>
+							<li><a href="#">Consultations</a></li>
+							<li><a href="#">Laboratory</a></li>
+							<li><a href="#">Prescriptions</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+		</header>
+		<!-- Main Footer -->
+		<footer class="main-footer" th:fragment="footer">
+			<div class="container">
+				<div class="pull-right hidden-xs">
+					<b>Version</b> 1.0
+				</div>
+				<strong>Copyright &copy; 2018-2019 <a
+					href="http://www.reb.rw">E-Health Wallet</a>.
+				</strong> All rights reserved.
+			</div>
+			<!-- /.container -->
+		</footer>
+		<div class="control-sidebar-bg"></div>
+	</div>
+	<div th:fragment="body-bottom-scripts">
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap 3.3.7 -->
+		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!-- DataTables -->
+		<script
+			src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		<script
+			src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+	</div>
+</body>
+</html>
