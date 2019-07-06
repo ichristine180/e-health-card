@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head th:fragment="common-header">
 <meta charset="utf-8" />
@@ -9,20 +8,20 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport" />
 <link rel="stylesheet"
-	href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+	th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" />
 <!-- Font Awesome -->
 <link rel="stylesheet"
-	href="/bower_components/font-awesome/css/font-awesome.min.css" />
+	th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}" />
 <!-- Ionicons -->
 <link rel="stylesheet"
-	href="/bower_components/Ionicons/css/ionicons.min.css" />
+	th:href="@{/bower_components/Ionicons/css/ionicons.min.css}" />
 <!-- Theme style -->
-<link rel="stylesheet" href="/dist/css/AdminLTE.min.css" />
+<link rel="stylesheet" th:href="@{/dist/css/AdminLTE.min.css}" />
 
 <link rel="stylesheet"
-	href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+	th:href="@{/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}" />
 
-<link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css" />
+<link rel="stylesheet" th:href="@{/dist/css/skins/skin-blue.min.css}" />
 
 <!-- Google Font -->
 <link rel="stylesheet"
@@ -72,7 +71,7 @@
 					<b>Version</b> 1.0
 				</div>
 				<strong>Copyright &copy; 2018-2019 <a
-					href="http://www.reb.rw">E-Health Wallet</a>.
+					href="#">E-Health Card</a>.
 				</strong> All rights reserved.
 			</div>
 			<!-- /.container -->
@@ -80,18 +79,18 @@
 		<div class="control-sidebar-bg"></div>
 	</div>
 	<div th:fragment="body-bottom-scripts">
-		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
 		<!-- Bootstrap 3.3.7 -->
-		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
 
 		<!-- DataTables -->
 		<script
-			src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+			th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 		<script
-			src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+			th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<!-- AdminLTE App -->
-		<script src="/dist/js/adminlte.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+		<script th:src="@{/dist/js/adminlte.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
 	</div>
 </body>
 </html>

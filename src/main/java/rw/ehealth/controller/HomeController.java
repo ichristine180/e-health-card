@@ -13,9 +13,9 @@ public class HomeController {
 		return "homepage";
 	}
 
-	@GetMapping("/patient")
-	public String newPatientInfo() {
-		return "patient";
+	@GetMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 }
