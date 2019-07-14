@@ -6,67 +6,64 @@
 		<!-- Main Header -->
 		<header th:replace="common/header :: main-header"></header>
 		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<div class="container">
-				<!-- Content Header (Page header) -->
+		<!-- / admin container -->
+		<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Dashboard <small>Admin panel</small>
+				</h1>
+			</section>
+			<section class="content">
+				<!-- Small boxes (Stat box) -->
+				<div class="row">
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h3 th:text="${doctors}"></h3>
 
-				<!-- /.content -->
-			</div>
-			<!-- / admin container -->
-			<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
-				<!-- Content Header (Page header) -->
-				<section class="content-header">
-					<h1>
-						Dashboard <small>Admin panel</small>
-					</h1>
-				</section>
-				<section class="content">
-					<!-- Small boxes (Stat box) -->
-					<div class="row">
-						<div class="col-lg-3 col-xs-6">
-							<!-- small box -->
-							<div class="small-box bg-aqua">
-								<div class="inner">
-									<h3 th:text="${doctors}"></h3>
-
-									<p>Registered Users</p>
-								</div>
-								<div class="icon">
-									<i class="ion ion-bag"></i>
-								</div>
-								<a href="#" class="small-box-footer">More info <i
-									class="fa fa-arrow-circle-right"></i></a>
+								<p>Registered Users</p>
 							</div>
-						</div>
-						<!-- ./col -->
-						<div class="col-lg-3 col-xs-6">
-							<!-- small box -->
-							<div class="small-box bg-green">
-								<div class="inner">
-									<h3 th:text="${doctors}"></h3>
-
-									<p>Registered Hospital</p>
-								</div>
-								<div class="icon">
-									<i class="ion ion-stats-bars"></i>
-								</div>
-								<a href="#" class="small-box-footer">More info <i
-									class="fa fa-arrow-circle-right"></i></a>
-
+							<div class="icon">
+								<i class="ion ion-bag"></i>
 							</div>
-
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
 						</div>
 					</div>
-				</section>
-			</div>
-			<!-- Receptionist container -->
-			<div class="content-wrapper" sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3 th:text="${doctors}"></h3>
+
+								<p>Registered Hospital</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-stats-bars"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+
+						</div>
+
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- Receptionist container -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+			<div class="container">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 					<h1>
-						Dashboard <small>Reception panel</small>
+						Dashboard <small>Reception Panel</small>
 					</h1>
 				</section>
+				<!-- /.content -->
 				<section class="content">
 					<!-- Small boxes (Stat box) -->
 					<div class="row">
@@ -75,7 +72,6 @@
 							<div class="small-box bg-aqua">
 								<div class="inner">
 									<h3 th:text="${patients}"></h3>
-
 									<p>Registered Patients</p>
 								</div>
 								<div class="icon">
@@ -91,26 +87,63 @@
 							<div class="small-box bg-green">
 								<div class="inner">
 									<h3 th:text="${admissions}"></h3>
-
-									<p>Admissions you've performed</p>
+									<p>Admissions Today</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-stats-bars"></i>
 								</div>
 								<a href="#" class="small-box-footer">More info <i
 									class="fa fa-arrow-circle-right"></i></a>
-
 							</div>
-
 						</div>
 					</div>
 				</section>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Recent Admitted Patients</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Patient Number</th>
+											<th>Names</th>
+											<th>Gender</th>
+											<th>Born On</th>
+											<th>Last Visit Date</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
 		<!-- Main Footer -->
 
 		<footer th:replace="common/header :: footer"></footer>
 	</div>
 	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : false,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false
+			})
+		})
+	</script>
 </body>
 </html>

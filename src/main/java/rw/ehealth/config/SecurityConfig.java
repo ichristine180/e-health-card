@@ -2,9 +2,6 @@ package rw.ehealth.config;
 
 import java.security.SecureRandom;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import rw.ehealth.service.user.UserSecurityService;
-
 
 @Configuration
 @EnableWebSecurity
@@ -38,15 +33,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
 	}
-	
-	 private static final String[] PUBLIC_MATCHERS = { "/bower_components/**", "/dist/**", "/plugins/**", "/js/**",
-		"/build/**" };
+
+	private static final String[] PUBLIC_MATCHERS = { "/bower_components/**", "/dist/**", "/plugins/**", "/js/**",
+			"/build/**" };
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
-				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**","/home","/hospital","/admission","/users","/patient","/newuser", "/register/**").permitAll()
-				.antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**").hasRole("ADMIN").anyRequest()
-				.authenticated();
+				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospital",
+						"/admission", "/users", "/patient", "/newuser", "/register/**")
+				.permitAll().antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**")
+				.hasRole("ADMIN").anyRequest().authenticated();
 
 		http.csrf().disable().cors().disable().formLogin().failureUrl("/login?error").defaultSuccessUrl("/")
 				.loginPage("/login").permitAll().and().logout()
@@ -57,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// auth.inMemoryAuthentication().withUser("user").password("password").roles("USER"); //This is in-memory
-		// authentication
+		// This is in-memory authentication
+		auth.inMemoryAuthentication().withUser("user@health.com").password("password").roles("RECEPTIONIST");
 		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 	}
 }
