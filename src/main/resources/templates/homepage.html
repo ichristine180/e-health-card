@@ -123,6 +123,12 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-xs-12">
+					<a class="btn btn-success pull-left" href="/registration"> <i class="fa fa-user"></i> Register A Patient
+						</a>
+						<a class="btn btn-success pull-right" href="/admission"> <i class="fa fa-plus"></i> Admit An Existing Patient
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -138,7 +144,7 @@
 			$('#patients').DataTable({
 				'paging' : true,
 				'lengthChange' : false,
-				'searching' : false,
+				'searching' : true,
 				'ordering' : true,
 				'info' : true,
 				'autoWidth' : false

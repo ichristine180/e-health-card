@@ -24,10 +24,20 @@
 
 <link rel="stylesheet" th:href="@{/dist/css/skins/skin-blue.min.css}" />
 
+<link rel="stylesheet"
+	th:href="@{/bower_components/bootstrap-daterangepicker/daterangepicker.css}" />
+<!-- bootstrap datepicker -->
+<!-- Select2 -->
+<link rel="stylesheet"
+	th:href="@{/bower_components/select2/dist/css/select2.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}" />
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet"
+	th:href="@{/plugins/timepicker/bootstrap-timepicker.min.css}" />
 <style>
 .emsg {
 	color: red;
@@ -103,6 +113,10 @@
 	</div>
 	<div th:fragment="body-bottom-scripts">
 		<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+		<!-- Select2 -->
+		<script
+			th:src="@{/bower_components/select2/dist/js/select2.full.min.js}"></script>
+		<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
 		<!-- Bootstrap 3.3.7 -->
 		<script
 			th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
@@ -115,6 +129,42 @@
 		<!-- AdminLTE App -->
 		<script th:src="@{/dist/js/adminlte.min.js}"></script>
 		<script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+
+
+		<script sth:src="@{/plugins/input-mask/jquery.inputmask.js}"></script>
+		<script
+			sth:src="@{/plugins/input-mask/jquery.inputmask.date.extensions.js}"></script>
+		<script th:src="@{/plugins/input-mask/jquery.inputmask.extensions.js}"></script>
+		<!-- date-range-picker -->
+		<script sth:src="@{/bower_components/moment/min/moment.min.js}"></script>
+		<script
+			th:src="@{/bower_components/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<!-- bootstrap datepicker -->
+		<script
+			th:src="@{/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+		<!-- bootstrap color picker -->
+		<script
+			th:src="@{/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js}"></script>
+		<!-- bootstrap time picker -->
+		<script th:src="@{/plugins/timepicker/bootstrap-timepicker.min.js}"></script>
+		<!-- SlimScroll -->
+		<script
+			th:src="@{/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+		<!-- iCheck 1.0.1 -->
+		<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+		<!-- FastClick -->
+		<script th:src="@{/bower_components/fastclick/lib/fastclick.js}"></script>
+		<!-- AdminLTE App -->
+		<script th:src="@{/dist/js/adminlte.min.js}"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script th:src="@{/dist/js/demo.js}"></script>
+
+		<script src="/plugins/input-mask/jquery.inputmask.js"></script>
+		<script
+			src="/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+		<script src="/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+		
+		<script src="/bower_components/moment/min/moment.min.js"></script>
 	</div>
 </body>
 </html>

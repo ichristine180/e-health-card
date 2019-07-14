@@ -3,7 +3,6 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Doctor;
 import rw.ehealth.model.Hospital;
+import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
@@ -31,7 +31,6 @@ import rw.ehealth.utils.AdmissionData;
 import rw.ehealth.utils.DoctorData;
 import rw.ehealth.utils.HopitaData;
 import rw.ehealth.utils.PatientData;
-import rw.ehealth.model.Patient;
 
 @Controller
 public class HomeController {
@@ -45,16 +44,16 @@ public class HomeController {
 	private AdmissionService admissionService;;
 
 	@RequestMapping("/")
-	public String homepage(Model model,Principal principal) {
+	public String homepage(Model model, Principal principal) {
 		long doctors = userService.countDoctor();
 		model.addAttribute("doctors", doctors);
 		long hospitals = hospitalService.countHospital();
 		model.addAttribute("hospitals", hospitals);
 		long patients = patientservice.countPatient();
-		model.addAttribute("patients",patients);
+		model.addAttribute("patients", patients);
 		String username = principal.getName();
 		long admissions = admissionService.countAdmission(username);
-		model.addAttribute("admissions",admissions);
+		model.addAttribute("admissions", admissions);
 		return "homepage";
 	}
 
@@ -94,14 +93,16 @@ public class HomeController {
 		model.addAttribute("patients", patients);
 		return "reception";
 	}
-	@GetMapping(value="/admission")
-public String adimssion(Model model) {
-		 boolean admissions = true;
-		   model.addAttribute("admissions",admissions);
-		AdmissionData admission =new AdmissionData();
-		model.addAttribute("admission",admission);
+
+	@GetMapping(value = "/admission")
+	public String adimssion(Model model) {
+		boolean admissions = true;
+		model.addAttribute("admissions", admissions);
+		AdmissionData admission = new AdmissionData();
+		model.addAttribute("admission", admission);
 		return "reception";
-}
+	}
+
 	@RequestMapping(value = "/newuser", method = RequestMethod.POST)
 	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
 
@@ -153,27 +154,28 @@ public String adimssion(Model model) {
 		patients.setIdentificationNumber(patientData.getIdentificationNumber());
 		patientservice.savePatientInfo(patients);
 		return "redirect:/patient";
-	
-		
+
 	}
-	   @RequestMapping(value="/newadmission",method = RequestMethod.POST)
-		public String searchPatient(@ModelAttribute("admission") @Valid AdmissionData admissionData,Model model,Principal principal) {
-		   String username = principal.getName();
-		   Doctor user = userService.findUserByUsername(username);
-		   Patient patients = patientservice.findPatientByIdentificationNumber(admissionData.getIdentificationNumber());
-		   AdmissionInfo newadmission = new AdmissionInfo();
-		   newadmission.setBloodPressure(admissionData.getBloodPressure());
-		   newadmission.setHeartRate(admissionData.getHeartRate());
-		   newadmission.setHeight(admissionData.getHeight());
-		   newadmission.setTemperature(admissionData.getTemperature());
-		 newadmission.setAdmissionDate(LocalDateTime.now());
-		   newadmission.setAdmittedPatient(patients);
-		   
-		   newadmission.setDoctor(user);
-		   
-		   admissionService.createNewPatientAdmission(newadmission);
-		   
-			return "redirect:/admission";
-			
-		}
+
+	@RequestMapping(value = "/newadmission", method = RequestMethod.POST)
+	public String searchPatient(@ModelAttribute("admission") @Valid AdmissionData admissionData, Model model,
+			Principal principal) {
+		String username = principal.getName();
+		Doctor user = userService.findUserByUsername(username);
+		Patient patients = patientservice.findPatientByIdentificationNumber(admissionData.getIdentificationNumber());
+		AdmissionInfo newadmission = new AdmissionInfo();
+		newadmission.setBloodPressure(admissionData.getBloodPressure());
+		newadmission.setHeartRate(admissionData.getHeartRate());
+		newadmission.setHeight(admissionData.getHeight());
+		newadmission.setTemperature(admissionData.getTemperature());
+		newadmission.setAdmissionDate(LocalDateTime.now());
+		newadmission.setAdmittedPatient(patients);
+
+		newadmission.setDoctor(user);
+
+		admissionService.createNewPatientAdmission(newadmission);
+
+		return "redirect:/admission";
+
+	}
 }

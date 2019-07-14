@@ -1,7 +1,6 @@
 package rw.ehealth.model;
 
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,30 +8,67 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "PATIENTS")
 public class Patient {
 	/**
 	 * The constant patientId - Long
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "patientId", nullable = false, updatable = false)
+	@Column(name = "PATIENT_ID", nullable = false, updatable = false)
 	private Long patientId;
 	/**
 	 * The constant fname - String
 	 */
+	@Column(name = "FIRST_NAME")
 	private String fname;
 	/**
 	 * The constant lname - String
 	 */
+	@Column(name = "LAST_NAME")
 	private String lname;
+
+	@Column(name = "GENDER")
+	private String gender;
 	/**
 	 * The constant address - String
 	 */
+	@Column(name = "ADDRESS")
 	private String address;
 
-	@Column(name = "identificationNumber", nullable = false, unique = true)
+	@Column(name = "IDENTIFICATION_NUMBER", nullable = false, unique = true)
 	private String identificationNumber;
+
+	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
+	private String patientNumber;
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the patientNumber
+	 */
+	public String getPatientNumber() {
+		return patientNumber;
+	}
+
+	/**
+	 * @param patientNumber the patientNumber to set
+	 */
+	public void setPatientNumber(String patientNumber) {
+		this.patientNumber = patientNumber;
+	}
 
 	public Long getPatientId() {
 		return patientId;
@@ -81,7 +117,7 @@ public class Patient {
 	@Override
 	public String toString() {
 		return "Patient [patientId=" + patientId + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", identificationNumber=" + identificationNumber + "]";
+				+ ", identificationNumber=" + identificationNumber + ", patientNumber=" + patientNumber + "]";
 	}
 
 }
