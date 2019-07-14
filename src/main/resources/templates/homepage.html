@@ -128,9 +128,18 @@
 											<td th:text="${patient.lname}" />
 											<td th:text="${patient.gender}" />
 											<td th:text="${patient.dateOfBirth}" />
-											<td><a class="btn btn-success pull-right"
-												href="/admission?patientNumber='${patient.patientNumber}'"> <i class="fa fa-plus"></i>
-													Admit
+											<td><a class="btn btn-info"
+												href="/details?patientNumber='${patient.patientNumber}'">
+													<i class="fa fa-info"></i>
+
+											</a> <a class="btn btn-primary"
+												href="/details?patientNumber='${patient.patientNumber}'">
+													<i class="fa fa-warning"></i>
+
+											</a><a class="btn btn-success"
+												href="/admission?patientNumber='${patient.patientNumber}'">
+													<i class="fa fa-plus"></i>
+
 											</a></td>
 										</tr>
 									</tbody>
