@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				
+				<!-- Main content -->
+				<section class="content">
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-4">
+							<div class="login-box-body">
+								<p class="login-box-msg">Sign In To Your Account</p>
+								<form th:action="@{/login}" method="post" role="login" class="login100-form validate-form">
+									<div class="form-group has-feedback">
+										<input type="email" name="username" class="form-control" placeholder="Email" />
+										<span
+											class="glyphicon glyphicon-envelope form-control-feedback"></span>
+									</div>
+									<div class="form-group has-feedback">
+										<input type="password" class="form-control" name="password"
+											placeholder="Password" /> <span
+											class="glyphicon glyphicon-lock form-control-feedback"></span>
+									</div>
+									<div class="row">
+										<!-- /.col -->
+										<div class="col-xs-4"></div>
+										<div class="col-xs-4"></div>
+										<div class="col-xs-4">
+											<button type="submit"
+												class="btn btn-primary btn-block btn-flat">Sign In</button>
+										</div>
+										<!-- /.col -->
+									</div>
+								</form>
+								<br />
+								<div class="row">
+									<!-- /.col -->
+									<div class="col-xs-6">
+										<a href="#">I forgot my password</a>
+									</div>							
+									
+								</div>
+
+							</div>
+						</div>
+						<div class="col-sm-4"></div>
+					</div>
+					<!-- /.box -->
+				</section>
+				<!-- /.content -->
+			</div>
+			<!-- /.container -->
+		</div>
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

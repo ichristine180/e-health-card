@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- / admin container -->
+			<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+				<!-- Content Header (Page header) -->
+				
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Admin panel</small>
+					</h1>
+				</section>
+				<!-- adding User container -->
+				
+				<div class="col-md-6" th:if="${user==true}">
+					<!-- Horizontal Form -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Register Users</h3>
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form class="form-horizontal" th:action="@{/newuser}"
+							method="post">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">First_Name</label>
+
+									<div class="col-sm-10">
+										<input id="fname" name="fname" class="form-control"
+											th:value="${doctor.fname}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-2 control-label">Last_Name</label>
+
+									<div class="col-sm-10">
+										<input id="lname" name="lname" class="form-control"
+											th:value="${doctor.lname}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+									<div class="col-sm-10">
+										<input id="email" name="email" class="form-control"
+											th:value="${doctor.email}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Phone</label>
+									<div class="col-sm-10">
+										<input type="tel" class="form-control" pattern='^\+?\d{0,13}' />
+									</div>
+									<!-- /.input group -->
+								</div>
+								<div class="form-group">
+									<label for="hospitalname" class="col-sm-2 control-label">Hospital_Name</label>
+
+									<div class="col-sm-10">
+										<select th:field="*{doctor.hospitalname}"
+											th:name="hospitalname"
+											class="form-control col-md-7 col-xs-12">
+											<option value="0">....</option>
+											<option th:each="hospital: ${hospitals}"
+												th:value="${hospital.hospitalName}"
+												th:text="${hospital.hospitalName}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
+
+									<div class="col-sm-10">
+										<select th:name="depertment" th:field="*{doctor.depertment}"
+											class="form-control">
+											<option value="0">.....</option>
+											<option value="Anesthesiology">Anesthesiology</option>
+											<option value="Bacteriological_Laboratory">Bacteriological
+												Laboratory</option>
+											<option value="Phyical_Therapy">Phyical Therapy</option>
+											<option value="Plastic_Surgery">Plastic Surgery</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Role_Name</label>
+
+									<div class="col-sm-10">
+										<select th:field="*{doctor.roleName}" th:name="roleName"
+											class="form-control col-md-7 col-xs-12">
+											<option value="0">....</option>
+											<option th:each="role: ${role}" th:value="${role.name}"
+												th:text="${role.name}"></option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+							<div class="box-footer">
+							<a href="/" class="btn btn-default">Cancel</a>
+								<button type="submit" class="btn btn-info pull-right">Save</button>
+							</div>
+							<!-- /.box-footer -->
+						</form>
+					</div>
+					</div>
+					
+					<!-- adding hospital container -->
+					<div class="col-md-6" th:if="${hospitals==true}">
+					<!-- Horizontal Form -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Register Hospitals</h3>
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form class="form-horizontal" th:action="@{/newhospital}"
+							method="post">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Name</label>
+
+									<div class="col-sm-10">
+										<input type="text" name="hospitalname" th:value="${hospital.hospitalname}" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+
+									<div class="col-sm-10">
+										<select  name="type" th:value="${hospital.type}" class="form-control">
+                                       <option value="HOSPITAL">HOSPITAL</option>
+                                       <option value="REFERRAL_HOSPITAL">REFERRAL HOSPITAL</option>
+                                       <option value="DISTRICT_HOSPITAL">DISTRICT HOSPITAL</option>
+                                       <option value="HEALTH_CENTER">HEALTH CENTER</option>
+                                       <option value="HEALTH_POST">HEALTH POSTL</option>
+                                        </select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Location</label>
+
+									<div class="col-sm-10">
+										<select  name="address" th:value="${hospital.address}" class="form-control">
+                                    <option value="Bugesera">Bugesera</option>
+                                       <option value="Gatsibo">Gatsibo</option>
+                                       <option value="Kayonza">KayonzaL</option>
+                                       <option value="Kirehe">Kirehe</option>
+                                        <option value="Ngoma">Ngoma</option>
+                                       <option value="Nyagatare">Nyagatare</option>
+                                       <option value="Rwamagana">Rwamagana</option>
+                                       <option value="Gasabo">Gasabo</option>
+                                       <option value="Kicukiro">Kicukiro</option>
+                                       <option value="Nyarugenge">Nyarugenge</option>
+                                       <option value="Burera">Burera</option>
+                                        <option value="Gakenke">Gakenke</option>
+                                       <option value="Gicumbi">Gicumbi</option>
+                                       <option value="Musanze">Musanze</option>
+                                       <option value="Rulindo">Rulindo</option>
+                                       <option value="Gisagara">Gisagara</option>
+                                       <option value="Huye">Huye</option>
+                                       <option value="Kamonyi">Kamonyi</option>
+                                        <option value="Muhanga">Muhanga</option>
+                                       <option value="Nyamagabe">Nyamagabe</option>
+                                       <option value="Nyanza">Nyanza</option>
+                                       <option value="Nyaruguru">Nyaruguru</option>
+                                       <option value="Ruhango">Ruhango</option>
+                                       <option value="Karongi">Karongi</option>
+                                       <option value="Ngororero">Ngororero</option>
+                                        <option value="Nyabihu">Nyabihu</option>
+                                       <option value="Nyamasheke">Nyamasheke</option>
+                                       <option value="Rubavu">Rubavu</option>
+                                        <option value="Rusizi">Rusizi</option>
+                                       <option value="Rutsiro">Rutsiro</option>
+                                       <option value="Mukamira">Mukamira</option>
+                                        </select>
+									</div>
+								</div>
+							</div>
+							<div class="box-footer">
+									<a href="/" class="btn btn-default">Cancel</a>
+								<button type="submit" class="btn btn-info pull-right">Save</button>
+							</div>
+							<!-- /.box-footer -->
+						</form>
+					</div>
+				</div>
+				
+				
+			</div>
+			<!-- Main Footer -->
+		</div>
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

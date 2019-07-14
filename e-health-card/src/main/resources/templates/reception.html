@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- / reception container -->
+			<div class="content-wrapper"
+				sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+				<!-- Content Header (Page header) -->
+
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Reception panel</small>
+					</h1>
+				</section>
+				<!-- adding User container -->
+
+				<div class="col-md-6" th:if="${patients==true}">
+					<!-- Horizontal Form -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Register Patient</h3>
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form class="form-horizontal" th:action="@{/newpatient}"
+							method="post">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">First_Name</label>
+
+									<div class="col-sm-10">
+										<input id="fname" name="fname" class="form-control"
+											th:value="${patient.fname}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-2 control-label">Last_Name</label>
+
+									<div class="col-sm-10">
+										<input id="lname" name="lname" class="form-control"
+											th:value="${patient.lname}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Address</label>
+									<div class="col-sm-10">
+										<input type="text" name="address" class="form-control"
+											th:value="${patient.address}" />
+									</div>
+									<!-- /.input group -->
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Id_Number</label>
+								<div class="col-sm-10">
+									<input type="text" name="identificationNumber"
+										class="form-control"
+										th:value="${patient.identificationNumber}" />
+								</div>
+								<!-- /.input group -->
+							</div>
+
+							<div class="box-footer">
+								<a href="/" class="btn btn-default">Cancel</a>
+								<button type="submit" class="btn btn-info pull-right">Save</button>
+							</div>
+							<!-- /.box-footer -->
+						</form>
+					</div>
+				</div>
+				<!-- admission container -->
+
+				<div class="col-md-6" th:if="${admissions==true}">
+					<!-- Horizontal Form -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Admit Patient</h3>
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form class="form-horizontal" th:action="@{/newadmission}"
+							method="post">
+
+							<div class="box-body">
+							<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Id Number</label>
+
+									<div class="col-sm-10">
+										<input id="identificationNumber" name="identificationNumber" class="form-control"
+											th:value="${admission.identificationNumber}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Heart_rate</label>
+
+									<div class="col-sm-10">
+										<input id="heartRate" name="heartRate" class="form-control"
+											th:value="${admission.heartRate}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-2 control-label">Height</label>
+
+									<div class="col-sm-10">
+										<input id="height" name="height" class="form-control"
+											th:value="${admission.height }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">Temperature</label>
+									<div class="col-sm-10">
+										<input type="text" name="temperature " class="form-control"
+											th:value="${admission.temperature}" />
+									</div>
+									<!-- /.input group -->
+								</div>
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">BloodPressure</label>
+									<div class="col-sm-10">
+										<input type="text" name="bloodPressure " class="form-control"
+											th:value="${admission.bloodPressure}" />
+									</div>
+									<!-- /.input group -->
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Weight</label>
+								<div class="col-sm-10">
+									<input type="text" name="weight"
+										class="form-control"
+										th:value="${admission.weight}"/>
+								</div>
+								<!-- /.input group -->
+							</div>
+
+							<div class="box-footer">
+								<a href="/" class="btn btn-default">Cancel</a>
+								<button type="submit" class="btn btn-info pull-right">Admit</button>
+							</div>
+							<!-- /.box-footer -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

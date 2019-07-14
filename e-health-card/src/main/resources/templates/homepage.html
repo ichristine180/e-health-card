@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+
+				<!-- /.content -->
+			</div>
+			<!-- / admin container -->
+			<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Admin panel</small>
+					</h1>
+				</section>
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${doctors}"></h3>
+
+									<p>Registered Users</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3 th:text="${doctors}"></h3>
+
+									<p>Registered Hospital</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+
+							</div>
+
+						</div>
+					</div>
+				</section>
+			</div>
+			<!-- Receptionist container -->
+			<div class="content-wrapper" sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Reception panel</small>
+					</h1>
+				</section>
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${patients}"></h3>
+
+									<p>Registered Patients</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3 th:text="${admissions}"></h3>
+
+									<p>Admissions you've performed</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+
+							</div>
+
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>
