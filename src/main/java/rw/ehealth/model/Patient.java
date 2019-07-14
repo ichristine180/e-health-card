@@ -22,6 +22,9 @@ public class Patient {
 	 */
 	@Column(name = "FIRST_NAME")
 	private String fname;
+
+	@Column(name = "DATE_OF_BIRTH")
+	private String dateOfBirth;
 	/**
 	 * The constant lname - String
 	 */
@@ -41,6 +44,20 @@ public class Patient {
 
 	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
 	private String patientNumber;
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
 	/**
 	 * @return the gender

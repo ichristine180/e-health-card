@@ -1,8 +1,9 @@
 
 package rw.ehealth.service.patient;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Patient;
@@ -16,8 +17,7 @@ public class PatientService implements IPatientService {
 
 	/*
 	 *
-	 * @see
-	 * com.us.service.patient.IPatientService#savePatientInfo(com.us.models.Patient)
+	 * @see com.us.service.patient.IPatientService#savePatientInfo(com.us.models.Patient)
 	 */
 	@Override
 	public Patient savePatientInfo(Patient patient) {
@@ -55,7 +55,7 @@ public class PatientService implements IPatientService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -64,14 +64,38 @@ public class PatientService implements IPatientService {
 			Patient pateintPatient = pRepository.findByIdentificationNumber(IdNumber);
 			if (pateintPatient != null) {
 				return pateintPatient;
-			}else {
+			} else {
 				System.out.println("there is no patient with that id number");
 				return null;
 			}
-			
+
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.patient.IPatientService#findPatientByPatientNumber(java.lang.String)
+	 */
+	@Override
+	public Patient findPatientByPatientNumber(String patientNumber) {
+		try {
+			return pRepository.findByPatientNumber(patientNumber);
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public List<Patient> findAll() {
+		try {
+			return pRepository.findAll();
+		} catch (Exception ex) {
+			throw ex;
+		}
 	}
 }

@@ -41,19 +41,23 @@ public class HomeController {
 	@Autowired
 	private PatientService patientservice;
 	@Autowired
-	private AdmissionService admissionService;;
+	private AdmissionService admissionService;
 
 	@RequestMapping("/")
 	public String homepage(Model model, Principal principal) {
 		long doctors = userService.countDoctor();
-		model.addAttribute("doctors", doctors);
 		long hospitals = hospitalService.countHospital();
-		model.addAttribute("hospitals", hospitals);
 		long patients = patientservice.countPatient();
-		model.addAttribute("patients", patients);
 		String username = principal.getName();
 		long admissions = admissionService.countAdmission(username);
+
 		model.addAttribute("admissions", admissions);
+		model.addAttribute("doctors", doctors);
+		model.addAttribute("hospitals", hospitals);
+		model.addAttribute("patientsSize", patients);
+
+		// Load all patients for easy access to admission
+		model.addAttribute("patients", patientservice.findAll());
 		return "homepage";
 	}
 

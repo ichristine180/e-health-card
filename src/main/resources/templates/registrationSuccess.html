@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<!-- / admin container -->
+		<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Dashboard <small>Admin panel</small>
+				</h1>
+			</section>
+			<section class="content">
+				<!-- Small boxes (Stat box) -->
+				<div class="row"></div>
+			</section>
+		</div>
+		<!-- Receptionist container -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Registration Success</small>
+					</h1>
+				</section>
+				<!-- /.content -->
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="box box-widget widget-user">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-aqua-active">
+								<h3 class="widget-user-username" th:text="${patient.fname}"></h3>
+								<h5 class="widget-user-desc" th:text="${patient.patientNumber}"></h5>
+							</div>
+							<div class="widget-user-image">
+								<img class="img-circle" src="imgs/download.png"
+									alt="User Avatar" />
+							</div>
+							<div class="box-footer">
+								<div class="row">
+									<div class="col-sm-4 border-right">
+										<div class="description-block">
+											<h5 class="description-header">Date Of Birth</h5>
+											<span class="description-text" th:text="${patient.dateOfBirth}"></span>
+										</div>
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+									<div class="col-sm-4 border-right">
+										<div class="description-block">
+											<h5 class="description-header">Gender</h5>
+											<span class="description-text" th:text="${patient.gender}"></span>
+										</div>
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+									<div class="col-sm-4">
+										<div class="description-block">
+											<h5 class="description-header">Identification</h5>
+											<span class="description-text" th:text="${patient.identificationNumber}"></span>
+										</div>
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+								</div>
+								<!-- /.row -->
+							</div>
+						</div>
+
+					</div>
+				</section>
+
+			</div>
+		</div>
+
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false
+			})
+		})
+	</script>
+</body>
+</html>
