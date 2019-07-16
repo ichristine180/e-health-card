@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
-				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospital",
-						"/admission", "/users", "/patient", "/newuser", "/register/**")
+				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospregistration",
+						"/admission", "/docregistration", "/patient", "/newuser", "/register/**")
 				.permitAll().antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**")
 				.hasRole("ADMIN").anyRequest().authenticated();
 
@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		// This is in-memory authentication
 		auth.inMemoryAuthentication().withUser("user@health.com").password("password").roles("RECEPTIONIST");
+		auth.inMemoryAuthentication().withUser("admin@health.com").password("password").roles("ADMIN");
 		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 	}
 }

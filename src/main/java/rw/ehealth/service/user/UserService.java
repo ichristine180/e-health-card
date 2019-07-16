@@ -166,4 +166,24 @@ private DoctorRepository doctorrepo;
 		
 	}
 
+	@Override
+	public List<Doctor> finDoctors() {
+		try {
+			return doctorrepo.finDoctors();
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public Doctor findDoctor(String username) {
+		try {
+			return doctorrepo.findDoctor(username);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
 }

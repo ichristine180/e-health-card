@@ -3,7 +3,6 @@ package rw.ehealth.repo.medical;
 
 import java.util.List;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,7 +36,11 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	 * @return
 	 */
 	AdmissionInfo findByPatientTrackingNumber(String patientTrackingNumber);
+
 	@Query("SELECT count(p.username) from AdmissionInfo t  JOIN t.doctor  a JOIN a.user p  WHERE p.username=:username")
 	long countAdmissionInfo(@Param("username") String username);
+	
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalName=:hospitalName")
+	List<AdmissionInfo>allAdmissionInfos(@Param("hospitalName") String hospitalName);
 
 }

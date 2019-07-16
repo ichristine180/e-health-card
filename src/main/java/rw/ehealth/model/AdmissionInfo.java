@@ -26,13 +26,13 @@ public class AdmissionInfo {
 	 * The constant admissionDate - LocalDateTime
 	 */
 	@Column(name = "ADMINSSION_DATE", nullable = false)
-	private LocalDateTime admissionDate;
+	private String admissionDate;
 
 	/**
 	 * The constant releasedDate - LocalDateTime
 	 */
 	@Column(name = "RELEASED_DATE")
-	private LocalDateTime releasedDate;
+	private String releasedDate;
 
 	/**
 	 * The constant admittedPatient - Patient
@@ -82,12 +82,7 @@ public class AdmissionInfo {
 		return admissionId;
 	}
 
-	/**
-	 * @return the admissionDate
-	 */
-	public LocalDateTime getAdmissionDate() {
-		return admissionDate;
-	}
+	
 
 	/**
 	 * @return the admittedPatient
@@ -118,12 +113,9 @@ public class AdmissionInfo {
 	}
 
 	/**
-	 * @param admissionDate the admissionDate to set
+	 * @param string the admissionDate to set
 	 */
-	public void setAdmissionDate(LocalDateTime admissionDate) {
-		this.admissionDate = admissionDate;
-	}
-
+	
 	/**
 	 * @param admittedPatient the admittedPatient to set
 	 */
@@ -145,19 +137,31 @@ public class AdmissionInfo {
 		this.patientTrackingNumber = patientTrackingNumber;
 	}
 
-	/**
-	 * @return the releasedDate
-	 */
-	public LocalDateTime getReleasedDate() {
+	
+
+	public String getAdmissionDate() {
+		return admissionDate;
+	}
+
+
+
+	public void setAdmissionDate(String admissionDate) {
+		this.admissionDate = admissionDate;
+	}
+
+
+
+	public String getReleasedDate() {
 		return releasedDate;
 	}
 
-	/**
-	 * @param releasedDate the releasedDate to set
-	 */
-	public void setReleasedDate(LocalDateTime releasedDate) {
+
+
+	public void setReleasedDate(String releasedDate) {
 		this.releasedDate = releasedDate;
 	}
+
+
 
 	/**
 	 * @return the height

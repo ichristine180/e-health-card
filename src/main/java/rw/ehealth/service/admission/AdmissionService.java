@@ -1,6 +1,8 @@
 
 package rw.ehealth.service.admission;
 
+import java.util.List;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,5 +47,15 @@ public class AdmissionService implements IAdmissionService {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public List<AdmissionInfo> allAdmissionInfos(String hospitalname) {
+		try {
+			return aRepository.allAdmissionInfos(hospitalname);
+		} catch (Exception e) {
+			throw e;
+		}
+		
 	}
 }

@@ -16,10 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
-/**
- * Created by z00382545 on 10/20/16.
- */
-
 @Entity
 @Table(name = "role")
 public class Role {

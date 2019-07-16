@@ -23,22 +23,16 @@ public class HospitalService implements IHospitalService {
 	@Override
 	public Hospital createHospital(Hospital hospital) {
 		Hospital savedHospital = hRepository.findByHospitalName(hospital.getHospitalName());
-		String hospitalnameString = hospital.getHospitalName();
-		if (hospitalnameString.isEmpty()) {
-			System.out.println("Hospitalname can not be empety");
+		 if (savedHospital != null) {
+			System.out.println("hospital already saved");
 			return null;
-			
-		}else if (savedHospital != null) {
-			
+		 }else {
 		try {
 			return hRepository.save(hospital);
 		} catch (Exception ex) {
 			throw ex;
 		}
-		}else 
-			return null;
-			
-		
+		 }
 	}
 
 	/*

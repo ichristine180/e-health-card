@@ -1,6 +1,8 @@
 
 package rw.ehealth.service.admission;
 
+import java.util.List;
+
 import rw.ehealth.model.AdmissionInfo;
 
 public interface IAdmissionService {
@@ -16,5 +18,6 @@ public interface IAdmissionService {
 	 */
 	AdmissionInfo createNewPatientAdmission(AdmissionInfo info);
 	long countAdmission( String username);
+	List<AdmissionInfo>allAdmissionInfos(String hospitalname);
 
 }

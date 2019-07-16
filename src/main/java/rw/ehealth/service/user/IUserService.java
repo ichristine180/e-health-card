@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.Set;
 
+import rw.ehealth.model.Doctor;
 import rw.ehealth.model.User;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
@@ -40,6 +41,8 @@ public interface IUserService {
 
 	User createUser(User user);
 	long countDoctor();
+	List<Doctor>finDoctors();
+	Doctor findDoctor(String username);
 
 
 

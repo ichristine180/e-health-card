@@ -45,48 +45,30 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String homepage(Model model, Principal principal) {
-		long doctors = userService.countDoctor();
+		long doctorsize = userService.countDoctor();
 		long hospitals = hospitalService.countHospital();
 		long patients = patientservice.countPatient();
 		String username = principal.getName();
 		long admissions = admissionService.countAdmission(username);
-
 		model.addAttribute("admissions", admissions);
-		model.addAttribute("doctors", doctors);
+		model.addAttribute("doctorsize", doctorsize);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("patientsSize", patients);
-
+		Doctor doctor = userService.findDoctor(username);
+		if(username!="admin@health.com") {
+		String hospitalName = doctor.getHospital().getHospitalName();
+		model.addAttribute("admission", admissionService.allAdmissionInfos(hospitalName));
+		}
 		// Load all patients for easy access to admission
 		model.addAttribute("patients", patientservice.findAll());
+		model.addAttribute("doctors", userService.finDoctors());
+		
 		return "homepage";
 	}
 
 	@GetMapping("/login")
 	public String login() {
 		return "login";
-	}
-
-	@GetMapping(value = "/users")
-	public String doctor(Model model) {
-		Iterable<Role> role = userService.findAll();
-		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		DoctorData newdoctor = new DoctorData();
-		model.addAttribute("doctor", newdoctor);
-		model.addAttribute("hospitals", hospitals);
-		model.addAttribute("role", role);
-		boolean user = true;
-		model.addAttribute("user", user);
-
-		return "admin";
-	}
-
-	@GetMapping(value = "/hospital")
-	public String viewTheForm(Model model) {
-		HopitaData newhospital = new HopitaData();
-		model.addAttribute("hospital", newhospital);
-		boolean hospitals = true;
-		model.addAttribute("hospitals", hospitals);
-		return "admin";
 	}
 
 	@GetMapping(value = "/patient")
@@ -107,79 +89,4 @@ public class HomeController {
 		return "reception";
 	}
 
-	@RequestMapping(value = "/newuser", method = RequestMethod.POST)
-	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
-
-		Doctor doc = new Doctor();
-		doc.setEmail(user.getEmail());
-		doc.setFname(user.getFname());
-		doc.setLname(user.getLname());
-		doc.setTimestamp(LocalDateTime.now().toString());
-		doc.setDepertment(user.getDepertment());
-		doc.setPhone(user.getPhone());
-		Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
-		doc.setHospital(hospitals);
-		if (userService.checkUsernameExists(user.getEmail())) {
-			if (userService.checkUsernameExists(user.getEmail())) {
-				model.addAttribute("emailExists", true);
-				System.out.println("email exists");
-			}
-			return "admin";
-		}
-		User myuser = new User();
-
-		myuser.setUsername(user.getEmail());
-		myuser.setPassword("pass");
-		Set<UserRole> userRoles = new HashSet<>();
-		userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
-		myuser.setDoctor(doc);
-		doc.setUser(myuser);
-		userService.createUser(myuser);
-		userService.createUser(myuser, userRoles);
-		return "admin";
-	}
-
-	@RequestMapping(value = "/newhospital", method = RequestMethod.POST)
-	public String addHospital(@ModelAttribute("hospitals") @Valid HopitaData hospitals, Model model) {
-		Hospital hosp = new Hospital();
-		hosp.setHospitalName(hospitals.getHospitalname());
-		hosp.setType(hospitals.getType());
-		hosp.setAddress(hospitals.getAddress());
-		hospitalService.createHospital(hosp);
-		return "redirect:/hospital";
-	}
-
-	@RequestMapping(value = "/newpatient", method = RequestMethod.POST)
-	public String addPatient(@ModelAttribute("patient") @Valid PatientData patientData, Model model) {
-		Patient patients = new Patient();
-		patients.setFname(patientData.getFname());
-		patients.setLname(patientData.getLname());
-		patients.setAddress(patientData.getAddress());
-		patients.setIdentificationNumber(patientData.getIdentificationNumber());
-		patientservice.savePatientInfo(patients);
-		return "redirect:/patient";
-
-	}
-
-	@RequestMapping(value = "/newadmission", method = RequestMethod.POST)
-	public String searchPatient(@ModelAttribute("admission") @Valid AdmissionData admissionData, Model model,
-			Principal principal) {
-		String username = principal.getName();
-		Doctor user = userService.findUserByUsername(username);
-		Patient patients = patientservice.findPatientByIdentificationNumber(admissionData.getIdentificationNumber());
-		AdmissionInfo newadmission = new AdmissionInfo();
-		newadmission.setBloodPressure(admissionData.getBloodPressure());
-		newadmission.setHeartRate(admissionData.getHeartRate());
-		newadmission.setHeight(admissionData.getHeight());
-		newadmission.setTemperature(admissionData.getTemperature());
-		newadmission.setAdmissionDate(LocalDateTime.now());
-		newadmission.setAdmittedPatient(patients);
-
-		newadmission.setDoctor(user);
-
-		admissionService.createNewPatientAdmission(newadmission);
-
-		return "redirect:/admission";
-
-	}
 }
