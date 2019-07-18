@@ -1,7 +1,6 @@
 package rw.ehealth.service.user;
 
 import java.util.List;
-
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -18,9 +17,10 @@ import rw.ehealth.model.security.UserRole;
 import rw.ehealth.repo.medical.DoctorRepository;
 import rw.ehealth.repo.user.RoleDao;
 import rw.ehealth.repo.user.UserRepository;
+
 @Service
 @Transactional
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(IUserService.class);
 
@@ -30,7 +30,7 @@ public class UserService implements IUserService{
 	@Autowired
 	private RoleDao roleDao;
 	@Autowired
-private DoctorRepository doctorrepo;
+	private DoctorRepository doctorrepo;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -43,6 +43,7 @@ private DoctorRepository doctorrepo;
 	public User findByUsername(String username) {
 		return userDao.findByUsername(username);
 	}
+
 	@Override
 	public User createUser(User user) {
 		User localUser = userDao.findByUsername(user.getUsername());
@@ -59,30 +60,29 @@ private DoctorRepository doctorrepo;
 		}
 		return localUser;
 	}
+
 	@Override
 	public User encryptPass(User password) {
-			String encryptedPassword = passwordEncoder.encode(password.getPassword());
-			password.setPassword(encryptedPassword);
-			
-			return password;
-		}
-		
+		String encryptedPassword = passwordEncoder.encode(password.getPassword());
+		password.setPassword(encryptedPassword);
+
+		return password;
+	}
+
 	@Override
 	public User createUser(User user, Set<UserRole> userRoles) {
-			for (UserRole ur : userRoles) {
-				roleDao.save(ur.getRole());
-			}
-			user.getUserRoles().addAll(userRoles);
-			try {
-				
-				return userDao.save(user);
-			} catch (Exception e) {
-				System.out.println(e.getMessage() + " JSJS");
-				throw e;
-			}
+		for (UserRole ur : userRoles) {
+			roleDao.save(ur.getRole());
 		}
-		 
-	
+		user.getUserRoles().addAll(userRoles);
+		try {
+
+			return userDao.save(user);
+		} catch (Exception e) {
+			System.out.println(e.getMessage() + " JSJS");
+			throw e;
+		}
+	}
 
 	@Override
 	public boolean checkUserExists(String username) {
@@ -135,7 +135,7 @@ private DoctorRepository doctorrepo;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -154,7 +154,7 @@ private DoctorRepository doctorrepo;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	public Doctor findUserByUsername(String username) {
@@ -163,7 +163,7 @@ private DoctorRepository doctorrepo;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -173,7 +173,7 @@ private DoctorRepository doctorrepo;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -183,7 +183,7 @@ private DoctorRepository doctorrepo;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 }

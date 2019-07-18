@@ -6,7 +6,8 @@
 		<!-- Main Header -->
 		<header th:replace="common/header :: main-header"></header>
 		<!-- general doctor -->
-		<div class="content-wrapper" sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<div class="container">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
@@ -157,7 +158,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Receptionist container -->
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
@@ -197,13 +198,16 @@
 								<div class="icon">
 									<i class="ion ion-stats-bars"></i>
 								</div>
-								<a href="#" class="small-box-footer">More info <i
-									class="fa fa-arrow-circle-right"></i></a>
+								<a th:href="@{/admissions}" class="small-box-footer">More
+									info <i class="fa fa-arrow-circle-right"></i>
+								</a>
 							</div>
 						</div>
 					</div>
 				</section>
-
+				<div class="row" th:if="${message != null}">
+					<span th:text="${message}" style="text-color: red;"></span>
+				</div>
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
@@ -221,6 +225,7 @@
 											<th>Last Name</th>
 											<th>Gender</th>
 											<th>Born On</th>
+											<th>Admitted</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -233,18 +238,20 @@
 											<td th:text="${patient.lname}" />
 											<td th:text="${patient.gender}" />
 											<td th:text="${patient.dateOfBirth}" />
+											<td class="text-uppercase"
+												th:text="${patient.admissionStatus}" />
 											<td><a class="btn btn-info"
 												href="/details?patientNumber='${patient.patientNumber}'">
 													<i class="fa fa-info"></i>
 
 											</a> <a class="btn btn-primary"
 												href="/details?patientNumber='${patient.patientNumber}'">
-													<i class="fa fa-warning"></i>
+													<i class="fa fa-edit"></i>
 
 											</a><a class="btn btn-success"
-												href="/admission?patientNumber='${patient.patientNumber}'">
+												th:if="${patient.admissionStatus==false}"
+												th:href="@{'/admit/patient/' + ${patient.patientNumber}}">
 													<i class="fa fa-plus"></i>
-
 											</a></td>
 										</tr>
 									</tbody>
@@ -255,8 +262,6 @@
 					<div class="col-xs-12">
 						<a class="btn btn-success pull-left" href="/registration"> <i
 							class="fa fa-user"></i> Register New Patient
-						</a> <a class="btn btn-success pull-right" href="/admission"> <i
-							class="fa fa-plus"></i> Admit A Patient
 						</a>
 					</div>
 				</div>

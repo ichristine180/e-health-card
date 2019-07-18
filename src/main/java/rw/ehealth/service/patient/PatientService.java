@@ -98,4 +98,17 @@ public class PatientService implements IPatientService {
 			throw ex;
 		}
 	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.patient.IPatientService#updatePatient(rw.ehealth.model.Patient)
+	 */
+	@Override
+	public Patient updatePatient(Patient patient) {
+		try {
+			return pRepository.save(patient);
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 }

@@ -1,9 +1,6 @@
 
 package rw.ehealth.model;
 
-import java.time.LocalDateTime;
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,19 +54,19 @@ public class AdmissionInfo {
 	/**
 	 * The constant height - Double
 	 */
-	private Double height;
+	private String height;
 	/**
 	 * The constant temperature - Long
 	 */
-	private double temperature;
+	private String temperature;
 	/**
 	 * The constant bloodPressure - Double
 	 */
-	private Double bloodPressure;
+	private String bloodPressure;
 	/**
 	 * The constant weight - Double
 	 */
-	private Double weight;
+	private String weight;
 	/**
 	 * The constant heartRate - String
 	 */
@@ -82,7 +79,12 @@ public class AdmissionInfo {
 		return admissionId;
 	}
 
-	
+	/**
+	 * @return the releasedDate
+	 */
+	public String getReleasedDate() {
+		return releasedDate;
+	}
 
 	/**
 	 * @return the admittedPatient
@@ -106,6 +108,41 @@ public class AdmissionInfo {
 	}
 
 	/**
+	 * @return the height
+	 */
+	public String getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the temperature
+	 */
+	public String getTemperature() {
+		return temperature;
+	}
+
+	/**
+	 * @return the bloodPressure
+	 */
+	public String getBloodPressure() {
+		return bloodPressure;
+	}
+
+	/**
+	 * @return the weight
+	 */
+	public String getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @return the heartRate
+	 */
+	public String getHeartRate() {
+		return heartRate;
+	}
+
+	/**
 	 * @param admissionId the admissionId to set
 	 */
 	public void setAdmissionId(Long admissionId) {
@@ -113,9 +150,12 @@ public class AdmissionInfo {
 	}
 
 	/**
-	 * @param string the admissionDate to set
+	 * @param releasedDate the releasedDate to set
 	 */
-	
+	public void setReleasedDate(String releasedDate) {
+		this.releasedDate = releasedDate;
+	}
+
 	/**
 	 * @param admittedPatient the admittedPatient to set
 	 */
@@ -137,92 +177,31 @@ public class AdmissionInfo {
 		this.patientTrackingNumber = patientTrackingNumber;
 	}
 
-	
-
-	public String getAdmissionDate() {
-		return admissionDate;
-	}
-
-
-
-	public void setAdmissionDate(String admissionDate) {
-		this.admissionDate = admissionDate;
-	}
-
-
-
-	public String getReleasedDate() {
-		return releasedDate;
-	}
-
-
-
-	public void setReleasedDate(String releasedDate) {
-		this.releasedDate = releasedDate;
-	}
-
-
-
-	/**
-	 * @return the height
-	 */
-	public Double getHeight() {
-		return height;
-	}
-
-	/**
-	 * @return the temperature
-	 */
-	public double getTemperature() {
-		return temperature;
-	}
-
-	/**
-	 * @return the bloodPressure
-	 */
-	public Double getBloodPressure() {
-		return bloodPressure;
-	}
-
-	/**
-	 * @return the weight
-	 */
-	public Double getWeight() {
-		return weight;
-	}
-
-	/**
-	 * @return the heartRate
-	 */
-	public String getHeartRate() {
-		return heartRate;
-	}
-
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(Double height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
 	/**
 	 * @param temperature the temperature to set
 	 */
-	public void setTemperature(double temperature) {
+	public void setTemperature(String temperature) {
 		this.temperature = temperature;
 	}
 
 	/**
 	 * @param bloodPressure the bloodPressure to set
 	 */
-	public void setBloodPressure(Double bloodPressure) {
+	public void setBloodPressure(String bloodPressure) {
 		this.bloodPressure = bloodPressure;
 	}
 
 	/**
 	 * @param weight the weight to set
 	 */
-	public void setWeight(Double weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
@@ -233,13 +212,27 @@ public class AdmissionInfo {
 		this.heartRate = heartRate;
 	}
 
+	/**
+	 * @return the admissionDate
+	 */
+	public String getAdmissionDate() {
+		return admissionDate;
+	}
+
+	/**
+	 * @param admissionDate the admissionDate to set
+	 */
+	public void setAdmissionDate(String admissionDate) {
+		this.admissionDate = admissionDate;
+	}
+
 	/*
 	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "AdminssionInfo [admissionId=" + admissionId + ", admissionDate=" + admissionDate + ", releasedDate="
+		return "AdmissionInfo [admissionId=" + admissionId + ", admissionDate=" + admissionDate + ", releasedDate="
 				+ releasedDate + ", admittedPatient=" + admittedPatient + ", doctor=" + doctor
 				+ ", patientTrackingNumber=" + patientTrackingNumber + ", height=" + height + ", temperature="
 				+ temperature + ", bloodPressure=" + bloodPressure + ", weight=" + weight + ", heartRate=" + heartRate

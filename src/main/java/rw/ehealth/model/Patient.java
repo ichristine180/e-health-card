@@ -45,6 +45,22 @@ public class Patient {
 	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
 	private String patientNumber;
 
+	private boolean admissionStatus;
+
+	/**
+	 * @return the admissionStatus
+	 */
+	public boolean isAdmissionStatus() {
+		return admissionStatus;
+	}
+
+	/**
+	 * @param admissionStatus the admissionStatus to set
+	 */
+	public void setAdmissionStatus(boolean admissionStatus) {
+		this.admissionStatus = admissionStatus;
+	}
+
 	/**
 	 * @return the dateOfBirth
 	 */

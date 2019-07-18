@@ -17,7 +17,15 @@ public interface IAdmissionService {
 	 * @return
 	 */
 	AdmissionInfo createNewPatientAdmission(AdmissionInfo info);
-	long countAdmission( String username);
-	List<AdmissionInfo>allAdmissionInfos(String hospitalname);
+
+	long countAdmission(String username);
+
+	/**
+	 * All admission infos.
+	 *
+	 * @param hospitalname the hospitalname
+	 * @return the list
+	 */
+	List<AdmissionInfo> allAdmissionsPerHospital(String hospitalname);
 
 }

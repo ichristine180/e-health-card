@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- general doctor -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Doctor Panel</small>
+					</h1>
+				</section>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">All Admissions</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Patient Tracking Number</th>
+											<th>Admission Date</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="admission, iStat: ${admission}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${admission.admittedPatient.fname}" />
+											<td th:text="${admission.admittedPatient.lname}" />
+											<td th:text="${admission.patientTrackingNumber}" />
+											<td th:text="${admission.admissionDate}" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Content Wrapper. Contains page content -->
+		<!-- ADMIN container -->
+		<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Admin Panel</small>
+					</h1>
+				</section>
+				<!-- /.content -->
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${doctorsize}"></h3>
+									<p>Registered Doctors</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3 th:text="${hospitals}"></h3>
+									<p>Registered Hospitals</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">All Doctors</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Phone Number</th>
+											<th>Email</th>
+											<th>Hospital</th>
+											<th>Department</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="doctor, iStat: ${doctors}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${doctor.fname}" />
+											<td th:text="${doctor.lname}" />
+											<td th:text="${doctor.phone}" />
+											<td th:text="${doctor.email}" />
+											<td th:text="${doctor.hospital.hospitalName}" />
+											<td th:text="${doctor.depertment}" />
+
+
+											<td><a class="btn btn-info"
+												href="/details?docId='${doctor.docId}'"> <i
+													class="fa fa-info"></i>
+
+											</a> <a class="btn btn-primary"
+												href="/details?docId='${doctor.docId}'"> <i
+													class="fa fa-warning"></i>
+
+											</a><a class="btn btn-success"
+												href="/admission?docId='${doctor.docId}'"> <i
+													class="fa fa-plus"></i>
+
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/docregistration">
+							<i class="fa fa-user"></i> Register New Doctor
+						</a> <a class="btn btn-success pull-right" href="/hospregistration">
+							<i class="fa fa-plus"></i> Register new Hospital
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Receptionist container -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Reception Panel</small>
+					</h1>
+				</section>
+				<!-- /.content -->
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${patientsSize}"></h3>
+									<p>Admitted Patients</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h2 class="box-title">Admitted Patients @</h2>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Patient Tracking Number</th>
+											<th>Patient Number</th>
+											<th>Admitted</th>
+											<th>[Celcius]</th>
+											<th>[cm]</th>
+											<th>[kg]</th>
+											<th>BP[]</th>
+											<th>Admission Date</th>
+											<th>Release Status</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="admission, iStat: ${admissionList}">
+											<td th:text="${iStat.index+1}" />
+											<td><a th:href="@{/admissions/details}"
+												th:text="${admission.patientTrackingNumber}"></a></td>
+											<td th:text="${admission.admittedPatient.patientNumber}" />
+											<td class="text-uppercase"
+												th:text="${admission.admittedPatient.admissionStatus}" />
+											<td th:text="${admission.temperature}" />
+											<td th:text="${admission.height}" />
+											<td th:text="${admission.weight}" />
+											<td th:text="${admission.bloodPressure}" />
+											<td th:text="${admission.admissionDate}" />
+											<td th:if="${admission.releasedDate!=null}"
+												th:text="${admission.releasedDate}" />
+											<td th:if="${admission.releasedDate==null}">NOT YET</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/registration"> <i
+							class="fa fa-user"></i> Register New Patient
+						</a> <a class="btn btn-success pull-right" href="/admission"> <i
+							class="fa fa-plus"></i> Admit A Patient
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false
+			})
+		})
+	</script>
+</body>
+</html>

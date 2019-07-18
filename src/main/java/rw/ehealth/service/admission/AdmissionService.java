@@ -50,12 +50,13 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> allAdmissionInfos(String hospitalname) {
+	public List<AdmissionInfo> allAdmissionsPerHospital(String hospitalname) {
 		try {
 			return aRepository.allAdmissionInfos(hospitalname);
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
+
 }

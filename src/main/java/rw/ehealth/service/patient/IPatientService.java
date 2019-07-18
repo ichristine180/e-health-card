@@ -31,4 +31,12 @@ public interface IPatientService {
 	 */
 	Patient findPatientByPatientNumber(String patientNumber);
 
+	/**
+	 * Update patient.
+	 *
+	 * @param patient the patient
+	 * @return the patient
+	 */
+	Patient updatePatient(Patient patient);
+
 }

@@ -19,9 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rw.ehealth.model.AdmissionInfo;
@@ -34,10 +33,9 @@ import rw.ehealth.model.security.UserRole;
 import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.HospitalService;
 import rw.ehealth.service.patient.IPatientService;
-import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.UserService;
+import rw.ehealth.utils.AdmissionDto;
 import rw.ehealth.utils.DoctorData;
-import rw.ehealth.utils.HopitaData;
 
 @Controller
 public class AdmissionController {
@@ -107,7 +105,7 @@ public class AdmissionController {
 
 				model.addAttribute("patientId", registeredPatient.getPatientNumber());
 				model.addAttribute("patient", registeredPatient);
-				boolean registration=true;
+				boolean registration = true;
 				model.addAttribute("registration", registration);
 
 				return "registrationSuccess";
@@ -192,6 +190,7 @@ public class AdmissionController {
 				model.addAttribute("found", patientresult);
 				AdmissionInfo admission = new AdmissionInfo();
 				model.addAttribute("admission", admission);
+				System.out.println("We reach this page");
 				return "admit";
 			}
 			// If not found, go to registration page to register a patient first
@@ -208,15 +207,14 @@ public class AdmissionController {
 	 */
 	private String generatePatientNumber(Patient patient) {
 		// TODO Revise it to make it more complex
-		return RandomStringUtils.randomAlphanumeric(6).toUpperCase();
+		return RandomStringUtils.randomAlphanumeric(12).toUpperCase();
 	}
 
-	@PostMapping("/admission")
-	public String admitPatient(@ModelAttribute("admission") @Valid AdmissionInfo admission, Model model,
-			@RequestParam String patientNumber, Principal principal) {
+	@PostMapping("/patient/admission")
+	public String admitPatient(Model model, @ModelAttribute AdmissionDto admission, Principal principal) {
+
 		String username = principal.getName();
 		Doctor user = userService.findUserByUsername(username);
-		Patient patients = patientService.findPatientByPatientNumber(patientNumber);
 		AdmissionInfo newadmission = new AdmissionInfo();
 		newadmission.setBloodPressure(admission.getBloodPressure());
 		newadmission.setHeartRate(admission.getHeartRate());
@@ -224,18 +222,62 @@ public class AdmissionController {
 		newadmission.setWeight(admission.getWeight());
 		newadmission.setTemperature(admission.getTemperature());
 		newadmission.setAdmissionDate(LocalDateTime.now().toString());
-		newadmission.setAdmittedPatient(patients);
-
+		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
+		newadmission.setPatientTrackingNumber(this.generateTrackingNumber());
 		newadmission.setDoctor(user);
-		AdmissionInfo savedadmission = admissionService.createNewPatientAdmission(newadmission);
-		if(savedadmission!=null) {
-			model.addAttribute("admission",savedadmission);
-			boolean showAdmission = true;
-			model.addAttribute("admissions",showAdmission);
-			model.addAttribute("patients",patients);
-		return "registrationSuccess";
 
-	}else
-		return "redirect:/admission";
-}
+		System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
+
+		AdmissionInfo savedadmission = admissionService.createNewPatientAdmission(newadmission);
+
+		// Update the patient admission status
+		Patient patient = savedadmission.getAdmittedPatient();
+
+		patient.setAdmissionStatus(true);
+		patientService.updatePatient(patient);
+
+		if (savedadmission != null) {
+			model.addAttribute("admission", savedadmission);
+			boolean showAdmission = true;
+			model.addAttribute("admissions", showAdmission);
+			model.addAttribute("patients", savedadmission.getAdmittedPatient());
+			model.addAttribute("message", "Admission is successful for " + savedadmission.getPatientTrackingNumber());
+			return "redirect:/";
+
+		}
+		model.addAttribute("error", true);
+		model.addAttribute("message", "The Admission Failed! Try Again");
+		return "redirect:/";
+
+	}
+
+	@GetMapping("/admit/patient/{patientNumber}")
+	public String admitPatient(Model model, @PathVariable String patientNumber, Principal principal) {
+		if (patientNumber != null) {
+			Patient result = patientService.findPatientByPatientNumber(patientNumber);
+			// if the patient is found, we proceed with admission
+			if (result != null) {
+				model.addAttribute("patient", result);
+				boolean patientresult = true;
+				model.addAttribute("found", patientresult);
+				AdmissionInfo admission = new AdmissionInfo();
+				model.addAttribute("admission", admission);
+				System.out.println("We reach this page");
+				return "admit";
+			}
+			// If not found, go to registration page to register a patient first
+			Patient patient = new Patient();
+			model.addAttribute("patient", patient);
+			return "registration";
+		}
+		return "reception";
+
+	}
+
+	/**
+	 * @return
+	 */
+	private String generateTrackingNumber() {
+		return RandomStringUtils.randomNumeric(10).toUpperCase();
+	}
 }
