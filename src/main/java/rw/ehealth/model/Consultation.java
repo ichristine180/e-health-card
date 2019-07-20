@@ -30,7 +30,7 @@ public class Consultation {
 	private AdmissionInfo admissionInfo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patientId")
+	@JoinColumn(name = "docId")
 	private Doctor doctor;
 
 	/**

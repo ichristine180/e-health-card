@@ -18,7 +18,7 @@ public interface IAdmissionService {
 	 */
 	AdmissionInfo createNewPatientAdmission(AdmissionInfo info);
 
-	long countAdmission(String username);
+	long countAdmission(Long hospitalId,boolean admissionStatus);
 
 	/**
 	 * All admission infos.
@@ -26,6 +26,9 @@ public interface IAdmissionService {
 	 * @param hospitalname the hospitalname
 	 * @return the list
 	 */
-	List<AdmissionInfo> allAdmissionsPerHospital(String hospitalname);
+	List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId,boolean admissionStatus);
 
+	long countAdmissionBypatient(String pnumber, String hospitalname);
+List<AdmissionInfo>listAdmissionInfosByPatients(String pnumber, String hospitalname);
+AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber);
 }

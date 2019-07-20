@@ -111,4 +111,13 @@ public class PatientService implements IPatientService {
 			throw ex;
 		}
 	}
+
+	public Patient findByPatientId(Long patientId) {
+		try {
+			return pRepository.findByPatientId(patientId);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
 }

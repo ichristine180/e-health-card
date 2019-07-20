@@ -3,6 +3,7 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,6 @@ import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.HospitalService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.UserService;
-import rw.ehealth.utils.AdmissionData;
 import rw.ehealth.utils.PatientData;
 
 @Controller
@@ -32,22 +32,27 @@ public class HomeController {
 		long doctorsize = userService.countDoctor();
 		long hospitals = hospitalService.countHospital();
 		long patients = patientservice.countPatient();
-		String username = principal.getName();
-		long admissions = admissionService.countAdmission(username);
-		model.addAttribute("admissions", admissions);
+		Doctor activeUser = userService.findDoctor(principal.getName());
+		
 		model.addAttribute("doctorsize", doctorsize);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("patientsSize", patients);
+		String username = principal.getName();
 		Doctor doctor = userService.findDoctor(username);
 
 		if (username != "admin@health.com") {
-			String hospitalName = doctor.getHospital().getHospitalName();
-			model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalName));
+			Long hospitalId = doctor.getHospital().getHospitalId();
+			model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId,true));
+			long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId(),true);
+			model.addAttribute("admissions", admissions);
 		}
 
 		// Load all patients for easy access to admission
 		model.addAttribute("patients", patientservice.findAll());
 		model.addAttribute("doctors", userService.finDoctors());
+		String department = activeUser.getDepertment();
+		model.addAttribute("department", department);
+		model.addAttribute("docAdmissions",admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),true,activeUser.getDepertment()));
 
 		return "homepage";
 	}
@@ -66,13 +71,6 @@ public class HomeController {
 		return "reception";
 	}
 
-	@GetMapping(value = "/admission")
-	public String adimssion(Model model) {
-		boolean admissions = true;
-		model.addAttribute("admissions", admissions);
-		AdmissionData admission = new AdmissionData();
-		model.addAttribute("admission", admission);
-		return "reception";
-	}
+	
 
 }

@@ -162,7 +162,7 @@
 		<!-- Receptionist container -->
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
-			<div class="container">
+			<div class="container" th:if="${admissionInfo==false}">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 					<h1>
@@ -177,7 +177,7 @@
 							<!-- small box -->
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<h3 th:text="${patientsSize}"></h3>
+									<h3 th:text="${admissionSize}"></h3>
 									<p>Admitted Patients</p>
 								</div>
 								<div class="icon">
@@ -217,7 +217,7 @@
 									<tbody>
 										<tr th:each="admission, iStat: ${admissionList}">
 											<td th:text="${iStat.index+1}" />
-											<td><a th:href="@{/admissions/details}"
+											<td><a th:href="@{'/details/admissions/' + ${admission.patientTrackingNumber}}"
 												th:text="${admission.patientTrackingNumber}"></a></td>
 											<td th:text="${admission.admittedPatient.patientNumber}" />
 											<td class="text-uppercase"
@@ -236,14 +236,75 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12">
-						<a class="btn btn-success pull-left" href="/registration"> <i
-							class="fa fa-user"></i> Register New Patient
-						</a> <a class="btn btn-success pull-right" href="/admission"> <i
-							class="fa fa-plus"></i> Admit A Patient
+				</div>
+				
+			</div>
+			
+			<div class="container" th:if="${admissionInfo==true}">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Reception Panel</small>
+					</h1>
+				</section>
+				<section class="content-header"></section>
+
+				<div class="row">
+					<div class="col-md-6">
+							<div class="box">
+								<div class="box-header with-border">
+									<h3 class="box-title">Admission Information Details</h3>
+								</div>
+							<div class="box-body">
+								<table class="table table-bordered">
+										<tr>
+											<td>First Name</td>
+											<td th:text="${admission.admittedPatient.fname}" />
+										</tr>
+										<tr>
+											<td>Last Name</td>
+											<td th:text="${admission.admittedPatient.lname}" />
+										</tr>
+										<tr>
+											<td>Gender</td>
+											<td th:text="${admission.admittedPatient.gender}" />
+										</tr>
+										<tr>
+											<td>Address</td>
+											<td th:text="${admission.admittedPatient.address}" />
+										</tr>
+										<tr>
+											<td>Blood Pressure</td>
+											<td th:text="${admission.bloodPressure}" />
+										</tr>
+										<tr>
+											<td>Heart Rate</td>
+											<td th:text="${admission.heartRate}" />
+										</tr>
+										<tr>
+											<td>Temperature</td>
+											<td th:text="${admission.temperature}" />
+										</tr>
+										<tr>
+											<td>Height</td>
+											<td th:text="${admission.height}" />
+										</tr>
+										<tr>
+											<td>Weight</td>
+											<td th:text="${admission.weight}" />
+										</tr>
+
+									</table>
+							</div>
+						</div>
+						<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/admissions"> <i
+							></i> Back
 						</a>
 					</div>
+					</div>
 				</div>
+				
 			</div>
 		</div>
 

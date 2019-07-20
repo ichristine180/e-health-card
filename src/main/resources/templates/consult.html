@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- general doctor -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<div class="container" th:if="${admissionInfo==true}">
+				<div></div>
+				<div class="row" style="height:30px ;">
+					<div class="col-xs-6">
+						<div class="box-header">
+							<h3 class="box-title">Department Of</h3>
+							<h3 class="box-title" th:text="${department}"></h3>
+
+						</div>
+						<!-- /box header -->
+						<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Patient Information</h3>
+							</div>
+							<!-- /box-header with-border -->
+							<div class="box-body">
+								<table class="table table-bordered">
+									<tr>
+										<td>First Name</td>
+										<td th:text="${admission.admittedPatient.fname}" />
+									</tr>
+									<tr>
+										<td>Last Name</td>
+										<td th:text="${admission.admittedPatient.lname}" />
+									</tr>
+									<tr>
+										<td>Blood Pressure</td>
+										<td th:text="${admission.bloodPressure}" />
+									</tr>
+									<tr>
+										<td>Heart Rate</td>
+										<td th:text="${admission.heartRate}" />
+									</tr>
+									<tr>
+										<td>Temperature</td>
+										<td th:text="${admission.temperature}" />
+									</tr>
+									<tr>
+										<td>Height</td>
+										<td th:text="${admission.height}" />
+									</tr>
+									<tr>
+										<td>Weight</td>
+										<td th:text="${admission.weight}" />
+									</tr>
+
+								</table>
+								</div>
+								</div>
+								<div style="height:400px ;">
+				                   <div class="box">
+								<div class="box-header">
+									<h3 class="box-title">
+										Consultation <small>Details</small>
+									</h3>
+									<!-- tools box -->
+									<div class="pull-right box-tools">
+										<button type="button" class="btn btn-default btn-sm"
+											data-widget="collapse" data-toggle="tooltip" title="Collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+										<button type="button" class="btn btn-default btn-sm"
+											data-widget="remove" data-toggle="tooltip" title="Remove">
+											<i class="fa fa-times"></i>
+										</button>
+									</div>
+									<!-- /. tools -->
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body pad">
+									<form  th:action="@{/patient/consultation}" th:object="${consultation}" method="POST">
+									<input type="hidden" th:value="${admission.patientTrackingNumber}"
+												class="form-control" th:name="@{patientTrackingNumber}" />
+										<textarea class="textarea" th:name="@{descripton}" placeholder="Place some text here"
+											
+										style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+										<div class="box-footer">
+										<button type="submit" class="btn btn-info pull-right">Save
+											</button>
+									</div>
+                               </form>
+						          </div>
+						          </div>
+						          </div>
+						          </div>          
+    
+        <div class="col-md-6">
+          <!-- Block buttons -->
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Block Buttons</h3>
+            </div>
+            <div class="box-body">
+              <button type="button" class="btn btn-default btn-block">.btn-block</button>
+              <button type="button" class="btn btn-default btn-block btn-flat">.btn-block .btn-flat</button>
+              <button type="button" class="btn btn-default btn-block btn-sm">.btn-block .btn-sm</button>
+            </div>
+          </div>
+        </div>
+        </div>
+     </div>
+     </div>
+
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+<!-- jQuery 3 -->
+<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>

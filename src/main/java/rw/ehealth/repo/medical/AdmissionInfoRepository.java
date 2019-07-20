@@ -37,10 +37,37 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	 */
 	AdmissionInfo findByPatientTrackingNumber(String patientTrackingNumber);
 
-	@Query("SELECT count(p.username) from AdmissionInfo t  JOIN t.doctor  a JOIN a.user p  WHERE p.username=:username")
-	long countAdmissionInfo(@Param("username") String username);
+	@Query("SELECT count(h.hospitalId) from AdmissionInfo a Join a.admittedPatient p  Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and p.admissionStatus = :admissionStatus")
+	long countAdmissionInfo(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus);
+
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and p.admissionStatus=:admissionStatus")
+	List<AdmissionInfo> allAdmissionInfos(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus);
+
+	@Query("SELECT count(p.patientNumber) from AdmissionInfo t JOIN t.admittedPatient p JOIN t.doctor d JOIN d.hospital h  WHERE p.patientNumber=:patientNumber and h.hospitalName = :hospitalName ")
+	long countAdmissionBypatient(@Param("patientNumber") String patientNumber,
+			@Param("hospitalName") String hospitalName);
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE p.patientNumber=:patientNumber and  h.hospitalName=:hospitalName")
+	List<AdmissionInfo>listAdmissionInfosByPatients(@Param("patientNumber") String patientNumber,
+			@Param("hospitalName") String hospitalName);
 	
-	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalName=:hospitalName")
-	List<AdmissionInfo>allAdmissionInfos(@Param("hospitalName") String hospitalName);
+	
+	
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and p.admissionStatus=:admissionStatus and a.departement=:departement")
+	List<AdmissionInfo> AdmissionInfos(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus,@Param("departement") String departement);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

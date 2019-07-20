@@ -40,9 +40,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public long countAdmission(String username) {
+	public long countAdmission(Long hospitalId,boolean admissionStatus) {
 		try {
-			return aRepository.countAdmissionInfo(username);
+			return aRepository.countAdmissionInfo(hospitalId,admissionStatus);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -50,13 +50,52 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> allAdmissionsPerHospital(String hospitalname) {
+	public List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId, boolean admissionStatus) {
 		try {
-			return aRepository.allAdmissionInfos(hospitalname);
+			return aRepository.allAdmissionInfos(hospitalId,admissionStatus);
 		} catch (Exception e) {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public long countAdmissionBypatient(String pnumber, String hospitalname) {
+	try {
+		return aRepository.countAdmissionBypatient(pnumber, hospitalname);
+	} catch (Exception e) {
+		throw e;
+	}
+
+	}
+
+	@Override
+	public List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, String hospitalname) {
+		try {
+			return aRepository.listAdmissionInfosByPatients(pnumber, hospitalname);
+		} catch (Exception e) {
+			throw e;
+		}
+	
+	}
+
+	@Override
+	public AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber) {
+		try {
+			return aRepository.findByPatientTrackingNumber(patientTruckingNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	public List<AdmissionInfo> AdmissionInfos(Long hospitalId, boolean admissionStatus, String departement) {
+	try {
+		return aRepository.AdmissionInfos(hospitalId, admissionStatus, departement);
+	} catch (Exception e) {
+	throw e ;
+	}
+		
 	}
 
 }

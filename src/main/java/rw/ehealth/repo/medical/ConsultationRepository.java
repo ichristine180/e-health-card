@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
@@ -29,5 +31,7 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 	 * @return
 	 */
 	Consultation findByConsultationId(Long id);
+	@Query("SELECT c from Consultation c JOIN c.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
+	Consultation findByPatientTruckingNumber(@Param("patientTrackingNumber") String patientTrackingNumber);
 
 }

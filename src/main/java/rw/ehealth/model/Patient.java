@@ -44,6 +44,26 @@ public class Patient {
 
 	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
 	private String patientNumber;
+	@Column(name = "registeredDateString")
+    private String registeredDate;
+	@Column(name = "hospital")
+	private String hospital;
+	
+	public String getRegisteredDate() {
+		return registeredDate;
+	}
+
+	public void setRegisteredDate(String registeredDate) {
+		this.registeredDate = registeredDate;
+	}
+
+	public String getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(String hospital) {
+		this.hospital = hospital;
+	}
 
 	private boolean admissionStatus;
 

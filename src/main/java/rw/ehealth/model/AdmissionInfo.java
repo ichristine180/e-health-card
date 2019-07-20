@@ -71,6 +71,15 @@ public class AdmissionInfo {
 	 * The constant heartRate - String
 	 */
 	private String heartRate;
+	private String departement;
+
+	public String getDepartement() {
+		return departement;
+	}
+
+	public void setDepartement(String departement) {
+		this.departement = departement;
+	}
 
 	/**
 	 * @return the admissionId
