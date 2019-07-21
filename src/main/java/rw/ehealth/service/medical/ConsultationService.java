@@ -1,5 +1,7 @@
 package rw.ehealth.service.medical;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,16 @@ public class ConsultationService implements IconsultationService{
 		} catch (Exception e) {
 			throw e;
 		}
+		
+	}
+	@Override
+	public List<Consultation> findAllInfoByPatient(String pnumber) {
+	try {
+		return cRepository.findAllInfoByPatient(pnumber);
+	} catch (Exception e) {
+		throw e;
+		
+	}
 		
 	}
 

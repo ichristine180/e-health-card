@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<!-- Content Header (Page header) -->
+			<div class="container">
+				<div></div>
+				<div class="row" style="height: 30px;">
+					<div class="col-xs-6">
+						<div class="box-header">
+							<h3 class="box-title">Department Of</h3>
+							<h3 class="box-title" th:text="${department}"></h3>
+
+						</div>
+						<!-- /box header -->
+						<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Patient Information</h3>
+							</div>
+							<!-- /box-header with-border -->
+							<div class="box-body">
+									<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+												<th>#</th>
+												<th>Date</th>
+												<th>Hospital</th>
+												<th>Consultation</th>
+												<th>Details</th>
+											</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="info, iStat: ${docAdmissions}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${info.admissionInfo.admissionDate}" />
+											<td th:text="${info.doctor.hospital.hospitalName}" />
+											<td th:text="${info.description}" />
+											<td><a class="btn btn-block btn-primary btn-sm"
+												th:href="@{'/consultation/' + ${info.admissionInfo.admittedPatient.patientNumber}}">MoreInfo
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+			</div>
+		</div>
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+	
+</body>
+</html>

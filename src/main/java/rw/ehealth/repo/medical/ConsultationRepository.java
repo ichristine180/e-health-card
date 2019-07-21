@@ -25,6 +25,8 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 	 * @return
 	 */
 	List<Consultation> findByDoctor(Doctor doctor);
+	@Query("SELECT c from Consultation c JOIN c.admissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber= :patientNumber")
+	List<Consultation> findAllInfoByPatient(@Param("patientNumber") String patientNumber);
 
 	/**
 	 * @param id

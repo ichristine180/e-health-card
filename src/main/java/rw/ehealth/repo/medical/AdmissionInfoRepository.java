@@ -58,7 +58,8 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	
 	
 	
-	
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p WHERE p.patientNumber=:patientNumber order by a.admissionDate")
+	List<AdmissionInfo>listInfosByPatients(@Param("patientNumber") String patientNumber);
 	
 	
 	

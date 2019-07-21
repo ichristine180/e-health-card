@@ -10,7 +10,7 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<div class="container" th:if="${admissionInfo==true}">
 				<div></div>
-				<div class="row" style="height:30px ;">
+				<div class="row" style="height: 30px;">
 					<div class="col-xs-6">
 						<div class="box-header">
 							<h3 class="box-title">Department Of</h3>
@@ -55,10 +55,10 @@
 									</tr>
 
 								</table>
-								</div>
-								</div>
-								<div style="height:400px ;">
-				                   <div class="box">
+							</div>
+						</div>
+						<div style="height: 400px;">
+							<div class="box">
 								<div class="box-header">
 									<h3 class="box-title">
 										Consultation <small>Details</small>
@@ -78,53 +78,78 @@
 								</div>
 								<!-- /.box-header -->
 								<div class="box-body pad">
-									<form  th:action="@{/patient/consultation}" th:object="${consultation}" method="POST">
-									<input type="hidden" th:value="${admission.patientTrackingNumber}"
-												class="form-control" th:name="@{patientTrackingNumber}" />
-										<textarea class="textarea" th:name="@{descripton}" placeholder="Place some text here"
-											
-										style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+									<form th:action="@{/patient/consultation}"
+										th:object="${consultation}" method="POST">
+										<input type="hidden"
+											th:value="${admission.patientTrackingNumber}"
+											class="form-control" th:name="@{patientTrackingNumber}" />
+										<textarea class="textarea" th:name="@{description}"
+											placeholder="Place some text here"
+											style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 										<div class="box-footer">
-										<button type="submit" class="btn btn-info pull-right">Save
+											<button type="submit" class="btn btn-info pull-right">Save
 											</button>
-									</div>
-                               </form>
-						          </div>
-						          </div>
-						          </div>
-						          </div>          
-    
-        <div class="col-md-6">
-          <!-- Block buttons -->
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Block Buttons</h3>
-            </div>
-            <div class="box-body">
-              <button type="button" class="btn btn-default btn-block">.btn-block</button>
-              <button type="button" class="btn btn-default btn-block btn-flat">.btn-block .btn-flat</button>
-              <button type="button" class="btn btn-default btn-block btn-sm">.btn-block .btn-sm</button>
-            </div>
-          </div>
-        </div>
-        </div>
-     </div>
-     </div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6" style="margin-top: 50px;">
+						<!-- Block buttons -->
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Others</h3>
+							</div>
+							<div class="box-body">
+								<a class="btn btn-block btn-success"
+									th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
+									Records</a> <a class="btn btn-default btn-block"
+									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Send
+									To Labo</a> <a class="btn btn-block btn-success"
+									th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-top: 50px;" th:if="${labo==true}">
+						<!-- Block buttons -->
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Others</h3>
+							</div>
+							<div class="box-body">
+								<form> <div class="form-group">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"/>
+                      Checkbox 1
+                    </label>
+                  </div>
 
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"/>
+                      Checkbox 2
+                    </label>
+                  </div>
+
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"/>
+                      Checkbox disabled
+                    </label>
+                  </div>
+                </div></form>
+							</div>
+						</div>
+					</div>
+				
+			</div>
+		</div>
 
 		<footer th:replace="common/header :: footer"></footer>
 	</div>
 	<div th:replace="common/header :: body-bottom-scripts"></div>
-
-<!-- jQuery 3 -->
-<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="../../bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
 </body>
 </html>

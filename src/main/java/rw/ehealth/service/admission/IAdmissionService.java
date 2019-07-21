@@ -31,4 +31,14 @@ public interface IAdmissionService {
 	long countAdmissionBypatient(String pnumber, String hospitalname);
 List<AdmissionInfo>listAdmissionInfosByPatients(String pnumber, String hospitalname);
 AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber);
+List<AdmissionInfo>listInfosByPatients(String pnumber);
+
+
+
+
+
+
+
+
+
 }

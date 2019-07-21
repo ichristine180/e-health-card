@@ -29,31 +29,29 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String homepage(Model model, Principal principal) {
-		long doctorsize = userService.countDoctor();
-		long hospitals = hospitalService.countHospital();
-		long patients = patientservice.countPatient();
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		
-		model.addAttribute("doctorsize", doctorsize);
-		model.addAttribute("hospitals", hospitals);
-		model.addAttribute("patientsSize", patients);
 		String username = principal.getName();
-		Doctor doctor = userService.findDoctor(username);
-
-		if (username != "admin@health.com") {
+		if(username=="admin@health.com") {
+			long doctorsize = userService.countDoctor();
+			long hospitals = hospitalService.countHospital();
+			model.addAttribute("doctorsize", doctorsize);
+			model.addAttribute("hospitals", hospitals);
+			model.addAttribute("doctors", userService.finDoctors());
+		}
+		else if (username != "admin@health.com") {
+			long patients = patientservice.countPatient();
+			Doctor activeUser = userService.findDoctor(principal.getName());
+			model.addAttribute("patientsSize", patients);
+			Doctor doctor = userService.findDoctor(username);
 			Long hospitalId = doctor.getHospital().getHospitalId();
 			model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId,true));
 			long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId(),true);
 			model.addAttribute("admissions", admissions);
+			// Load all patients for easy access to admission
+			model.addAttribute("patients", patientservice.findAll());
+			String department = activeUser.getDepertment();
+			model.addAttribute("department", department);
+			model.addAttribute("docAdmissions",admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),true,activeUser.getDepertment()));
 		}
-
-		// Load all patients for easy access to admission
-		model.addAttribute("patients", patientservice.findAll());
-		model.addAttribute("doctors", userService.finDoctors());
-		String department = activeUser.getDepertment();
-		model.addAttribute("department", department);
-		model.addAttribute("docAdmissions",admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),true,activeUser.getDepertment()));
-
 		return "homepage";
 	}
 

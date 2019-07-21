@@ -98,4 +98,14 @@ public class AdmissionService implements IAdmissionService {
 		
 	}
 
+	@Override
+	public List<AdmissionInfo> listInfosByPatients(String pnumber) {
+	try {
+		return aRepository.listInfosByPatients(pnumber);
+	} catch (Exception e) {
+		throw e;
+	}
+	
+	}
+
 }
