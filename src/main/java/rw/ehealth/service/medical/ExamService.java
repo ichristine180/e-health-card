@@ -1,5 +1,7 @@
 package rw.ehealth.service.medical;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -21,5 +23,25 @@ public class ExamService implements IexameService {
 			throw ex;
 		}
 	}
+
+	@Override
+	public List<Exams> findExams() {
+		try {
+			return examsRepo.findAll();
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	public Exams findHospitalById(long id) {
+		try {
+			return examsRepo.findByExamId(id);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+	
 
 }

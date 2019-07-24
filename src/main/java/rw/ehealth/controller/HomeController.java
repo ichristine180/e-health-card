@@ -3,7 +3,6 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,30 +27,52 @@ public class HomeController {
 	private AdmissionService admissionService;
 
 	@GetMapping("/")
-	public String homepage(Model model, Principal principal) {
-		String username = principal.getName();
-		if(username=="admin@health.com") {
+	public String homepage(Model model) {
 			long doctorsize = userService.countDoctor();
 			long hospitals = hospitalService.countHospital();
 			model.addAttribute("doctorsize", doctorsize);
 			model.addAttribute("hospitals", hospitals);
 			model.addAttribute("doctors", userService.finDoctors());
-		}
-		else if (username != "admin@health.com") {
-			long patients = patientservice.countPatient();
-			Doctor activeUser = userService.findDoctor(principal.getName());
-			model.addAttribute("patientsSize", patients);
-			Doctor doctor = userService.findDoctor(username);
-			Long hospitalId = doctor.getHospital().getHospitalId();
-			model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId,true));
-			long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId(),true);
-			model.addAttribute("admissions", admissions);
-			// Load all patients for easy access to admission
-			model.addAttribute("patients", patientservice.findAll());
-			String department = activeUser.getDepertment();
-			model.addAttribute("department", department);
-			model.addAttribute("docAdmissions",admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),true,activeUser.getDepertment()));
-		}
+		return "homepage";
+	}
+
+	@GetMapping("/recptionist")
+	public String Receptionist(Model model, Principal principal) {
+		String username = principal.getName();
+		long patients = patientservice.countPatient();
+		Doctor activeUser = userService.findDoctor(principal.getName());
+		model.addAttribute("patientsSize", patients);
+		Doctor doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
+		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId, true));
+		long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId(), true);
+		model.addAttribute("admissions", admissions);
+		// Load all patients for easy access to admission
+		model.addAttribute("patients", patientservice.findAll());
+		String department = activeUser.getDepertment();
+		model.addAttribute("department", department);
+		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),
+				true, activeUser.getDepertment()));
+
+		return "homepage";
+	}
+	@GetMapping("/gdoctor")
+	public String gDoctor(Model model, Principal principal) {
+		String username = principal.getName();
+		Doctor activeUser = userService.findDoctor(principal.getName());
+		Doctor doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
+		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId, true));
+		String department = activeUser.getDepertment();
+		model.addAttribute("department", department);
+		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),
+				true, activeUser.getDepertment()));
+
+		return "homepage";
+	}
+	@GetMapping("/labodoctor")
+	public String laboString(Model model, Principal principal) {
+
 		return "homepage";
 	}
 
@@ -59,16 +80,5 @@ public class HomeController {
 	public String login() {
 		return "login";
 	}
-
-	@GetMapping(value = "/patient")
-	public String Patient(Model model) {
-		PatientData newpatient = new PatientData();
-		model.addAttribute("patient", newpatient);
-		boolean patients = true;
-		model.addAttribute("patients", patients);
-		return "reception";
-	}
-
-	
 
 }

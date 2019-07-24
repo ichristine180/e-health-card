@@ -5,25 +5,33 @@ import java.security.Principal;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Doctor;
+import rw.ehealth.model.ExamRecords;
+import rw.ehealth.model.Exams;
 import rw.ehealth.model.Patient;
 import rw.ehealth.service.admission.IAdmissionService;
+import rw.ehealth.service.medical.ExamService;
 import rw.ehealth.service.medical.IconsultationService;
+import rw.ehealth.service.medical.IexamRecordService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
+import rw.ehealth.utils.ExamDto;
 
 @Controller
 public class HospitalController {
@@ -34,9 +42,11 @@ public class HospitalController {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private PatientService patientService;
+	private ExamService examService;
 	@Autowired
 	private IconsultationService consultationService;
+	@Autowired
+	private IexamRecordService examRecordRepo;
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -122,7 +132,7 @@ public class HospitalController {
 		Doctor activeUser = userService.findDoctor(principal.getName());
 		AdmissionInfo admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		Patient patient = admitedP.getAdmittedPatient();
-		if (patientTrackingNumber.isEmpty()==false) {
+		if (patientTrackingNumber.isEmpty() == false) {
 			boolean admissionInfo = true;
 			List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
 			String department = activeUser.getDepertment();
@@ -138,26 +148,56 @@ public class HospitalController {
 		return "redirect:/";
 
 	}
+
 	@GetMapping("/consultation/sendToLabo/{patientTrackingNumber}")
 	public String sendToLabo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo results = admissionService
-				.findByPatientTruckingNumber(patientTrackingNumber);
-		if (patientTrackingNumber.isEmpty()==false) {
+		AdmissionInfo results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+		if (patientTrackingNumber.isEmpty() == false) {
 			boolean labo = true;
 			model.addAttribute("labo", labo);
 			boolean admissionInfo = true;
 			String department = activeUser.getDepertment();
 			Consultation consultation = new Consultation();
+			ExamRecords examRecord = new ExamRecords();
+			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("department", department);
 			model.addAttribute("admission", results);
 			model.addAttribute("consultation", consultation);
 			model.addAttribute("admissionInfo", admissionInfo);
+			model.addAttribute("examss", examService.findExams());
 
 			return "consult";
 		}
 
 		return "redirect:/";
 
+	}
+
+	@PostMapping("/sendLabo")
+	public String sendExamString(@RequestParam(value = "examId", required = false) int[] examId,
+			@ModelAttribute ExamDto examDto, Model model) {
+		if (examId != null) {
+			List<Exams> selectedExams = new ArrayList<Exams>();
+			for (int i = 0; i < examId.length; i++) {
+				Exams exam = examService.findHospitalById((long) examId[i]);
+
+				selectedExams.add(exam);
+			}
+			// Do whatever you want with these hospitals from UI(eg:printing)
+			for (Exams exam : selectedExams) {
+				System.out.println(exam.getName() + " This came from the UI");
+				exam.getExamId();
+				ExamRecords examrecords = new ExamRecords();
+				AdmissionInfo admitedp = admissionService
+						.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
+				examrecords.setExams(exam);
+				examrecords.setAdmissionInfo(admitedp);
+				examrecords.setDatetaken(LocalDate.now().toString());
+				examRecordRepo.creaExamRecords(examrecords);
+			}
+
+		}
+		return "redirect:/gdoctor";
 	}
 }

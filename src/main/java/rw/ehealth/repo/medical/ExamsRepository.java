@@ -11,4 +11,6 @@ import rw.ehealth.model.Exams;
 @Repository
 public interface ExamsRepository extends JpaRepository<Exams, Long> {
 	List<Exams>findAll();
+
+	Exams findByExamId(long id);
 }
