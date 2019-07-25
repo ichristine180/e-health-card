@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- general doctor -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')">
+			<div class="row" style="height: 30px;">
+				<div class="col-xs-6" style="margin-top: 50px; margin-left:300px; ">
+					<div class="box" style="width: 430px;">
+						<div class="box-header">
+							<h3 class="box-title">List Of Exams</h3>
+						</div>
+						<div class="box-body" style="margin-left:100px; ">
+						<form class="form" th:action="@{/results}"
+						 method="POST">
+							<input type="hidden" th:value="${patientTrackingNumber}"
+								class="form-control" th:name="@{patientTrackingNumber}" />
+							<table>
+								
+									<th:block th:each="exams : ${examss}">
+										<tr>
+										<td>
+											<input type="hidden" name="examId"
+												th:value="${exams.exams.examId}" />
+											<label th:text="${exams.exams.name}"></label>
+											</td>
+										</tr>
+										<tr>
+										<td>
+											<input type="text" th:name="@{results}" /></td>
+										</tr>
+									</th:block>
+								
+							</table>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-info pull-right">Save
+								</button>
+							</div>
+						</form>
+					</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

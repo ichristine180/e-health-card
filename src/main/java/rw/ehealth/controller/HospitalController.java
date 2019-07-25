@@ -32,6 +32,7 @@ import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
+import rw.ehealth.utils.ExamRecordsDto;
 
 @Controller
 public class HospitalController {
@@ -46,7 +47,7 @@ public class HospitalController {
 	@Autowired
 	private IconsultationService consultationService;
 	@Autowired
-	private IexamRecordService examRecordRepo;
+	private IexamRecordService examRecordService;
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -194,10 +195,47 @@ public class HospitalController {
 				examrecords.setExams(exam);
 				examrecords.setAdmissionInfo(admitedp);
 				examrecords.setDatetaken(LocalDate.now().toString());
-				examRecordRepo.creaExamRecords(examrecords);
+				examRecordService.creaExamRecords(examrecords);
 			}
 
 		}
 		return "redirect:/gdoctor";
+	}
+	
+	@GetMapping("/labo/{patientTrackingNumber}")
+	public String viewExam(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
+		if (patientTrackingNumber.isEmpty() == false) {
+			ExamRecords examRecord = new ExamRecords();
+			model.addAttribute("examRecord", examRecord);
+			model.addAttribute("examss", examRecordService.findExamRecordsByPatient(patientTrackingNumber));
+			model.addAttribute("patientTrackingNumber",patientTrackingNumber);
+
+			return "labo";
+		}
+
+		return "redirect:/labodoctor";
+
+	}
+	@PostMapping("/results")
+	public String saveResults(@RequestParam(value = "examId", required = false) int[] examId,
+			@ModelAttribute ExamRecordsDto examDto, Model model) {
+		if (examId != null) {
+			List<ExamRecords> selectedExams = new ArrayList<ExamRecords>();
+			for (int i = 0; i < examId.length; i++) {
+				ExamRecords exam = examRecordService.findOneExam(examDto.getPatientTracki(),(long) examId[i]);
+				selectedExams.add(exam);
+				
+			}
+
+			for (ExamRecords exam : selectedExams) {
+				System.out.println(examDto.getResults() + " This came from the UI");
+				exam.setResults(examDto.getResults());
+				
+				examRecordService.update(exam);
+				
+			}
+
+		}
+		return "redirect:/labodoctor";
 	}
 }

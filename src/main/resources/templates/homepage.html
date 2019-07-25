@@ -5,6 +5,52 @@
 	<div class="wrapper">
 		<!-- Main Header -->
 		<header th:replace="common/header :: main-header"></header>
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')">
+			<div class="container">
+				<div></div>
+				<div class="row">
+					<div class="col-xs-12">
+					<div class="box-header">
+					<h3 class="box-title"> Department Of </h3>
+								<h3 class="box-title" th:text="${department}"></h3>
+								
+							</div>
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Patients</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Patient Tracking Number</th>
+											<th>View Exam</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="exam, iStat: ${pExam}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${exam.admissionInfo.admittedPatient.fname}" />
+											<td th:text="${exam.admissionInfo.admittedPatient.lname}" />
+											<td th:text="${exam.admissionInfo.patientTrackingNumber}" />
+											<td><a class="btn btn-block btn-primary btn-sm"
+												th:href="@{'/labo/' + ${exam.admissionInfo.patientTrackingNumber}}">View Exams
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- general doctor -->
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">

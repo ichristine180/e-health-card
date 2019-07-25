@@ -3,6 +3,7 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import rw.ehealth.model.Doctor;
 import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.HospitalService;
+import rw.ehealth.service.medical.IexamRecordService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.UserService;
-import rw.ehealth.utils.PatientData;
 
 @Controller
 public class HomeController {
@@ -25,6 +26,8 @@ public class HomeController {
 	private PatientService patientservice;
 	@Autowired
 	private AdmissionService admissionService;
+	@Autowired
+	private IexamRecordService examRecordService;
 
 	@GetMapping("/")
 	public String homepage(Model model) {
@@ -72,6 +75,11 @@ public class HomeController {
 	}
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
+		Doctor activeUser = userService.findDoctor(principal.getName());
+		String department = activeUser.getDepertment();
+		model.addAttribute("department", department);
+		model.addAttribute("pExam", examRecordService.findAllPExam());
+		
 
 		return "homepage";
 	}
