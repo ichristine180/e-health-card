@@ -9,9 +9,10 @@ import rw.ehealth.model.ExamRecords;
 import rw.ehealth.repo.medical.ExamRecordsRepository;
 
 @Service(IexamRecordService.nameString)
-public class ExamRecordService implements IexamRecordService{
+public class ExamRecordService implements IexamRecordService {
 	@Autowired
-private ExamRecordsRepository eRepository;
+	private ExamRecordsRepository eRepository;
+
 	@Override
 	public ExamRecords creaExamRecords(ExamRecords examRecords) {
 		try {
@@ -19,8 +20,9 @@ private ExamRecordsRepository eRepository;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
+
 	@Override
 	public List<ExamRecords> findAllPExam() {
 		try {
@@ -28,8 +30,9 @@ private ExamRecordsRepository eRepository;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
+
 	@Override
 	public List<ExamRecords> findExamRecordsByPatient(String patientTrackingNumber) {
 		try {
@@ -37,8 +40,9 @@ private ExamRecordsRepository eRepository;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
+
 	@Override
 	public ExamRecords findOneExam(String pnumber, Long id) {
 		try {
@@ -46,8 +50,9 @@ private ExamRecordsRepository eRepository;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
+
 	@Override
 	public ExamRecords update(ExamRecords examRecords) {
 		try {
@@ -55,7 +60,21 @@ private ExamRecordsRepository eRepository;
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IexamRecordService#findExamRecordById(int)
+	 */
+	@Override
+	public ExamRecords findExamRecordByExamId(int i) {
+		try {
+			return eRepository.findExamRecordByExamId(Long.valueOf(i));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

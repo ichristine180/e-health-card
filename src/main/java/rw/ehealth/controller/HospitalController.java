@@ -2,16 +2,13 @@
 package rw.ehealth.controller;
 
 import java.security.Principal;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +25,6 @@ import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.ExamService;
 import rw.ehealth.service.medical.IconsultationService;
 import rw.ehealth.service.medical.IexamRecordService;
-import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
@@ -181,7 +177,7 @@ public class HospitalController {
 		if (examId != null) {
 			List<Exams> selectedExams = new ArrayList<Exams>();
 			for (int i = 0; i < examId.length; i++) {
-				Exams exam = examService.findHospitalById((long) examId[i]);
+				Exams exam = examService.findHospitalById(examId[i]);
 
 				selectedExams.add(exam);
 			}
@@ -201,14 +197,14 @@ public class HospitalController {
 		}
 		return "redirect:/gdoctor";
 	}
-	
+
 	@GetMapping("/labo/{patientTrackingNumber}")
 	public String viewExam(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber.isEmpty() == false) {
 			ExamRecords examRecord = new ExamRecords();
 			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("examss", examRecordService.findExamRecordsByPatient(patientTrackingNumber));
-			model.addAttribute("patientTrackingNumber",patientTrackingNumber);
+			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 
 			return "labo";
 		}
@@ -216,25 +212,17 @@ public class HospitalController {
 		return "redirect:/labodoctor";
 
 	}
+
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "examId", required = false) int[] examId,
-			@ModelAttribute ExamRecordsDto examDto, Model model) {
-		if (examId != null) {
-			List<ExamRecords> selectedExams = new ArrayList<ExamRecords>();
-			for (int i = 0; i < examId.length; i++) {
-				ExamRecords exam = examRecordService.findOneExam(examDto.getPatientTracki(),(long) examId[i]);
-				selectedExams.add(exam);
-				
-			}
-
-			for (ExamRecords exam : selectedExams) {
-				System.out.println(examDto.getResults() + " This came from the UI");
-				exam.setResults(examDto.getResults());
-				
-				examRecordService.update(exam);
-				
-			}
-
+			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
+			Model model) {
+		for (int i = 0; i < examId.length; i++) {
+			ExamRecords records = examRecordService.findExamRecordByExamId(examId[i]);
+			System.out.println(records.toString() + " not updated");
+			records.setResults(results[i]);
+			ExamRecords savedWithResults = examRecordService.update(records);
+			System.out.println(savedWithResults.toString() + " ");
 		}
 		return "redirect:/labodoctor";
 	}
