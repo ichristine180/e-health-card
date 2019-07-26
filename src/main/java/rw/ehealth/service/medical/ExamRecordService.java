@@ -44,7 +44,7 @@ public class ExamRecordService implements IexamRecordService {
 	}
 
 	@Override
-	public ExamRecords findOneExam(String pnumber, Long id) {
+	public ExamRecords findOneExam(String pnumber, int id) {
 		try {
 			return eRepository.findExam(id, pnumber);
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class ExamRecordService implements IexamRecordService {
 	@Override
 	public ExamRecords findExamRecordByExamId(int i) {
 		try {
-			return eRepository.findExamRecordByExamId(Long.valueOf(i));
+			return eRepository.findExamRecordById(Long.valueOf(i));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

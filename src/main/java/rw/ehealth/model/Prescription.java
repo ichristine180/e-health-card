@@ -24,10 +24,6 @@ public class Prescription {
 	 */
 	private String name;
 	/**
-	 * The constant quantity - Double
-	 */
-	private Double quantity;
-	/**
 	 * The constant description - String
 	 */
 	private String description;
@@ -55,13 +51,6 @@ public class Prescription {
 	}
 
 	/**
-	 * @return the quantity
-	 */
-	public Double getQuantity() {
-		return quantity;
-	}
-
-	/**
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -80,13 +69,6 @@ public class Prescription {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @param quantity the quantity to set
-	 */
-	public void setQuantity(Double quantity) {
-		this.quantity = quantity;
 	}
 
 	/**
@@ -130,7 +112,7 @@ public class Prescription {
 	 */
 	@Override
 	public String toString() {
-		return "Prescription [id=" + id + ", name=" + name + ", quantity=" + quantity + ", description=" + description
+		return "Prescription [id=" + id + ", name=" + name + ", description=" + description
 				+ ", admissionInfo=" + admissionInfo + ", doctor=" + doctor + "]";
 	}
 

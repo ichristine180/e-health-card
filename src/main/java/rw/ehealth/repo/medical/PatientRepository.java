@@ -2,6 +2,8 @@
 package rw.ehealth.repo.medical;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import rw.ehealth.model.Patient;
 
@@ -33,5 +35,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	 * @return the patient
 	 */
 	Patient findByPatientNumber(String patientNumber);
-
+@Query("SELECT p from Patient p WHERE p.admissionStatus=true and p.patientNumber=:patientNumber")
+	Patient findByAdmissionStatus(@Param("patientNumber") String patientNumber);
 }

@@ -52,10 +52,7 @@ public class HomeController {
 		model.addAttribute("admissions", admissions);
 		// Load all patients for easy access to admission
 		model.addAttribute("patients", patientservice.findAll());
-		String department = activeUser.getDepertment();
-		model.addAttribute("department", department);
-		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),
-				true, activeUser.getDepertment()));
+		
 
 		return "homepage";
 	}
@@ -66,17 +63,17 @@ public class HomeController {
 		Doctor doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId, true));
-		String department = activeUser.getDepertment();
+		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),
-				true, activeUser.getDepertment()));
+				true, activeUser.getDepertment().getName()));
 
 		return "homepage";
 	}
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
 		Doctor activeUser = userService.findDoctor(principal.getName());
-		String department = activeUser.getDepertment();
+		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("pExam", examRecordService.findAllPExam());
 		

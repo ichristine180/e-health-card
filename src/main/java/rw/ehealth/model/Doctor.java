@@ -42,10 +42,11 @@ public class Doctor {
 	@Column(name = "phone", nullable = false)
 	private String phone;
 	/**
-	 * The constant depertment - String
+	 * The constant depertment 
 	 */
-	@Column(name = "depertment", nullable = false)
-	private String depertment;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "depertmentId")
+	private Departemt depertment;
 	/**
 	 * The constant timestamp - String
 	 */
@@ -115,11 +116,11 @@ public class Doctor {
 		this.phone = phone;
 	}
 
-	public String getDepertment() {
+	public Departemt getDepertment() {
 		return depertment;
 	}
 
-	public void setDepertment(String depertment) {
+	public void setDepertment(Departemt depertment) {
 		this.depertment = depertment;
 	}
 

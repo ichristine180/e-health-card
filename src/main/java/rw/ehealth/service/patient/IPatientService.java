@@ -1,6 +1,8 @@
 
 package rw.ehealth.service.patient;
 
+import java.util.List;
+
 import rw.ehealth.model.Patient;
 
 public interface IPatientService {
@@ -38,5 +40,9 @@ public interface IPatientService {
 	 * @return the patient
 	 */
 	Patient updatePatient(Patient patient);
+	
+	Patient findByAdmissionStatus(String patientNumber);
+
+	List<Patient> findAll();
 
 }

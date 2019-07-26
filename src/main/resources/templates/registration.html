@@ -131,15 +131,14 @@
 												class="form-control" id="inputEmail3" placeholder="" />
 										</div>
 										<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
-										<select th:name="depertment" th:field="*{doctor.depertment}"
-											class="form-control">
-											<option value="0">.....</option>
-											<option value="Anesthesiology">Anesthesiology</option>
-											<option value="Bacteriological_Laboratory">Bacteriological
-												Laboratory</option>
-											<option value="Phyical_Therapy">Phyical Therapy</option>
-											<option value="Plastic_Surgery">Plastic Surgery</option>
+									<label for="Departement" class="col-sm-2 control-label">Departement_Name</label>
+										<select th:field="*{doctor.depertmentName}"
+											th:name="depertmentName"
+											class="form-control col-md-7 col-xs-12">
+											<option value="0">....</option>
+											<option th:each="departemts: ${departemt}"
+												th:value="${departemts.name}"
+												th:text="${departemts.name}"></option>
 										</select>
 									</div>
 									<div class="form-group">
@@ -196,18 +195,19 @@
 									<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Name</label>
 										<input type="text" th:name="@{hospitalName}"  class="form-control" />
 									</div>
-					<div class="form-group">
-									<label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Type</label>
 
-										<select  th:field= "*{type}"  class="form-control seelct2" style="width: 100%;">
-                                       <option value="HOSPITAL">HOSPITAL</option>
-                                        <option value="REFERRAL_HOSPITAL">REFERRAL HOSPITAL</option>
-                                       <option value="DISTRICT_HOSPITAL">DISTRICT HOSPITAL</option>
-                                       <option value="HEALTH_CENTER">HEALTH CENTER</option>
-                                       <option value="HEALTH_POST">HEALTH POSTL</option>
-                                        </select>
-									</div>
-								<div class="form-group">
+											<select th:field="*{type}" class="form-control seelct2"
+												style="width: 100%;">
+												<option value="HOSPITAL">HOSPITAL</option>
+												<option value="REFERRAL_HOSPITAL">REFERRAL HOSPITAL</option>
+												<option value="DISTRICT_HOSPITAL">DISTRICT HOSPITAL</option>
+												<option value="HEALTH_CENTER">HEALTH CENTER</option>
+												<option value="HEALTH_POST">HEALTH POSTL</option>
+											</select>
+										</div>
+										<div class="form-group">
 									<label for="inputEmail3" class="col-sm-2 control-label">Location</label>
 										<select  th:field="*{address}"  class="form-control seelct2" style="width: 100%;">
                                     <option value="Bugesera">Bugesera</option>

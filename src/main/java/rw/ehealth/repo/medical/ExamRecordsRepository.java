@@ -32,12 +32,12 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	/**
 	 * Find exam.
 	 *
-	 * @param examId                the exam id
+	 * @param id                the exam id
 	 * @param patientTrackingNumber the patient tracking number
 	 * @return the exam records
 	 */
 	@Query("SELECT e from ExamRecords e JOIN e.admissionInfo a  JOIN e.exams  ex WHERE a.patientTrackingNumber=:patientTrackingNumber and ex.examId=:examId")
-	ExamRecords findExam(@Param("examId") Long examId, @Param("patientTrackingNumber") String patientTrackingNumber);
+	ExamRecords findExam(@Param("examId") int id, @Param("patientTrackingNumber") String patientTrackingNumber);
 
 	/**
 	 * Find by exam record id.
@@ -45,6 +45,6 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	 * @param id the id
 	 * @return the exam records
 	 */
-	@Query("SELECT a from ExamRecords a where a.exams.examId = :id")
-	ExamRecords findExamRecordByExamId(@Param("id") Long id);
+	//@Query("SELECT a from ExamRecords a where a.exams.examId = :id")
+	ExamRecords findExamRecordById(Long id);
 }

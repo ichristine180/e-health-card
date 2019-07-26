@@ -13,7 +13,7 @@ public interface IexamRecordService {
 
 	List<ExamRecords> findExamRecordsByPatient(String patientTrackingNumber);
 
-	ExamRecords findOneExam(String pnumber, Long id);
+	ExamRecords findOneExam(String pnumber, int examId);
 
 	ExamRecords update(ExamRecords examRecords);
 

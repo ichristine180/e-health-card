@@ -21,8 +21,8 @@
 								<table>
 									<th:block th:each="exams : ${examss}">
 										<tr>
-											<td><input type="hidden" name="examId"
-												th:value="${exams.exams.examId}" /> <label
+											<td><input type="hidden" name="id"
+												th:value="${exams.id}" /> <label
 												th:text="${exams.exams.name}"></label></td>
 											<td><input type="text" th:name="@{results}" /></td>
 										</tr>

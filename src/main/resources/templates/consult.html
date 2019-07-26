@@ -107,7 +107,7 @@
 									Records</a> <a class="btn btn-default btn-block"
 									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Send
 									To Labo</a> <a class="btn btn-block btn-success"
-									th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
+									th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
 							</div>
 						</div>
 					</div>
@@ -142,11 +142,70 @@
 					</div>
 				</div>
 
-			</div>
-		</div>
+				<div class="col-md-6" style="margin-top: 10px;"
+					th:if="${prescription==true}">
+					<!-- Block buttons -->
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">Results</h3>
+						</div>
+						<div class="box-body">
+							<table id="patients" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>ExamName</th>
+										<th>Results</th>
+									</tr>
+								</thead>
 
-		<footer th:replace="common/header :: footer"></footer>
-	</div>
-	<div th:replace="common/header :: body-bottom-scripts"></div>
+								<tbody>
+									<tr th:each="info, iStat: ${examss}">
+										<td th:text="${iStat.index+1}" />
+										<td th:text="${info.exams.name}" />
+										<td th:text="${info.results}" />
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="box box-warning">
+							<div class="box-header with-border">
+								<h3 class="box-title">Prescription Details</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<form th:action="@{/patient/prescription}"
+										th:object="${prescriptions}" method="POST">
+										<input type="hidden"
+											th:value="${patientTrackingNumber}"
+											class="form-control" th:name="@{patientTrackingNumber}" />
+									<!-- text input -->
+									<div class="form-group">
+										<label>Names</label>
+										<textarea class="form-control" rows="3" th:name="@{name}"
+											></textarea>
+									</div>
+									<!-- textarea -->
+									<div class="form-group">
+										<label>Description</label>
+										<textarea class="form-control" rows="3" th:name="@{description}"
+											placeholder="more"></textarea>
+									</div>
+									<div class="box-footer">
+											<button type="submit" class="btn btn-info pull-right">Save
+											</button>
+										</div>
+								</form>
+								</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<footer th:replace="common/header :: footer"></footer>
+			</div>
+			<div th:replace="common/header :: body-bottom-scripts"></div>
 </body>
 </html>

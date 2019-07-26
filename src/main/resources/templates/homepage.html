@@ -176,7 +176,7 @@
 											<td th:text="${doctor.phone}" />
 											<td th:text="${doctor.email}" />
 											<td th:text="${doctor.hospital.hospitalName}" />
-											<td th:text="${doctor.depertment}" />
+											<td th:text="${doctor.depertment.name}" />
 
 
 											<td><a class="btn btn-info"
@@ -289,7 +289,7 @@
 											<td th:text="${patient.gender}" />
 											<td th:text="${patient.dateOfBirth}" />
 											<td class="text-uppercase"
-												th:text="${patient.admissionStatus}" />
+												th:text="${patient.admissionStatus}"></td>
 											<td><a class="btn btn-info"
 												th:href="@{'/details/patient/' + ${patient.patientNumber}}">
 													<i class="fa fa-info"></i>
@@ -302,6 +302,11 @@
 												th:if="${patient.admissionStatus==false}"
 												th:href="@{'/admit/patient/' + ${patient.patientNumber}}">
 													<i class="fa fa-plus"></i>
+													
+											</a>
+											<a class="btn btn-default"
+												th:if="${patient.admissionStatus==true}"
+												th:href="@{'/patient/update/' + ${patient.patientNumber}}">Update
 											</a></td>
 										</tr>
 									</tbody>

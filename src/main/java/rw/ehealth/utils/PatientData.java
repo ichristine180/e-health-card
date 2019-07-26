@@ -5,6 +5,14 @@ public class PatientData {
 	private String lname;
 	private String address;
 	private String identificationNumber;
+	private String patientNumber;
+	
+	public String getPatientNumber() {
+		return patientNumber;
+	}
+	public void setPatientNumber(String patientNumber) {
+		this.patientNumber = patientNumber;
+	}
 	public String getFname() {
 		return fname;
 	}

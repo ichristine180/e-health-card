@@ -71,13 +71,17 @@ public class AdmissionInfo {
 	 * The constant heartRate - String
 	 */
 	private String heartRate;
-	private String departement;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "depertmentId")
+	private Departemt departement;
 
-	public String getDepartement() {
+	
+
+	public Departemt getDepartement() {
 		return departement;
 	}
 
-	public void setDepartement(String departement) {
+	public void setDepartement(Departemt departement) {
 		this.departement = departement;
 	}
 

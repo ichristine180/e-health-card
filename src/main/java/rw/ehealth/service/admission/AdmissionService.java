@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Patient;
 import rw.ehealth.repo.medical.AdmissionInfoRepository;
 
 @Service(IAdmissionService.NAME)
@@ -106,6 +107,35 @@ public class AdmissionService implements IAdmissionService {
 		throw e;
 	}
 	
+	}
+
+	@Override
+	public List<AdmissionInfo> findByAdmittedPatient(Patient patient) {
+		try {
+			return aRepository.findByAdmittedPatient(patient);
+		} catch (Exception e) {
+		throw e;
+		}		
+	}
+
+	@Override
+	public AdmissionInfo update(AdmissionInfo admissionInfo) {
+		try {
+			return aRepository.save(admissionInfo);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public AdmissionInfo findBYpatientNumber(String patientNumber) {
+		try {
+			return aRepository.findBYpatientNumber(patientNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+		
 	}
 
 }

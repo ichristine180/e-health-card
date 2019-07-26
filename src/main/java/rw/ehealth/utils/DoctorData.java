@@ -6,7 +6,7 @@ public class DoctorData {
 	private String email;
 	private String phone;
 	private String password;
-	private String depertment;
+	private String depertmentName;
 	private String hospitalname;
 	private String roleName;
 	public String getRoleName() {
@@ -45,11 +45,12 @@ public class DoctorData {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getDepertment() {
-		return depertment;
+	
+	public String getDepertmentName() {
+		return depertmentName;
 	}
-	public void setDepertment(String depertment) {
-		this.depertment = depertment;
+	public void setDepertmentName(String depertmentName) {
+		this.depertmentName = depertmentName;
 	}
 	public String getHospitalname() {
 		return hospitalname;

@@ -16,6 +16,20 @@
 					</h1>
 				</section>
 				<section class="content">
+				<div class="row" th:if="${update==true}">
+						<div class="col-md-6">
+						<form class="form-horizontal" th:action="@{/patient/update}" th:object="${patient}"
+							method="POST">
+							<input type="hidden" th:value="${patientNumber}"
+								class="form-control" th:name="@{patientNumber}" />
+							<div class="box-body">
+								<button class="btn btn-block btn-social btn-bitbucket"> <i
+									class="fa fa-bitbucket"></i> close Admission
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
 					<div class="row" th:if="${patientInfo==true}">
 						<div class="col-md-6">
 							<div class="box">

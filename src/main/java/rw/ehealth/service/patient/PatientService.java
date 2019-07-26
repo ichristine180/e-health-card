@@ -120,4 +120,15 @@ public class PatientService implements IPatientService {
 		}
 		
 	}
+
+	@Override
+	public Patient findByAdmissionStatus(String patientNumber) {
+		try {
+			return pRepository.findByAdmissionStatus(patientNumber);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		
+	}
 }

@@ -23,14 +23,15 @@ public class AdmissionDto {
 	private String releasedDate;
 
 	private String patientNumber;
-	private String departement;
+	private String departementName;
 
-	public String getDepartement() {
-		return departement;
+
+	public String getDepartementName() {
+		return departementName;
 	}
 
-	public void setDepartement(String departement) {
-		this.departement = departement;
+	public void setDepartementName(String departementName) {
+		this.departementName = departementName;
 	}
 
 	private String patientTrackingNumber;
