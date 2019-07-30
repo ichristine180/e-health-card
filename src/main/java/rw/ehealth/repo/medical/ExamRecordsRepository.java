@@ -47,4 +47,6 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	 */
 	//@Query("SELECT a from ExamRecords a where a.exams.examId = :id")
 	ExamRecords findExamRecordById(Long id);
+	@Query("SELECT e FROM ExamRecords e JOIN e.admissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber")
+	List<ExamRecords> findInfo(@Param("patientNumber") String patientNumber);
 }

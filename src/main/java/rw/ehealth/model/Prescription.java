@@ -12,8 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "prescriptions")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Prescription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -8,11 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import rw.ehealth.enums.EHealthFacilityType;
 
 
 @Entity
 @Table(name = "hospital")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Hospital {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -41,9 +41,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public long countAdmission(Long hospitalId,boolean admissionStatus) {
+	public long countAdmission(Long hospitalId) {
 		try {
-			return aRepository.countAdmissionInfo(hospitalId,admissionStatus);
+			return aRepository.countAdmissionInfo(hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -51,9 +51,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId, boolean admissionStatus) {
+	public List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId) {
 		try {
-			return aRepository.allAdmissionInfos(hospitalId,admissionStatus);
+			return aRepository.allAdmissionInfos(hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -132,6 +132,16 @@ public class AdmissionService implements IAdmissionService {
 	public AdmissionInfo findBYpatientNumber(String patientNumber) {
 		try {
 			return aRepository.findBYpatientNumber(patientNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public List<AdmissionInfo> findHospitalBYpatientNumber(String patientNumber) {
+		try {
+			return aRepository.findHospitalBYpatientNumber(patientNumber);
 		} catch (Exception e) {
 			throw e;
 		}

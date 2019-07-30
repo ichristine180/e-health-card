@@ -10,17 +10,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "examRecords")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ExamRecords {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "examrecordid", nullable = false, updatable = false)
 	private Long id;
-
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "examid")
 	private Exams exams;
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "doctorid")
+	private Doctor doctor;
 
 	public Exams getExams() {
 		return exams;
@@ -29,10 +37,17 @@ public class ExamRecords {
 	public void setExams(Exams exams) {
 		this.exams = exams;
 	}
-
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admissionid")
 	private AdmissionInfo admissionInfo;
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
 	private String datetaken;
 	private String results;
 

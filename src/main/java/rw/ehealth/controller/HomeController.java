@@ -47,8 +47,8 @@ public class HomeController {
 		model.addAttribute("patientsSize", patients);
 		Doctor doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
-		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId, true));
-		long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId(), true);
+		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId));
+		long admissions = admissionService.countAdmission(activeUser.getHospital().getHospitalId());
 		model.addAttribute("admissions", admissions);
 		// Load all patients for easy access to admission
 		model.addAttribute("patients", patientservice.findAll());
@@ -62,7 +62,7 @@ public class HomeController {
 		Doctor activeUser = userService.findDoctor(principal.getName());
 		Doctor doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
-		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId, true));
+		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId));
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),

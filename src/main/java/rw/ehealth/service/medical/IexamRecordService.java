@@ -21,5 +21,7 @@ public interface IexamRecordService {
 	 * @param i
 	 * @return
 	 */
-	ExamRecords findExamRecordByExamId(int i);
+	ExamRecords findExamRecordByExamId(int i); 
+	
+	List<ExamRecords> findInfoByPatient(String patientNumber);
 }

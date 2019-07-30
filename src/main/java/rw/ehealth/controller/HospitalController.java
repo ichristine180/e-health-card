@@ -56,8 +56,8 @@ public class HospitalController {
 
 		Doctor activeUser = userService.findDoctor(principal.getName());
 		List<AdmissionInfo> admissionList = admissionService
-				.allAdmissionsPerHospital(activeUser.getHospital().getHospitalId(), true);
-		long admissionSize = admissionService.countAdmission(activeUser.getHospital().getHospitalId(), true);
+				.allAdmissionsPerHospital(activeUser.getHospital().getHospitalId());
+		long admissionSize = admissionService.countAdmission(activeUser.getHospital().getHospitalId());
 		model.addAttribute("admissionList", admissionList);
 		model.addAttribute("admissionSize", admissionSize);
 		boolean admissionInfo = false;
@@ -272,11 +272,13 @@ public class HospitalController {
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
-			Model model) {
+			Model model,Principal principal) {
+		Doctor activeUser = userService.findDoctor(principal.getName());
 		for (int i = 0; i < id.length; i++) {
 			ExamRecords records = examRecordService.findExamRecordByExamId(id[i]);
 			System.out.println(records.toString() + " not updated");
 			records.setResults(results[i]);
+			records.setDoctor(activeUser);
 			ExamRecords savedWithResults = examRecordService.update(records);
 			System.out.println(savedWithResults.toString() + " ");
 		}

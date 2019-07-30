@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
 				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospregistration",
-						"/admission", "/docregistration", "/patient", "/newuser","/api", "/register/**")
+						"/admission", "/docregistration", "/patient", "/newuser","/getHospital","/pIn", "/getInfo","/register/**")
 				.permitAll().antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**")
 				.hasRole("ADMIN").anyRequest().authenticated();
 

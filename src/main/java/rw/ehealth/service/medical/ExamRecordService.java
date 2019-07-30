@@ -77,4 +77,19 @@ public class ExamRecordService implements IexamRecordService {
 		}
 	}
 
+	@Override
+	public List<ExamRecords> findInfoByPatient(String patientNumber) {
+		try {
+			return eRepository.findInfo(patientNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	public List<ExamRecords> findAll() {
+		// TODO Auto-generated method stub
+		return eRepository.findAll();
+	}
+
 }

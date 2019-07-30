@@ -37,11 +37,11 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	 */
 	AdmissionInfo findByPatientTrackingNumber(String patientTrackingNumber);
 
-	@Query("SELECT count(h.hospitalId) from AdmissionInfo a Join a.admittedPatient p  Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and p.admissionStatus = :admissionStatus")
-	long countAdmissionInfo(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus);
+	@Query("SELECT count(h.hospitalId) from AdmissionInfo a Join a.admittedPatient p  Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate =null")
+	long countAdmissionInfo(@Param("hospitalId") Long hospitalId);
 
-	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and p.admissionStatus=:admissionStatus")
-	List<AdmissionInfo> allAdmissionInfos(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus);
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate =null")
+	List<AdmissionInfo> allAdmissionInfos(@Param("hospitalId") Long hospitalId);
 
 	@Query("SELECT count(p.patientNumber) from AdmissionInfo t JOIN t.admittedPatient p JOIN t.doctor d JOIN d.hospital h  WHERE p.patientNumber=:patientNumber and h.hospitalName = :hospitalName ")
 	long countAdmissionBypatient(@Param("patientNumber") String patientNumber,
@@ -62,6 +62,11 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	List<AdmissionInfo>listInfosByPatients(@Param("patientNumber") String patientNumber);
 	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber and a.releasedDate=null")
 	AdmissionInfo findBYpatientNumber(@Param("patientNumber") String patientNumber);
+	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber")
+	AdmissionInfo findInfoBYpatientNumber(@Param("patientNumber") String patientNumber);
+	
+	@Query("SELECT DISTINCT(h.hospitalName) from AdmissionInfo a JOIN a.admittedPatient p JOIN a.doctor d JOIN d.hospital h WHERE p.patientNumber=:patientNumber")
+	List<AdmissionInfo> findHospitalBYpatientNumber(@Param("patientNumber") String patientNumber);
 	
 	
 	

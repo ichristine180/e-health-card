@@ -291,7 +291,6 @@ public class AdmissionController {
 			Patient result = patientService.findPatientByPatientNumber(pData.getPatientNumber());
 			// if the patient is found, we proceed with closing admission
 			if (result != null) {
-
 				AdmissionInfo admitepToday = admissionService.findBYpatientNumber(pData.getPatientNumber());
 				admitepToday.setReleasedDate(LocalDateTime.now().toString());
 				admissionService.update(admitepToday);
