@@ -148,4 +148,13 @@ public class AdmissionService implements IAdmissionService {
 		
 	}
 
+	@Override
+	public List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber,Long hospitalId) {
+		try {
+			return aRepository.findAdmissionInfoBYpatientNumber(patientNumber,hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
 }

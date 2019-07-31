@@ -65,8 +65,10 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber")
 	AdmissionInfo findInfoBYpatientNumber(@Param("patientNumber") String patientNumber);
 	
-	@Query("SELECT DISTINCT(h.hospitalName) from AdmissionInfo a JOIN a.admittedPatient p JOIN a.doctor d JOIN d.hospital h WHERE p.patientNumber=:patientNumber")
+	@Query("SELECT DISTINCT(h) from AdmissionInfo a JOIN a.admittedPatient p JOIN a.doctor d JOIN d.hospital h WHERE p.patientNumber=:patientNumber")
 	List<AdmissionInfo> findHospitalBYpatientNumber(@Param("patientNumber") String patientNumber);
+	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p JOIN a.doctor d JOIN d.hospital h WHERE p.patientNumber=:patientNumber and h.hospitalId=:hospitalId")
+	List<AdmissionInfo> findAdmissionInfoBYpatientNumber(@Param("patientNumber") String patientNumber,@Param("hospitalId") Long hospitalId);
 	
 	
 	

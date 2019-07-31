@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -37,6 +38,7 @@ public class AdmissionInfo {
 	/**
 	 * The constant admittedPatient - Patient
 	 */
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "patientId")
 	private Patient admittedPatient;
@@ -44,7 +46,8 @@ public class AdmissionInfo {
 	/**
 	 * The constant doctor - Doctor
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "doctorId")
 	private Doctor doctor;
 
@@ -74,6 +77,7 @@ public class AdmissionInfo {
 	 * The constant heartRate - String
 	 */
 	private String heartRate;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "depertmentId")
 	private Departemt departement;

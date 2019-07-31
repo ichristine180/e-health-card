@@ -48,25 +48,6 @@ public class ApiController {
 		response.setMessage("invalid Pnumber");
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
-	@GetMapping("/getInfo")
-	public ResponseEntity<PinfoListResponse>getRecords(){
-		PinfoListResponse response = new PinfoListResponse();
-	System.out.println("Hitting here");
-	List<ExamRecords> results = eService.findAll();
-	if (results.size()!=0) {
-		response.setError(false);
-		response.setMessage("Result found");
-		List<ExamRecords> courses = new ArrayList<ExamRecords>();
-		courses.addAll(results);
-		response.setExamRecords(courses);
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	response.setError(true);
-	response.setExamRecords(null);
-	response.setMessage("no results found");
-	return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
-	}
 	@PostMapping("/getHospital")
 	public ResponseEntity<PinfoListResponse>getHospitalPerPatient(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
@@ -84,6 +65,27 @@ public class ApiController {
 		response.setError(true);
 		response.setAdmissionInfos(null);
 		response.setMessage("no hospital found");
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		
+	}
+	@PostMapping("/getAdmission")
+	public ResponseEntity<PinfoListResponse>getAdmissionPerHospital(@RequestParam String patientNumber,@RequestParam Long hospitalId) {
+		PinfoListResponse response = new PinfoListResponse();
+		System.out.println("Hitting here");
+		List<AdmissionInfo> results = aService.findPAdmissionInfoBYpatientNumber(patientNumber,hospitalId);
+		System.out.println(results.size());
+		if (results.size()!=0) {
+			response.setError(false);
+			response.setMessage("Information found");
+			List<AdmissionInfo> hospitals = new ArrayList<AdmissionInfo>();
+			hospitals.addAll(results);
+			response.setAdmissionInfos(hospitals);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		
+		response.setError(true);
+		response.setAdmissionInfos(null);
+		response.setMessage("no information found");
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		
 	}
