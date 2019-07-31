@@ -35,5 +35,6 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 	Consultation findByConsultationId(Long id);
 	@Query("SELECT c from Consultation c JOIN c.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
 	Consultation findByPatientTruckingNumber(@Param("patientTrackingNumber") String patientTrackingNumber);
+	
 
 }

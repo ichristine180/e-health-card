@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Patient;
 import rw.ehealth.service.admission.AdmissionService;
+import rw.ehealth.service.medical.ConsultationService;
 import rw.ehealth.service.medical.ExamRecordService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.utils.PatientListResponse;
@@ -32,6 +34,8 @@ public class ApiController {
 	private ExamRecordService eService;
 	@Autowired
 	private AdmissionService aService;
+	@Autowired
+	private ConsultationService cService;
 
 	@PostMapping("/pIn")
 	public ResponseEntity<PatientListResponse> getPatientInfo(@RequestParam String patientNumber) {
@@ -73,7 +77,6 @@ public class ApiController {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
 		List<AdmissionInfo> results = aService.findPAdmissionInfoBYpatientNumber(patientNumber,hospitalId);
-		System.out.println(results.size());
 		if (results.size()!=0) {
 			response.setError(false);
 			response.setMessage("Information found");
@@ -85,6 +88,28 @@ public class ApiController {
 		
 		response.setError(true);
 		response.setAdmissionInfos(null);
+		response.setMessage("no information found");
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		
+	}
+	@PostMapping("/getAll")
+	public ResponseEntity<PinfoListResponse>getAll(@RequestParam String patientTrackingNumber) {
+		PinfoListResponse response = new PinfoListResponse();
+		System.out.println("Hitting here");
+		List<ExamRecords> examrecords = eService.findExamRecordsByPatient(patientTrackingNumber);
+		Consultation results = cService.findByPatientTruckingNumber(patientTrackingNumber);
+		if (results != null && examrecords.size()!=0) {
+			response.setError(false);
+			response.setMessage("Information found");
+			response.setConsultation(results);
+			List<ExamRecords> hospitals = new ArrayList<ExamRecords>();
+			hospitals.addAll(examrecords);
+			response.setExamRecords(hospitals);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		
+		response.setError(true);
+		response.setConsultation(null);
 		response.setMessage("no information found");
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		
