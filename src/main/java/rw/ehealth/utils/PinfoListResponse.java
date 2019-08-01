@@ -5,6 +5,7 @@ import java.util.List;
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
+import rw.ehealth.model.Prescription;
 
 public class PinfoListResponse {
 	private String message;
@@ -12,6 +13,13 @@ public class PinfoListResponse {
 	private boolean error;
 	private List<ExamRecords> examRecords;
 	private Consultation consultation;
+	private Prescription prescription;
+	public Prescription getPrescription() {
+		return prescription;
+	}
+	public void setPrescription(Prescription prescription) {
+		this.prescription = prescription;
+	}
 	public Consultation getConsultation() {
 		return consultation;
 	}

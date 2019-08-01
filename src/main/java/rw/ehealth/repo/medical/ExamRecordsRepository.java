@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import rw.ehealth.model.ExamRecords;
-
+ 
 @Repository
 public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> {
 
@@ -26,8 +26,10 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	 * @param patientTrackingNumber the patient tracking number
 	 * @return the list
 	 */
-	@Query("SELECT e, ex FROM ExamRecords e  JOIN e.exams ex JOIN e.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
+	@Query("SELECT e,ex FROM ExamRecords e  JOIN e.exams ex JOIN e.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
 	List<ExamRecords> findExamRecordsByPatient(@Param("patientTrackingNumber") String patientTrackingNumber);
+	@Query("SELECT e FROM ExamRecords e  JOIN e.exams ex JOIN e.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
+	List<ExamRecords> findErecords(@Param("patientTrackingNumber") String patientTrackingNumber);
 
 	/**
 	 * Find exam.

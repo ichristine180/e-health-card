@@ -88,8 +88,20 @@ public class ExamRecordService implements IexamRecordService {
 	}
 
 	public List<ExamRecords> findAll() {
-		// TODO Auto-generated method stub
+		try {
 		return eRepository.findAll();
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public List<ExamRecords> findExamrecords(String patientTrackingNumber) {
+		try {
+		return eRepository.findErecords(patientTrackingNumber);
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 
 }

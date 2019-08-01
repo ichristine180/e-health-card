@@ -2,6 +2,7 @@ package rw.ehealth.service.medical;
 
 import java.util.List;
 
+
 import rw.ehealth.model.ExamRecords;
 
 public interface IexamRecordService {
@@ -24,4 +25,6 @@ public interface IexamRecordService {
 	ExamRecords findExamRecordByExamId(int i); 
 	
 	List<ExamRecords> findInfoByPatient(String patientNumber);
+	List<ExamRecords> findExamrecords(String patientTrackingNumber);
+
 }

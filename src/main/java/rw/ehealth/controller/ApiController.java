@@ -3,14 +3,12 @@ package rw.ehealth.controller;
 import java.util.ArrayList;
 
 
+
 import java.util.List;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.event.PublicInvocationEvent;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +17,11 @@ import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Patient;
+import rw.ehealth.model.Prescription;
 import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.ConsultationService;
 import rw.ehealth.service.medical.ExamRecordService;
+import rw.ehealth.service.medical.PrescriptionService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.utils.PatientListResponse;
 import rw.ehealth.utils.PinfoListResponse;
@@ -36,6 +36,9 @@ public class ApiController {
 	private AdmissionService aService;
 	@Autowired
 	private ConsultationService cService;
+	@Autowired
+	private PrescriptionService pService;
+
 
 	@PostMapping("/pIn")
 	public ResponseEntity<PatientListResponse> getPatientInfo(@RequestParam String patientNumber) {
@@ -98,10 +101,12 @@ public class ApiController {
 		System.out.println("Hitting here");
 		List<ExamRecords> examrecords = eService.findExamRecordsByPatient(patientTrackingNumber);
 		Consultation results = cService.findByPatientTruckingNumber(patientTrackingNumber);
-		if (results != null && examrecords.size()!=0) {
+		Prescription medecine = pService.findPByPatientTruckingNumber(patientTrackingNumber);
+		if (results != null && examrecords.size()!=0 && medecine != null) {
 			response.setError(false);
 			response.setMessage("Information found");
 			response.setConsultation(results);
+			response.setPrescription(medecine);
 			List<ExamRecords> hospitals = new ArrayList<ExamRecords>();
 			hospitals.addAll(examrecords);
 			response.setExamRecords(hospitals);
@@ -110,6 +115,8 @@ public class ApiController {
 		
 		response.setError(true);
 		response.setConsultation(null);
+		response.setExamRecords(null);
+		response.setPrescription(null);
 		response.setMessage("no information found");
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		

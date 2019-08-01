@@ -21,4 +21,13 @@ public class PrescriptionService implements IPrescriptionService{
 	
 	}
 
+	@Override
+	public Prescription findPByPatientTruckingNumber(String patientTrackingNumber) {
+		try {
+		return prepository.findByPatientTruckingNumber(patientTrackingNumber);
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+
 }
