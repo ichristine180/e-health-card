@@ -6,6 +6,7 @@ import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Prescription;
+import rw.ehealth.model.Request;
 
 public class PinfoListResponse {
 	private String message;
@@ -13,6 +14,13 @@ public class PinfoListResponse {
 	private boolean error;
 	private List<ExamRecords> examRecords;
 	private Consultation consultation;
+	private Request request;
+	public Request getRequest() {
+		return request;
+	}
+	public void setRequest(Request request) {
+		this.request = request;
+	}
 	private Prescription prescription;
 	public Prescription getPrescription() {
 		return prescription;

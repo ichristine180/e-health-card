@@ -7,6 +7,7 @@
 package rw.ehealth.controller;
 
 import java.security.Principal;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,8 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Departemt;
 import rw.ehealth.model.Doctor;

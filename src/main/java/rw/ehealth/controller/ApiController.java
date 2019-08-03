@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
+import rw.ehealth.model.Request;
 import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.ConsultationService;
 import rw.ehealth.service.medical.ExamRecordService;
 import rw.ehealth.service.medical.PrescriptionService;
+import rw.ehealth.service.medical.RequestService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.utils.PatientListResponse;
 import rw.ehealth.utils.PinfoListResponse;
@@ -38,6 +41,8 @@ public class ApiController {
 	private ConsultationService cService;
 	@Autowired
 	private PrescriptionService pService;
+	@Autowired
+	private RequestService rService;
 
 
 	@PostMapping("/pIn")
@@ -49,6 +54,21 @@ public class ApiController {
 			response.setError(false);
 			response.setMessage("patient found");
 			response.setPatients(results);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		response.setError(true);
+		response.setMessage("invalid Pnumber");
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+	@PostMapping("/getRequest")
+	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
+		PinfoListResponse response = new PinfoListResponse();
+		System.out.println("Hitting here");
+		Request results = rService.findRequest(patientNumber);
+		if (results != null) {
+			response.setError(false);
+			response.setMessage("patient found");
+			response.setRequest(results);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		response.setError(true);
@@ -121,6 +141,47 @@ public class ApiController {
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		
 	}
+	@PostMapping("/ApproveStatus")
+	public ResponseEntity<PinfoListResponse>approveStatus(@RequestParam String patientNumber) {
+
+		System.out.println("Reaching at this point at least");
+		// Getting the student data from the client request and create a new student object to be saved
+		Request results = rService.findRequest(patientNumber);
+		results.setStatus("APPROVED");
+		PinfoListResponse response = new PinfoListResponse();
+		if (rService.update(results) != null) {
+			response.setError(false);
+			response.setMessage("request Accepted");
+			response.setRequest(results);
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		}
+		response.setError(true);
+		response.setMessage("not updated");
+		response.setRequest(null);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	@PostMapping("/DenyStatus")
+	public ResponseEntity<PinfoListResponse>denyStatus(@RequestParam String patientNumber) {
+
+		System.out.println("Reaching at this point at least");
+		// Getting the student data from the client request and create a new student object to be saved
+		Request results = rService.findRequest(patientNumber);
+		results.setStatus("DENYED");
+		PinfoListResponse response = new PinfoListResponse();
+		if (rService.update(results) != null) {
+			response.setError(false);
+			response.setMessage("request Accepted");
+			response.setRequest(results);
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		}
+		response.setError(true);
+		response.setMessage("not updated");
+		response.setRequest(null);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+
 }
 	
 

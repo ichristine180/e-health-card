@@ -23,11 +23,13 @@ import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Exams;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
+import rw.ehealth.model.Request;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.ExamService;
 import rw.ehealth.service.medical.IconsultationService;
 import rw.ehealth.service.medical.IexamRecordService;
 import rw.ehealth.service.medical.PrescriptionService;
+import rw.ehealth.service.medical.RequestService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
@@ -50,6 +52,9 @@ public class HospitalController {
 	private IexamRecordService examRecordService;
 	@Autowired
 	private PrescriptionService prescriptionService;
+	@Autowired
+	private RequestService rService;
+
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -137,7 +142,15 @@ public class HospitalController {
 		Patient patient = admitedP.getAdmittedPatient();
 		if (patientTrackingNumber.isEmpty() == false) {
 			boolean admissionInfo = true;
+			Request request = new Request();
+			request.setPatient(patient);
+			request.setDoctor(activeUser);
+			request.setStatus("PENDING");
+			request.setRequestDate(LocalDate.now().toString());
+			Request resultRequest = rService.findRequest(patient.getPatientNumber());
+			if(resultRequest!=null) {
 			List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
+			if(results!=null) {
 			String department = activeUser.getDepertment().getName();
 			Consultation consultation = new Consultation();
 			model.addAttribute("department", department);
@@ -146,6 +159,18 @@ public class HospitalController {
 			model.addAttribute("admissionInfo", admissionInfo);
 
 			return "information";
+			}else {
+				String department = activeUser.getDepertment().getName();
+				Consultation consultation = new Consultation();
+				model.addAttribute("department", department);
+				model.addAttribute("consultation", consultation);
+				model.addAttribute("docAdmissions", results);
+				model.addAttribute("admissionInfo", admissionInfo);
+
+				return "information";
+			}
+			}else 
+				rService.createRequest(request);
 		}
 
 		return "redirect:/";
