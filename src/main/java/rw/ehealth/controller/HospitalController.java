@@ -147,7 +147,7 @@ public class HospitalController {
 			request.setDoctor(activeUser);
 			request.setStatus("PENDING");
 			request.setRequestDate(LocalDate.now().toString());
-			Request resultRequest = rService.findRequest(patient.getPatientNumber());
+			Request resultRequest = rService.findPRequest(patient.getPatientNumber(),"PENDING");
 			if(resultRequest!=null) {
 			List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
 			if(results!=null) {
@@ -173,7 +173,7 @@ public class HospitalController {
 				rService.createRequest(request);
 		}
 
-		return "redirect:/";
+		return "redirect:/gdoctor";
 
 	}
 

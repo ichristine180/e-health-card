@@ -64,7 +64,7 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		Request results = rService.findRequest(patientNumber);
+		Request results = rService.findPRequest(patientNumber,"PENDING");
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");
@@ -146,7 +146,7 @@ public class ApiController {
 
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findRequest(patientNumber);
+		Request results = rService.findPRequest(patientNumber,"PENDING");
 		results.setStatus("APPROVED");
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
@@ -166,12 +166,12 @@ public class ApiController {
 
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findRequest(patientNumber);
+		Request results = rService.findPRequest(patientNumber,"PENDING");
 		results.setStatus("DENYED");
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
 			response.setError(false);
-			response.setMessage("request Accepted");
+			response.setMessage("request Denyed");
 			response.setRequest(results);
 			return new ResponseEntity<>(response, HttpStatus.CREATED);
 		}

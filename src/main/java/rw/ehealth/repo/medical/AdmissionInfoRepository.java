@@ -37,10 +37,10 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	 */
 	AdmissionInfo findByPatientTrackingNumber(String patientTrackingNumber);
 
-	@Query("SELECT count(h.hospitalId) from AdmissionInfo a Join a.admittedPatient p  Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate =null")
+	@Query("SELECT count(h.hospitalId) from AdmissionInfo a Join a.admittedPatient p  Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate is null")
 	long countAdmissionInfo(@Param("hospitalId") Long hospitalId);
 
-	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate =null")
+	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate is null")
 	List<AdmissionInfo> allAdmissionInfos(@Param("hospitalId") Long hospitalId);
 
 	@Query("SELECT count(p.patientNumber) from AdmissionInfo t JOIN t.admittedPatient p JOIN t.doctor d JOIN d.hospital h  WHERE p.patientNumber=:patientNumber and h.hospitalName = :hospitalName ")
@@ -55,7 +55,7 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and p.admissionStatus=:admissionStatus and d.name=:name")
 	List<AdmissionInfo> AdmissionInfos(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus,@Param("name") String name);
 	
-	
+	//boolean checkToUpdade(@Param("hospitalId") Long hospitalId,@Param(""))
 	
 	
 	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p WHERE p.patientNumber=:patientNumber order by a.admissionDate")

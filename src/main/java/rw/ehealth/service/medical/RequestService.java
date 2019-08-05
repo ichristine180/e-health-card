@@ -27,9 +27,9 @@ public class RequestService  implements IrequestService{
 	}
 
 	@Override
-	public Request findRequest(String patientNumber) {
+	public Request findPRequest(String patientNumber,String status) {
 		try {
-		return rRepository.findRequest(patientNumber);
+		return rRepository.findRequest(patientNumber,status);
 		}catch(Exception e) {
 			throw e;
 		}
