@@ -76,7 +76,7 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	
 	@Query("SELECT a from AdmissionInfo a Join a.doctor d WHERE d.email=:email")
 	List<AdmissionInfo> findAdmissionByDoctor(@Param("email") String email);
-	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p WHERE p.gender=:gender")
+	@Query("SELECT a,COUNT(p.patientNumber) from AdmissionInfo a JOIN a.admittedPatient p WHERE p.gender=:gender GROUP BY p.patientNumber")
 	List<AdmissionInfo> findByGender(@Param("gender") String gender);
 	
 	

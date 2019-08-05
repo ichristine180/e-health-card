@@ -66,7 +66,7 @@ public class ReportController {
 		model.addAttribute("admission", admissions);
 		return "report";
 	}
-	@GetMapping("/reception/report/male")
+	@GetMapping("/reception/reports/male")
 	public String getAdmissionByGender(Model model, Principal principal) {
 		String username = principal.getName();
 		Doctor doctor = userService.findDoctor(username);

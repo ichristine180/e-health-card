@@ -226,8 +226,9 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h2 class="box-title">All Admission performed By</h2>
-								<h3 th:text="${doctor.fname}"></h3>
+								<h2 class="box-title" th:if="${gender != true}">All Admission performed By</h2>
+								<h3 th:text="${doctor.fname}" th:if="${gender != true}"></h3>
+								<h2 class="box-title" th:if="${gender == true}">All Male admitted patients</h2>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
