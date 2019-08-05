@@ -157,4 +157,22 @@ public class AdmissionService implements IAdmissionService {
 		}
 		
 	}
+
+	@Override
+	public List<AdmissionInfo> findBydoctor(String email) {
+		try {
+		return aRepository.findAdmissionByDoctor(email);
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public List<AdmissionInfo> findByGender(String gender) {
+		try {
+		return aRepository.findByGender(gender);
+		}catch(Exception e) {
+			throw e;
+		}
+	}
 }

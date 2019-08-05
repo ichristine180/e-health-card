@@ -272,6 +272,9 @@ public class AdmissionController {
 
 	@GetMapping("/patient/update/{patientNumber}")
 	public String closePatientAdmission(Model model, @PathVariable String patientNumber, Principal principal) {
+		String username = principal.getName();
+		Doctor doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
 		if (patientNumber != null) {
 			boolean update = true;
 			model.addAttribute("update", update);
