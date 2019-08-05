@@ -55,7 +55,7 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p Join a.doctor d Join d.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and p.admissionStatus=:admissionStatus and d.name=:name")
 	List<AdmissionInfo> AdmissionInfos(@Param("hospitalId") Long hospitalId,@Param("admissionStatus") boolean admissionStatus,@Param("name") String name);
 	
-	//boolean checkToUpdade(@Param("hospitalId") Long hospitalId,@Param(""))
+	//boolean checkToUpdade(@Param("hospitalId") Long hospitalId,@Param("pa"))
 	
 	
 	@Query("SELECT a from AdmissionInfo a Join a.admittedPatient p WHERE p.patientNumber=:patientNumber order by a.admissionDate")
@@ -74,7 +74,10 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	
 	
 	
-	
+	@Query("SELECT a from AdmissionInfo a Join a.doctor d WHERE d.email=:email")
+	List<AdmissionInfo> findAdmissionByDoctor(@Param("email") String email);
+	@Query("SELECT a from AdmissionInfo a JOIN a.admittedPatient p WHERE p.gender=:gender")
+	List<AdmissionInfo> findByGender(@Param("gender") String gender);
 	
 	
 	
