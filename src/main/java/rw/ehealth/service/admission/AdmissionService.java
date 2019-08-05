@@ -1,6 +1,8 @@
 
 package rw.ehealth.service.admission;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -62,11 +64,11 @@ public class AdmissionService implements IAdmissionService {
 
 	@Override
 	public long countAdmissionBypatient(String pnumber, String hospitalname) {
-	try {
-		return aRepository.countAdmissionBypatient(pnumber, hospitalname);
-	} catch (Exception e) {
-		throw e;
-	}
+		try {
+			return aRepository.countAdmissionBypatient(pnumber, hospitalname);
+		} catch (Exception e) {
+			throw e;
+		}
 
 	}
 
@@ -77,7 +79,7 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
-	
+
 	}
 
 	@Override
@@ -87,26 +89,26 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	public List<AdmissionInfo> AdmissionInfos(Long hospitalId, boolean admissionStatus, String departement) {
-	try {
-		return aRepository.AdmissionInfos(hospitalId, admissionStatus, departement);
-	} catch (Exception e) {
-	throw e ;
-	}
-		
+		try {
+			return aRepository.AdmissionInfos(hospitalId, admissionStatus, departement);
+		} catch (Exception e) {
+			throw e;
+		}
+
 	}
 
 	@Override
 	public List<AdmissionInfo> listInfosByPatients(String pnumber) {
-	try {
-		return aRepository.listInfosByPatients(pnumber);
-	} catch (Exception e) {
-		throw e;
-	}
-	
+		try {
+			return aRepository.listInfosByPatients(pnumber);
+		} catch (Exception e) {
+			throw e;
+		}
+
 	}
 
 	@Override
@@ -114,8 +116,8 @@ public class AdmissionService implements IAdmissionService {
 		try {
 			return aRepository.findByAdmittedPatient(patient);
 		} catch (Exception e) {
-		throw e;
-		}		
+			throw e;
+		}
 	}
 
 	@Override
@@ -125,7 +127,7 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -135,7 +137,7 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
@@ -145,16 +147,34 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
-	public List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber,Long hospitalId) {
+	public List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber, Long hospitalId) {
 		try {
-			return aRepository.findAdmissionInfoBYpatientNumber(patientNumber,hospitalId);
+			return aRepository.findAdmissionInfoBYpatientNumber(patientNumber, hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#getAdmissionsPerMonth(int)
+	 */
+	@Override
+	public List<AdmissionInfo> getAdmissionsPerMonth(int month) {
+		List<AdmissionInfo> allAdmissions = aRepository.findAll();
+		System.out.println(allAdmissions.size() + " all admission");
+		List<AdmissionInfo> response = new ArrayList<>();
+		for (AdmissionInfo admissionInfo : allAdmissions) {
+			LocalDateTime admissionDate = LocalDateTime.parse(admissionInfo.getAdmissionDate());
+			if (admissionDate.getMonthValue() == month) {
+				response.add(admissionInfo);
+			}
+		}
+		return response;
 	}
 }

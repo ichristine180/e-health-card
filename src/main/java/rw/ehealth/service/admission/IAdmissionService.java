@@ -20,6 +20,7 @@ public interface IAdmissionService {
 	AdmissionInfo createNewPatientAdmission(AdmissionInfo info);
 
 	long countAdmission(Long hospitalId);
+
 	AdmissionInfo findBYpatientNumber(String patientNumber);
 
 	/**
@@ -39,7 +40,18 @@ public interface IAdmissionService {
 	List<AdmissionInfo> listInfosByPatients(String pnumber);
 
 	List<AdmissionInfo> findByAdmittedPatient(Patient patient);
-AdmissionInfo update(AdmissionInfo admissionInfo);
-List<AdmissionInfo> findHospitalBYpatientNumber(String patientNumber);
-List<AdmissionInfo> findPAdmissionInfoBYpatientNumber( String patientNumber,Long hospitalId);
+
+	AdmissionInfo update(AdmissionInfo admissionInfo);
+
+	List<AdmissionInfo> findHospitalBYpatientNumber(String patientNumber);
+
+	List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber, Long hospitalId);
+
+	/**
+	 * Gets the admissions per month.
+	 *
+	 * @param month the month
+	 * @return the admissions per month
+	 */
+	List<AdmissionInfo> getAdmissionsPerMonth(int month);
 }

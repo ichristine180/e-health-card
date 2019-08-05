@@ -34,10 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
 	}
-	 @Bean
-	    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-	        return new MyUrlAuthenticationSuccessHandler();
-	    }
+
+	@Bean
+	public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
+		return new MyUrlAuthenticationSuccessHandler();
+	}
+
 	private static final String[] PUBLIC_MATCHERS = { "/bower_components/**", "/dist/**", "/plugins/**", "/js/**",
 			"/build/**" };
 
@@ -45,12 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
 				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospregistration",
-						"/admission", "/docregistration", "/patient", "/newuser","/DenyStatus","/ApproveStatus","/getHospital","/getRequest","/getAll","/pIn", "/getAdmission","/register/**")
+						"/admission", "/docregistration", "/report/**", "/newuser", "/DenyStatus", "/ApproveStatus",
+						"/getHospital", "/getRequest", "/getAll", "/pIn", "/getAdmission", "/register/**")
 				.permitAll().antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**")
 				.hasRole("ADMIN").anyRequest().authenticated();
 
-		http.csrf().disable().cors().disable().formLogin().failureUrl("/login?error").successHandler(myAuthenticationSuccessHandler())
-				.loginPage("/login").permitAll().and().logout()
+		http.csrf().disable().cors().disable().formLogin().failureUrl("/login?error")
+				.successHandler(myAuthenticationSuccessHandler()).loginPage("/login").permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
 				.deleteCookies("remember-me").permitAll().and().rememberMe().and().exceptionHandling()
 				.accessDeniedHandler(accessDeniedHandler);
@@ -61,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// This is in-memory authentication
 		auth.inMemoryAuthentication().withUser("user@health.com").password("password").roles("RECEPTIONIST");
 		auth.inMemoryAuthentication().withUser("admin@health.com").password("password").roles("ADMIN");
+		// Database login
 		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 	}
 }
