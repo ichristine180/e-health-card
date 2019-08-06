@@ -3,9 +3,9 @@ package rw.ehealth.service.admission;
 
 import java.util.List;
 
-
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Patient;
+import rw.ehealth.report.AdmissionReport;
 
 public interface IAdmissionService {
 
@@ -23,8 +23,14 @@ public interface IAdmissionService {
 	long countAdmission(Long hospitalId);
 
 	AdmissionInfo findBYpatientNumber(String patientNumber);
-	List<AdmissionInfo>findBydoctor(String email);
-	List<AdmissionInfo> findByGender(String gender);
+
+	List<AdmissionInfo> findBydoctor(String email);
+
+	/**
+	 * @param gender
+	 * @return
+	 */
+	List<AdmissionReport> findByGender(String gender);
 
 	/**
 	 * All admission infos.

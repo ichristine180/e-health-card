@@ -2,7 +2,6 @@
 package rw.ehealth.service.admission;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Patient;
 import rw.ehealth.repo.medical.AdmissionInfoRepository;
+import rw.ehealth.report.AdmissionReport;
 
 @Service(IAdmissionService.NAME)
 public class AdmissionService implements IAdmissionService {
@@ -173,7 +173,7 @@ public class AdmissionService implements IAdmissionService {
 		List<AdmissionInfo> response = new ArrayList<>();
 		for (AdmissionInfo admissionInfo : allAdmissions) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate admissionDate = LocalDate.parse(admissionInfo.getAdmissionDate(),formatter);
+			LocalDate admissionDate = LocalDate.parse(admissionInfo.getAdmissionDate(), formatter);
 			if (admissionDate.getMonthValue() == month) {
 				response.add(admissionInfo);
 			}
@@ -184,17 +184,17 @@ public class AdmissionService implements IAdmissionService {
 	@Override
 	public List<AdmissionInfo> findBydoctor(String email) {
 		try {
-		return aRepository.findAdmissionByDoctor(email);
-		}catch(Exception e) {
+			return aRepository.findAdmissionByDoctor(email);
+		} catch (Exception e) {
 			throw e;
 		}
 	}
 
 	@Override
-	public List<AdmissionInfo> findByGender(String gender) {
+	public List<AdmissionReport> findByGender(String gender) {
 		try {
-		return aRepository.findByGender(gender);
-		}catch(Exception e) {
+			return aRepository.findByGender(gender);
+		} catch (Exception e) {
 			throw e;
 		}
 	}
