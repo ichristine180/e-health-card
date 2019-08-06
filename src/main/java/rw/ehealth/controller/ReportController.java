@@ -7,11 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Doctor;
@@ -19,7 +19,7 @@ import rw.ehealth.report.AdmissionReport;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.user.UserService;
 
-@RestController
+@Controller
 public class ReportController {
 
 	@Autowired
@@ -39,19 +39,16 @@ public class ReportController {
 	}
 
 	@GetMapping("/report/reception/report/male")
-	public ResponseEntity<List<AdmissionReport>> getAdmissionByGender(Model model, Principal principal) {
-		// String username = principal.getName();
-		// Doctor doctor = userService.findDoctor(username);
+	public String getAdmissionByGender(Model model, Principal principal) {
+		String username = principal.getName();
+		Doctor doctor = userService.findDoctor(username);
 		boolean gender = true;
 		model.addAttribute("gender", gender);
 		List<AdmissionReport> results = admissionService.findByGender("MALE");
 		model.addAttribute("gender", gender);
-
-		// model.addAttribute("doctor", doctor);
+		model.addAttribute("doctor", doctor);
 		model.addAttribute("maleAdmision", results);
-
-		return new ResponseEntity<>(results, HttpStatus.OK);
-		// return "report";
+		return "report";
 	}
 
 	@GetMapping("/admission/month")
