@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
 				.antMatchers("/confirm**", "/forgot-password**", "/reset-password**", "/home", "/hospregistration",
 						"/admission", "/docregistration", "/report/**", "/newuser", "/DenyStatus", "/ApproveStatus",
-						"/getHospital", "/getRequest", "/getAll", "/pIn", "/getAdmission", "/register/**")
+						"/getHospital", "/getRequest", "/getAll", "/pIn","/getby", "/getAdmission", "/register/**")
 				.permitAll().antMatchers("/ForDoctors/**").hasAnyRole("DOCTOR").antMatchers("/admin/**")
 				.hasRole("ADMIN").anyRequest().authenticated();
 

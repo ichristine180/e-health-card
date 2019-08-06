@@ -246,15 +246,13 @@
 									<tbody>
 										<tr th:each="admissions, iStat: ${admission}" th:if="${gender != true}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${admissions.admittedPatient.patientNumber}" />
-											<td th:text="${admissions.admittedPatient.fname}" />
-											<td th:text="${admissions.admittedPatient.lname}" />
-											<td th:text="${admissions.admissionDate}" />
+											<td th:text="${admissions.fname}" />
+											
 										</tr>
 										<tr th:each="admissions, iStat: ${maleAdmision}" th:if="${gender == true}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${admissions.admittedPatient.patientNumber}" />
-											<td th:text="${admissions.admittedPatient.fname}" />
+											
+											<td th:text="${admissions.admissionInfos.fname}" />
 											<td th:text="${admissions.admittedPatient.lname}" />
 											<td th:text="${admissions.admissionDate}" />
 										</tr>

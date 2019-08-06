@@ -1,7 +1,9 @@
 
 package rw.ehealth.service.admission;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +172,8 @@ public class AdmissionService implements IAdmissionService {
 		System.out.println(allAdmissions.size() + " all admission");
 		List<AdmissionInfo> response = new ArrayList<>();
 		for (AdmissionInfo admissionInfo : allAdmissions) {
-			LocalDateTime admissionDate = LocalDateTime.parse(admissionInfo.getAdmissionDate());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate admissionDate = LocalDate.parse(admissionInfo.getAdmissionDate(),formatter);
 			if (admissionDate.getMonthValue() == month) {
 				response.add(admissionInfo);
 			}

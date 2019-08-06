@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,6 +76,7 @@ public class ApiController {
 		response.setMessage("invalid Pnumber");
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
+	
 	@PostMapping("/getHospital")
 	public ResponseEntity<PinfoListResponse>getHospitalPerPatient(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
@@ -100,6 +102,26 @@ public class ApiController {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
 		List<AdmissionInfo> results = aService.findPAdmissionInfoBYpatientNumber(patientNumber,hospitalId);
+		if (results.size()!=0) {
+			response.setError(false);
+			response.setMessage("Information found");
+			List<AdmissionInfo> hospitals = new ArrayList<AdmissionInfo>();
+			hospitals.addAll(results);
+			response.setAdmissionInfos(hospitals);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		
+		response.setError(true);
+		response.setAdmissionInfos(null);
+		response.setMessage("no information found");
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		
+	}
+	@PostMapping("/getby")
+	public ResponseEntity<PinfoListResponse>getall(@RequestParam String email) {
+		PinfoListResponse response = new PinfoListResponse();
+		System.out.println("Hitting here");
+		List<AdmissionInfo> results = aService.findBydoctor(email);
 		if (results.size()!=0) {
 			response.setError(false);
 			response.setMessage("Information found");
