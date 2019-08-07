@@ -182,7 +182,7 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> findBydoctor(String email) {
+	public List<AdmissionReport> findBydoctor(String email) {
 		try {
 			return aRepository.findAdmissionByDoctor(email);
 		} catch (Exception e) {
@@ -191,9 +191,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionReport> findByGender(String gender) {
+	public List<AdmissionReport> findByGender(String gender,Long hospitalId) {
 		try {
-			return aRepository.findByGender(gender);
+			return aRepository.findByGender(gender,hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}

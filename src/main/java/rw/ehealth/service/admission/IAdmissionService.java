@@ -24,13 +24,13 @@ public interface IAdmissionService {
 
 	AdmissionInfo findBYpatientNumber(String patientNumber);
 
-	List<AdmissionInfo> findBydoctor(String email);
+	List<AdmissionReport> findBydoctor(String email);
 
 	/**
 	 * @param gender
 	 * @return
 	 */
-	List<AdmissionReport> findByGender(String gender);
+	List<AdmissionReport> findByGender(String gender,Long hospitalId);
 
 	/**
 	 * All admission infos.

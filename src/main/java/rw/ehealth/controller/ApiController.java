@@ -115,26 +115,7 @@ public class ApiController {
 
 	}
 
-	@PostMapping("/getby")
-	public ResponseEntity<PinfoListResponse> getall(@RequestParam String email) {
-		PinfoListResponse response = new PinfoListResponse();
-		System.out.println("Hitting here");
-		List<AdmissionInfo> results = aService.findBydoctor(email);
-		if (results.size() != 0) {
-			response.setError(false);
-			response.setMessage("Information found");
-			List<AdmissionInfo> hospitals = new ArrayList<AdmissionInfo>();
-			hospitals.addAll(results);
-			response.setAdmissionInfos(hospitals);
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
-
-		response.setError(true);
-		response.setAdmissionInfos(null);
-		response.setMessage("no information found");
-		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-
-	}
+	
 
 	@PostMapping("/getAll")
 	public ResponseEntity<PinfoListResponse> getAll(@RequestParam String patientTrackingNumber) {

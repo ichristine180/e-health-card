@@ -80,10 +80,10 @@ public interface AdmissionInfoRepository extends JpaRepository<AdmissionInfo, Lo
 	List<AdmissionInfo> findAdmissionInfoBYpatientNumber(@Param("patientNumber") String patientNumber,
 			@Param("hospitalId") Long hospitalId);
 
-	@Query("SELECT  p,count(p.patientNumber) as times from AdmissionInfo a JOIN a.admittedPatient p Join a.doctor d WHERE d.email=:email group BY p.patientNumber")
-	List<AdmissionInfo> findAdmissionByDoctor(@Param("email") String email);
+	@Query("SELECT new rw.ehealth.report.AdmissionReport(a,p,count(p.patientNumber)) from AdmissionInfo a JOIN a.admittedPatient p Join a.doctor d WHERE d.email=:email group BY p.patientNumber")
+	List<AdmissionReport>findAdmissionByDoctor(@Param("email") String email);
 
-	@Query("SELECT new rw.ehealth.report.AdmissionReport(a,p,count(p.patientNumber)) from AdmissionInfo a JOIN a.admittedPatient p WHERE p.gender=:gender group BY p.patientNumber")
-	List<AdmissionReport> findByGender(@Param("gender") String gender);
+	@Query("SELECT new rw.ehealth.report.AdmissionReport(a,p,count(p.patientNumber)) from AdmissionInfo a JOIN a.admittedPatient p  Join a.doctor d join d.hospital h WHERE p.gender=:gender and h.hospitalId=:hospitalId group BY p.patientNumber")
+	List<AdmissionReport> findByGender(@Param("gender") String gender,@Param("hospitalId") Long hospitalId);
 
 }
