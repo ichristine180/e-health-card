@@ -8,46 +8,40 @@
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')">
 			<div class="container">
-				<div></div>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="box-header">
-							<h3 class="box-title">Department Of</h3>
-							<h3 class="box-title" th:text="${department}"></h3>
-
-						</div>
+				<div class="row" style="margin-top: 100px;">
+					<div class="col-md-6">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Patients</h3>
+								<h3 class="box-title">Exams count statistics</h3>
 							</div>
 							<!-- /.box-header -->
-							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
+							<div class="box-body no-padding">
+								<table class="table">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Patient Tracking Number</th>
-											<th>View Exam</th>
+											<th>Exam Name</th>
+											<th>Count Number</th>
 										</tr>
 									</thead>
-
 									<tbody>
-										<tr th:each="exam, iStat: ${pExam}">
+										<tr th:each="exams, iStat: ${exam}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${exam.admissionInfo.admittedPatient.fname}" />
-											<td th:text="${exam.admissionInfo.admittedPatient.lname}" />
-											<td th:text="${exam.admissionInfo.patientTrackingNumber}" />
-											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/labo/' + ${exam.admissionInfo.patientTrackingNumber}}">View
-													Exams </a></td>
+											<td th:text="${exams.exam.name}" />
+											<td th:text="${exams.examcount}" />
+										</tr>
+										<tr>
+										<td>Total Number Of Received Patients
+										</td>
+										<td></td>
+										<td th:text="${patientExam}"></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -55,44 +49,52 @@
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<div class="container">
-				<div></div>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="box-header">
-							<h3 class="box-title">Department Of</h3>
-							<h3 class="box-title" th:text="${department}"></h3>
-
-						</div>
+				<div class="row" style="margin-top: 100px;">
+					<div class="col-md-6">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Admissions</h3>
+								<h3 class="box-title">Exams count statistics</h3>
 							</div>
 							<!-- /.box-header -->
-							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
+							<div class="box-body no-padding">
+								<table class="table">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Patient Tracking Number</th>
-											<th>Admission Date</th>
-											<th>Consultation</th>
+											<th>Exam Name</th>
+											<th>Count Number</th>
 										</tr>
 									</thead>
-
 									<tbody>
-										<tr th:each="admission, iStat: ${docAdmissions}">
+										<tr th:each="exams, iStat: ${exam}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${admission.admittedPatient.fname}" />
-											<td th:text="${admission.admittedPatient.lname}" />
-											<td th:text="${admission.patientTrackingNumber}" />
-											<td th:text="${admission.admissionDate}" />
-											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Consult
-											</a></td>
+											<td th:text="${exams.exam.name}" />
+											<td th:text="${exams.examcount}" />
 										</tr>
 									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Numbers Of Consultation Per Gender</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body no-padding">
+								<table class="table">
+									<tr>
+										<td>1.</td>
+										<td>Male</td>
+
+										<td><span class="badge bg-red" th:text="${male}"></span></td>
+									</tr>
+									<tr>
+										<td>2.</td>
+										<td>Female</td>
+										<td><span class="badge bg-yellow" th:text="${female}"></span></td>
+									</tr>
 								</table>
 							</div>
 						</div>
@@ -226,11 +228,15 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h2 class="box-title" th:if="${admission}">All Admission performed By</h2>
+								<h2 class="box-title" th:if="${admission}">All Admission
+									performed By</h2>
 								<h3 th:text="${doctor.fname}" th:if="${admission}"></h3>
-								<h2 class="box-title" th:if="${maleAdmision}">All Male admitted patients</h2>
-								<h2 class="box-title" th:if="${femaleAdmision}">All Female admitted patients</h2>
-								<h2 class="box-title" th:if="${monthAdmision}">All admitted patients</h2>
+								<h2 class="box-title" th:if="${maleAdmision}">All Male
+									admitted patients</h2>
+								<h2 class="box-title" th:if="${femaleAdmision}">All Female
+									admitted patients</h2>
+								<h2 class="box-title" th:if="${monthAdmision}">All admitted
+									patients</h2>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
@@ -246,38 +252,42 @@
 									</thead>
 
 									<tbody>
-										<tr th:each="admissions, iStat: ${admission}" th:if="${admission}">
+										<tr th:each="admissions, iStat: ${admission}"
+											th:if="${admission}">
 											<td th:text="${iStat.index+1}" />
 											<td th:text="${admissions.patient.patientNumber}" />
 											<td th:text="${admissions.patient.fname}" />
 											<td th:text="${admissions.patient.lname}" />
 											<td th:text="${admissions.admissionCount}" />
-											
+
 										</tr>
-										<tr th:each="admissions, iStat: ${maleAdmision}" th:if="${maleAdmision}">
+										<tr th:each="admissions, iStat: ${maleAdmision}"
+											th:if="${maleAdmision}">
 											<td th:text="${iStat.index+1}" />
-											
+
 											<td th:text="${admissions.patient.patientNumber}" />
 											<td th:text="${admissions.patient.fname}" />
 											<td th:text="${admissions.patient.lname}" />
 											<td th:text="${admissions.admissionCount}" />
 										</tr>
-										<tr th:each="admissions, iStat: ${femaleAdmision}" th:if="${femaleAdmision}">
+										<tr th:each="admissions, iStat: ${femaleAdmision}"
+											th:if="${femaleAdmision}">
 											<td th:text="${iStat.index+1}" />
-											
+
 											<td th:text="${admissions.patient.patientNumber}" />
 											<td th:text="${admissions.patient.fname}" />
 											<td th:text="${admissions.patient.lname}" />
 											<td th:text="${admissions.admissionCount}" />
 										</tr>
-										<tr th:each="admissions, iStat: ${monthAdmision}" th:if="${monthAdmision}">
+										<tr th:each="admissions, iStat: ${monthAdmision}"
+											th:if="${monthAdmision}">
 											<td th:text="${iStat.index+1}" />
-											
+
 											<td th:text="${admissions.admittedPatient.patientNumber}" />
 											<td th:text="${admissions.admittedPatient.fname}" />
 											<td th:text="${admissions.admittedPatient.lname}" />
 											<td th:text="${admissions.admissionCount}" />
-											
+
 										</tr>
 									</tbody>
 								</table>
@@ -286,18 +296,16 @@
 					</div>
 					<div class="box-body">
 						<!-- Split button -->
-						<p>All Admission in Hospital</p>
+						<p>Admitted Patient Based On Gender</p>
 
 						<div class="margin">
 							<div class="btn-group">
-								<button type="button" class="btn btn-info">All
-									Admission</button>
+								<button type="button" class="btn btn-info">Admission</button>
 								<button type="button" class="btn btn-info dropdown-toggle"
 									data-toggle="dropdown">
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="/reception/reports/month">Within a Month</a></li>
 									<li><a href="/reception/reports/male">For Male</a></li>
 									<li><a href="/reception/reports/female">For Female</a></li>
 								</ul>

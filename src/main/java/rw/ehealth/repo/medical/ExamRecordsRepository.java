@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import rw.ehealth.model.ExamRecords;
+import rw.ehealth.report.ExamReport;
  
 @Repository
 public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> {
@@ -16,9 +17,11 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	 * Find pati exam records.
 	 *
 	 * @return the list
-	 */
-	@Query("SELECT e FROM ExamRecords e JOIN e.admissionInfo a WHERE e.results = null GROUP BY a.admissionId")
-	List<ExamRecords> findPatiExamRecords();
+	 */ 
+	@Query("SELECT count(a.patientTrackingNumber) FROM ExamRecords e JOIN e.admissionInfo a  JOIN e.hospital h WHERE h.hospitalId=:hospitalId")
+	Long countPatient(@Param("hospitalId") Long hospitalId);
+	@Query("SELECT e FROM ExamRecords e JOIN e.admissionInfo a  JOIN e.hospital h WHERE e.results = null  and h.hospitalId = :hospitalId GROUP BY a.admissionId")
+	List<ExamRecords> findPatiExamRecords(@Param("hospitalId") Long id);
 
 	/**
 	 * Find exam records by patient.
@@ -51,4 +54,17 @@ public interface ExamRecordsRepository extends JpaRepository<ExamRecords, Long> 
 	ExamRecords findExamRecordById(Long id);
 	@Query("SELECT e FROM ExamRecords e JOIN e.admissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber")
 	List<ExamRecords> findInfo(@Param("patientNumber") String patientNumber);
+	@Query("SELECT new rw.ehealth.report.ExamReport(ex,e,count(e.examId)) from ExamRecords ex JOIN ex.exams e JOIN ex.admissionInfo a  join ex.hospital h WHERE h.hospitalId=:hospitalId group BY e.examId")
+	List<ExamReport> countByExamName(@Param("hospitalId") Long hospitalId);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

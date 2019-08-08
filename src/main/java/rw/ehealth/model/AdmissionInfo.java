@@ -43,12 +43,24 @@ public class AdmissionInfo {
 	@JoinColumn(name = "patientId")
 	private Patient admittedPatient;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hospitalId", nullable = false)
+	private Hospital hospital;
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
+
 	/**
 	 * The constant doctor - Doctor
 	 */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "doctorId")
+	@JoinColumn(name = "admittedBy")
 	private Doctor doctor;
 
 	/**

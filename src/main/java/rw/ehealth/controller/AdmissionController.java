@@ -8,6 +8,7 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -221,6 +222,7 @@ public class AdmissionController {
 		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
 		newadmission.setPatientTrackingNumber(this.generateTrackingNumber());
 		newadmission.setDoctor(user);
+		newadmission.setHospital(user.getHospital());
 		System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
 
 		AdmissionInfo savedadmission = admissionService.createNewPatientAdmission(newadmission);
@@ -272,9 +274,6 @@ public class AdmissionController {
 
 	@GetMapping("/patient/update/{patientNumber}")
 	public String closePatientAdmission(Model model, @PathVariable String patientNumber, Principal principal) {
-		String username = principal.getName();
-		Doctor doctor = userService.findDoctor(username);
-		Long hospitalId = doctor.getHospital().getHospitalId();
 		if (patientNumber != null) {
 			boolean update = true;
 			model.addAttribute("update", update);
@@ -327,11 +326,11 @@ public class AdmissionController {
 		String username = principal.getName();
 		Doctor doctor = userService.findDoctor(username);
 		Hospital hospital = doctor.getHospital();
-		String hospitalName = hospital.getHospitalName();
+		Long id = hospital.getHospitalId();
 		if (patientNumber != null) {
-			long admissionNumber = admissionService.countAdmissionBypatient(patientNumber, hospitalName);
+			long admissionNumber = admissionService.countAdmissionBypatient(patientNumber, id);
 			boolean admissionInfo = true;
-			List<AdmissionInfo> results = admissionService.listAdmissionInfosByPatients(patientNumber, hospitalName);
+			List<AdmissionInfo> results = admissionService.listAdmissionInfosByPatients(patientNumber, id);
 			model.addAttribute("admissionList", results);
 			model.addAttribute("admissionInfo", admissionInfo);
 			model.addAttribute("admissionNumber", admissionNumber);

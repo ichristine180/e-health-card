@@ -2,11 +2,13 @@ package rw.ehealth.service.medical;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.repo.medical.ExamRecordsRepository;
+import rw.ehealth.report.ExamReport;
 
 @Service(IexamRecordService.nameString)
 public class ExamRecordService implements IexamRecordService {
@@ -24,9 +26,9 @@ public class ExamRecordService implements IexamRecordService {
 	}
 
 	@Override
-	public List<ExamRecords> findAllPExam() {
+	public List<ExamRecords> findAllPExam(Long id) {
 		try {
-			return eRepository.findPatiExamRecords();
+			return eRepository.findPatiExamRecords(id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -102,6 +104,25 @@ public class ExamRecordService implements IexamRecordService {
 		}catch(Exception e) {
 			throw e;
 		}
+	}
+
+	@Override
+	public List<ExamReport> countByExamName(Long hospitalId) {
+		try {
+		return eRepository.countByExamName(hospitalId);
+		}catch(Exception e) {
+			throw e;
+			
+		}
+	}
+
+	@Override
+	public Long countPatient(Long hospitalId) {
+	try {
+		return eRepository.countPatient(hospitalId);
+	}catch(Exception e) {
+		throw e;
+	}
 	}
 
 }

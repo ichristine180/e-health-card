@@ -37,6 +37,17 @@ public class Consultation {
 	@JoinColumn(name = "docId")
 	private Doctor doctor;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hospitalId", nullable = false)
+	private Hospital hospital;
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
+
 	/**
 	 * @return the consultationId
 	 */

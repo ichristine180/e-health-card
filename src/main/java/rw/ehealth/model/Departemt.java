@@ -16,16 +16,18 @@ public class Departemt {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id", nullable = false, updatable = false)
-	private Long Id;
+	private Long id;
 	@Column(name="name")
 	private String name;
 	@Column(name="abbreviation")
 	private String abbreviation;
+
+	
 	public Long getId() {
-		return Id;
+		return id;
 	}
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;

@@ -65,9 +65,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public long countAdmissionBypatient(String pnumber, String hospitalname) {
+	public long countAdmissionBypatient(String pnumber, Long id) {
 		try {
-			return aRepository.countAdmissionBypatient(pnumber, hospitalname);
+			return aRepository.countAdmissionBypatient(pnumber, id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -75,9 +75,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, String hospitalname) {
+	public List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, Long id) {
 		try {
-			return aRepository.listAdmissionInfosByPatients(pnumber, hospitalname);
+			return aRepository.listAdmissionInfosByPatients(pnumber, id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -94,9 +94,9 @@ public class AdmissionService implements IAdmissionService {
 
 	}
 
-	public List<AdmissionInfo> AdmissionInfos(Long hospitalId, boolean admissionStatus, String departement) {
+	public List<AdmissionInfo> AdmissionInfos(Long hospitalId, Long id) {
 		try {
-			return aRepository.AdmissionInfos(hospitalId, admissionStatus, departement);
+			return aRepository.AdmissionInfos(hospitalId, id);
 		} catch (Exception e) {
 			throw e;
 		}

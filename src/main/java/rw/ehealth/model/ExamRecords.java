@@ -26,9 +26,16 @@ public class ExamRecords {
 	@JoinColumn(name = "examid")
 	private Exams exams;
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "doctorid")
-	private Doctor doctor;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hospitalId", nullable = false)
+	private Hospital hospital;
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
 
 	public Exams getExams() {
 		return exams;
@@ -41,13 +48,6 @@ public class ExamRecords {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admissionid")
 	private AdmissionInfo admissionInfo;
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
 	private String datetaken;
 	private String results;
 

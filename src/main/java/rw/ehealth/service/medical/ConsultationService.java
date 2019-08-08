@@ -55,4 +55,13 @@ public class ConsultationService implements IconsultationService {
 		return null;
 	}
 
+	@Override
+	public Long countPatientByGender(Long id, String gender) {
+		try {
+		return cRepository.CountByGender(id, gender);
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+
 }

@@ -58,14 +58,11 @@ public class HomeController {
 	@GetMapping("/gdoctor")
 	public String gDoctor(Model model, Principal principal) {
 		String username = principal.getName();
-		Doctor activeUser = userService.findDoctor(principal.getName());
 		Doctor doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
-		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId));
-		String department = activeUser.getDepertment().getName();
+		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(activeUser.getHospital().getHospitalId(),
-				true, activeUser.getDepertment().getName()));
+		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId, doctor.getDepertment().getId()));
 
 		return "homepage";
 	}
@@ -74,7 +71,7 @@ public class HomeController {
 		Doctor activeUser = userService.findDoctor(principal.getName());
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("pExam", examRecordService.findAllPExam());
+		model.addAttribute("pExam", examRecordService.findAllPExam(activeUser.getHospital().getHospitalId()));
 		
 
 		return "homepage";

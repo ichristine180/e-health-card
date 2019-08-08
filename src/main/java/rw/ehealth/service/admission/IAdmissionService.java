@@ -30,7 +30,7 @@ public interface IAdmissionService {
 	 * @param gender
 	 * @return
 	 */
-	List<AdmissionReport> findByGender(String gender,Long hospitalId);
+	List<AdmissionReport> findByGender(String gender, Long hospitalId);
 
 	/**
 	 * All admission infos.
@@ -40,9 +40,9 @@ public interface IAdmissionService {
 	 */
 	List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId);
 
-	long countAdmissionBypatient(String pnumber, String hospitalname);
+	long countAdmissionBypatient(String pnumber, Long id);
 
-	List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, String hospitalname);
+	List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, Long id);
 
 	AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber);
 

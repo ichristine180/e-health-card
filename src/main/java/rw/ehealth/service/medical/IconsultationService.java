@@ -10,5 +10,6 @@ public interface IconsultationService {
 Consultation createConsultation(Consultation consultation);
 Consultation findByPatientTruckingNumber(String pTrackingNumber);
 List<Consultation>findAllInfoByPatient(String pnumber);
+Long countPatientByGender(Long id,String gender);
 
 }

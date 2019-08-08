@@ -118,6 +118,7 @@ public class HospitalController {
 		consultation.setDescription(consultationDto.getDescription());
 		consultation.setDoctor(activeUser);
 		consultation.setAdmissionInfo(admit);
+		consultation.setHospital(activeUser.getHospital());
 		Consultation consultated = consultationService.createConsultation(consultation);
 		if (consultated != null) {
 			boolean admissionInfo = true;
@@ -236,6 +237,7 @@ public class HospitalController {
 		prescriptions.setName(prescriptionsDto.getName());
 		prescriptions.setDoctor(activeUser);
 		prescriptions.setAdmissionInfo(admit);
+		prescriptions.setHospital(activeUser.getHospital());
 		Prescription pres = prescriptionService.createPrescription(prescriptions);
 		if (pres != null) {
 			
@@ -254,7 +256,8 @@ public class HospitalController {
 
 	@PostMapping("/sendLabo")
 	public String sendExamString(@RequestParam(value = "examId", required = false) int[] examId,
-			@ModelAttribute ExamDto examDto, Model model) {
+			@ModelAttribute ExamDto examDto, Model model,Principal principal) {
+		Doctor activeUser = userService.findDoctor(principal.getName());
 		if (examId != null) {
 			List<Exams> selectedExams = new ArrayList<Exams>();
 			for (int i = 0; i < examId.length; i++) {
@@ -272,6 +275,7 @@ public class HospitalController {
 				examrecords.setExams(exam);
 				examrecords.setAdmissionInfo(admitedp);
 				examrecords.setDatetaken(LocalDate.now().toString());
+				examrecords.setHospital(activeUser.getHospital());
 				examRecordService.creaExamRecords(examrecords);
 			}
 
@@ -298,12 +302,10 @@ public class HospitalController {
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model,Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
 		for (int i = 0; i < id.length; i++) {
 			ExamRecords records = examRecordService.findExamRecordByExamId(id[i]);
 			System.out.println(records.toString() + " not updated");
 			records.setResults(results[i]);
-			records.setDoctor(activeUser);
 			ExamRecords savedWithResults = examRecordService.update(records);
 			System.out.println(savedWithResults.toString() + " ");
 		}
