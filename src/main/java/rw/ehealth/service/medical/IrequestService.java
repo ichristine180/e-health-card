@@ -6,7 +6,7 @@ import rw.ehealth.model.Request;
 public interface IrequestService {
 	Request findRequestByPatient(String patientNumber);
 	Request createRequest(Request request);
-	Request findPRequest(String patientNumber,String statusS);
+	Request findPRequest(String patientNumber,String requestDate);
 	Request update(Request request);
 
 }

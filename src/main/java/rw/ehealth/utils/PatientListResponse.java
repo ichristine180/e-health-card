@@ -1,7 +1,10 @@
 
 package rw.ehealth.utils;
 
+import java.util.List;
+
 import rw.ehealth.model.Patient;
+import rw.ehealth.model.PatientRecordsViewHistory;
 
 
 public class PatientListResponse {
@@ -11,8 +14,16 @@ public class PatientListResponse {
 	private String message;
 
 	private Patient patients;
-
+private List<PatientRecordsViewHistory> patientRecordsViewHistory;
 	
+	public List<PatientRecordsViewHistory> getPatientRecordsViewHistory() {
+	return patientRecordsViewHistory;
+}
+
+public void setPatientRecordsViewHistory(List<PatientRecordsViewHistory> patientRecordsViewHistory) {
+	this.patientRecordsViewHistory = patientRecordsViewHistory;
+}
+
 	public boolean isError() {
 		return error;
 	}

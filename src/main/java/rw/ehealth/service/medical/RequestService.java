@@ -1,5 +1,7 @@
 package rw.ehealth.service.medical;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ public class RequestService  implements IrequestService{
 	@Override
 	public Request findRequestByPatient(String patientNumber) {
 		
-		return rRepository.findRequestBypatient(patientNumber);
+		return rRepository.findRequestBypatient(patientNumber,LocalDate.now().toString());
 	}
 
 	@Override
@@ -27,9 +29,9 @@ public class RequestService  implements IrequestService{
 	}
 
 	@Override
-	public Request findPRequest(String patientNumber,String status) {
+	public Request findPRequest(String patientNumber,String requestDate) {
 		try {
-		return rRepository.findRequest(patientNumber,status);
+		return rRepository.findRequest(patientNumber,requestDate);
 		}catch(Exception e) {
 			throw e;
 		}

@@ -38,6 +38,15 @@ public class ExamRecordService implements IexamRecordService {
 	@Override
 	public List<ExamRecords> findExamRecordsByPatient(String patientTrackingNumber) {
 		try {
+			return eRepository.findExamRecordsByPatient(patientTrackingNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
+	@Override
+	public List<ExamRecords> findErecords(String patientTrackingNumber) {
+		try {
 			return eRepository.findErecords(patientTrackingNumber);
 		} catch (Exception e) {
 			throw e;

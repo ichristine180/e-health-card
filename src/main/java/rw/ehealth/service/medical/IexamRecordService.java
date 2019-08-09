@@ -30,4 +30,6 @@ public interface IexamRecordService {
 	List<ExamRecords> findExamrecords(String patientTrackingNumber);
 	List<ExamReport> countByExamName(Long hospitalId);
 
+	List<ExamRecords> findErecords(String patientTrackingNumber);
+
 }

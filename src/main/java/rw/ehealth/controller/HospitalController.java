@@ -22,12 +22,14 @@ import rw.ehealth.model.Doctor;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Exams;
 import rw.ehealth.model.Patient;
+import rw.ehealth.model.PatientRecordsViewHistory;
 import rw.ehealth.model.Prescription;
 import rw.ehealth.model.Request;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.ExamService;
 import rw.ehealth.service.medical.IconsultationService;
 import rw.ehealth.service.medical.IexamRecordService;
+import rw.ehealth.service.medical.PatientRecordsViewHistoryService;
 import rw.ehealth.service.medical.PrescriptionService;
 import rw.ehealth.service.medical.RequestService;
 import rw.ehealth.service.user.IUserService;
@@ -54,7 +56,8 @@ public class HospitalController {
 	private PrescriptionService prescriptionService;
 	@Autowired
 	private RequestService rService;
-
+	@Autowired
+	private PatientRecordsViewHistoryService vService;
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -143,39 +146,36 @@ public class HospitalController {
 		Patient patient = admitedP.getAdmittedPatient();
 		if (patientTrackingNumber.isEmpty() == false) {
 			boolean admissionInfo = true;
+			Request resultRequest = rService.findPRequest(patient.getPatientNumber(), LocalDate.now().toString());
+			if (resultRequest != null) {
+				List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
+				if (results != null) {
+					PatientRecordsViewHistory vHistory = new PatientRecordsViewHistory();
+					vHistory.setDoctor(activeUser);
+					vHistory.setPatient(patient);
+					vHistory.setHospital(activeUser.getHospital());
+					vHistory.setDate(LocalDate.now().toString());
+					vService.create(vHistory);
+					String department = activeUser.getDepertment().getName();
+					Consultation consultation = new Consultation();
+					model.addAttribute("department", department);
+					model.addAttribute("consultation", consultation);
+					model.addAttribute("docAdmissions", results);
+					model.addAttribute("admissionInfo", admissionInfo);
+
+					return "information";
+				}
+			}
 			Request request = new Request();
 			request.setPatient(patient);
 			request.setDoctor(activeUser);
 			request.setStatus("PENDING");
 			request.setRequestDate(LocalDate.now().toString());
-			Request resultRequest = rService.findPRequest(patient.getPatientNumber(),"PENDING");
-			if(resultRequest!=null) {
-			List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
-			if(results!=null) {
-			String department = activeUser.getDepertment().getName();
-			Consultation consultation = new Consultation();
-			model.addAttribute("department", department);
-			model.addAttribute("consultation", consultation);
-			model.addAttribute("docAdmissions", results);
-			model.addAttribute("admissionInfo", admissionInfo);
-
+			rService.createRequest(request);
 			return "information";
-			}else {
-				String department = activeUser.getDepertment().getName();
-				Consultation consultation = new Consultation();
-				model.addAttribute("department", department);
-				model.addAttribute("consultation", consultation);
-				model.addAttribute("docAdmissions", results);
-				model.addAttribute("admissionInfo", admissionInfo);
 
-				return "information";
-			}
-			}else 
-				rService.createRequest(request);
 		}
-
 		return "redirect:/gdoctor";
-
 	}
 
 	@GetMapping("/consultation/sendToLabo/{patientTrackingNumber}")
@@ -199,7 +199,7 @@ public class HospitalController {
 			return "consult";
 		}
 
-		return "redirect:/";
+		return "redirect:/gdoctor";
 
 	}
 
@@ -219,12 +219,12 @@ public class HospitalController {
 			model.addAttribute("department", department);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
-			model.addAttribute("examss", examRecordService.findExamRecordsByPatient(patientTrackingNumber));
+			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 
 			return "consult";
 		}
 
-		return "redirect:/";
+		return "redirect:/gdoctor";
 
 	}
 
@@ -240,8 +240,8 @@ public class HospitalController {
 		prescriptions.setHospital(activeUser.getHospital());
 		Prescription pres = prescriptionService.createPrescription(prescriptions);
 		if (pres != null) {
-			
-			return "redirect:/";
+
+			return "redirect:/gdoctor";
 		}
 		boolean admissionInfo = true;
 		AdmissionInfo results = admissionService
@@ -256,7 +256,7 @@ public class HospitalController {
 
 	@PostMapping("/sendLabo")
 	public String sendExamString(@RequestParam(value = "examId", required = false) int[] examId,
-			@ModelAttribute ExamDto examDto, Model model,Principal principal) {
+			@ModelAttribute ExamDto examDto, Model model, Principal principal) {
 		Doctor activeUser = userService.findDoctor(principal.getName());
 		if (examId != null) {
 			List<Exams> selectedExams = new ArrayList<Exams>();
@@ -288,7 +288,7 @@ public class HospitalController {
 		if (patientTrackingNumber.isEmpty() == false) {
 			ExamRecords examRecord = new ExamRecords();
 			model.addAttribute("examRecord", examRecord);
-			model.addAttribute("examss", examRecordService.findExamRecordsByPatient(patientTrackingNumber));
+			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 
 			return "labo";
@@ -301,7 +301,7 @@ public class HospitalController {
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
-			Model model,Principal principal) {
+			Model model, Principal principal) {
 		for (int i = 0; i < id.length; i++) {
 			ExamRecords records = examRecordService.findExamRecordByExamId(id[i]);
 			System.out.println(records.toString() + " not updated");

@@ -1,5 +1,6 @@
 package rw.ehealth.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,13 @@ import rw.ehealth.model.AdmissionInfo;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecords;
 import rw.ehealth.model.Patient;
+import rw.ehealth.model.PatientRecordsViewHistory;
 import rw.ehealth.model.Prescription;
 import rw.ehealth.model.Request;
 import rw.ehealth.service.admission.AdmissionService;
 import rw.ehealth.service.medical.ConsultationService;
 import rw.ehealth.service.medical.ExamRecordService;
+import rw.ehealth.service.medical.PatientRecordsViewHistoryService;
 import rw.ehealth.service.medical.PrescriptionService;
 import rw.ehealth.service.medical.RequestService;
 import rw.ehealth.service.patient.PatientService;
@@ -39,7 +42,8 @@ public class ApiController {
 	private PrescriptionService pService;
 	@Autowired
 	private RequestService rService;
-
+	@Autowired
+	private PatientRecordsViewHistoryService vService;
 	@PostMapping("/pIn")
 	public ResponseEntity<PatientListResponse> getPatientInfo(@RequestParam String patientNumber) {
 		PatientListResponse response = new PatientListResponse();
@@ -60,7 +64,7 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		Request results = rService.findPRequest(patientNumber, "PENDING");
+		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");
@@ -124,7 +128,7 @@ public class ApiController {
 		List<ExamRecords> examrecords = eService.findExamRecordsByPatient(patientTrackingNumber);
 		Consultation results = cService.findByPatientTruckingNumber(patientTrackingNumber);
 		Prescription medecine = pService.findPByPatientTruckingNumber(patientTrackingNumber);
-		if (results != null && examrecords.size() != 0 && medecine != null) {
+		if (results != null || examrecords.size() != 0 || medecine != null) {
 			response.setError(false);
 			response.setMessage("Information found");
 			response.setConsultation(results);
@@ -149,7 +153,8 @@ public class ApiController {
 
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findPRequest(patientNumber, "PENDING");
+		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
+
 		results.setStatus("APPROVED");
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
@@ -170,7 +175,8 @@ public class ApiController {
 
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findPRequest(patientNumber, "PENDING");
+		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
+
 		results.setStatus("DENYED");
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
@@ -185,5 +191,24 @@ public class ApiController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
+	@PostMapping("/getHistory")
+	public ResponseEntity<PatientListResponse> getMedicalHistory(@RequestParam String patientNumber) {
+		PatientListResponse response = new PatientListResponse();
+		System.out.println("Hitting here");
+		List<PatientRecordsViewHistory> results = vService.findMedicalHistory(patientNumber);
+		if (results.size() != 0) {
+			response.setError(false);
+			response.setMessage("Info found");
+			List<PatientRecordsViewHistory> hospitals = new ArrayList<PatientRecordsViewHistory>();
+			hospitals.addAll(results);
+			response.setPatientRecordsViewHistory(hospitals);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 
+		response.setError(true);
+		response.setPatientRecordsViewHistory(null);
+		response.setMessage("no info found");
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+	}
 }
