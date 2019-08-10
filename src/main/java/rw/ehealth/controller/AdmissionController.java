@@ -31,6 +31,7 @@ import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
+import rw.ehealth.service.user.IEmployeeService;
 import rw.ehealth.service.user.UserService;
 import rw.ehealth.utils.AdmissionDto;
 import rw.ehealth.utils.DoctorData;
@@ -44,6 +45,9 @@ public class AdmissionController {
 
 	@Autowired
 	private IHospitalService hospitalService;
+
+	@Autowired
+	private IEmployeeService employeeService;
 
 	@Autowired
 	private IAdmissionService admissionService;
@@ -186,12 +190,15 @@ public class AdmissionController {
 			Set<UserRole> userRoles = new HashSet<>();
 			userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
 			myuser.setDoctor(doc);
-			doc.setUser(myuser);
-			userService.createUser(myuser);
-			userService.createUser(myuser, userRoles);
+			// userService.createUser(myuser);
+			User createdUser = userService.createUser(myuser, userRoles);
+			doc.setUser(createdUser);
+
+			// Create the employee
+			employeeService.createEmployee(doc);
 			return "redirect:/";
-		} else
-			return "redirect:/docregistration";
+		}
+		return "redirect:/docregistration";
 	}
 
 	/**

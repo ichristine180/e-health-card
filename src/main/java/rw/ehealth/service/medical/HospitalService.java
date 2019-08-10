@@ -26,15 +26,14 @@ public class HospitalService implements IHospitalService {
 	@Override
 	public Hospital createHospital(Hospital hospital) {
 		Hospital savedHospital = hRepository.findByHospitalName(hospital.getHospitalName());
-		if (savedHospital != null) {
-			System.out.println("hospital already saved");
-			return null;
-		} else {
-			try {
-				return hRepository.save(hospital);
-			} catch (Exception ex) {
-				throw ex;
+		try {
+			if (savedHospital != null) {
+				System.out.println("hospital already saved");
+				return null;
 			}
+			return hRepository.save(hospital);
+		} catch (Exception ex) {
+			throw ex;
 		}
 	}
 
