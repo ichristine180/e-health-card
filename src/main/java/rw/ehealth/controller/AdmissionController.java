@@ -173,8 +173,6 @@ public class AdmissionController {
 			doc.setPhone(user.getPhone());
 			Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
 			doc.setHospital(hospitals);
-			Department departemt = departemtService.findPerName(user.getDepertmentName());
-			doc.setDepertment(departemt);
 
 			if (userService.checkUsernameExists(user.getEmail())) {
 				if (userService.checkUsernameExists(user.getEmail())) {
@@ -190,18 +188,17 @@ public class AdmissionController {
 			Set<UserRole> userRoles = new HashSet<>();
 			userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
 			myuser.setDoctor(doc);
-			// userService.createUser(myuser);
+			// 1. userService.createUser(myuser);
 			User createdUser = userService.createUser(myuser, userRoles);
 			doc.setUser(createdUser);
 
-			// Create the employee
+			// 2. Create the employee
 			employeeService.createEmployee(doc);
 			return "redirect:/";
 		}
 		return "redirect:/docregistration";
 	}
 
-	@SuppressWarnings("unused")
 	@PostMapping("/patient/admission")
 	public String admitPatient(Model model, @ModelAttribute AdmissionDto admission, Principal principal) {
 		String username = principal.getName();
