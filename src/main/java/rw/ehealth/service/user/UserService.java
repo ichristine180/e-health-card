@@ -80,6 +80,7 @@ public class UserService implements IUserService {
 		}
 		user.getUserRoles().addAll(userRoles);
 		try {
+
 			return userDao.save(user);
 		} catch (Exception e) {
 			System.out.println(e.getMessage() + " JSJS");
