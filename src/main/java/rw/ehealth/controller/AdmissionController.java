@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +34,7 @@ import rw.ehealth.service.user.IEmployeeService;
 import rw.ehealth.service.user.UserService;
 import rw.ehealth.utils.AdmissionDto;
 import rw.ehealth.utils.DoctorData;
+import rw.ehealth.utils.IDGenerator;
 import rw.ehealth.utils.PatientData;
 
 @Controller
@@ -117,7 +117,7 @@ public class AdmissionController {
 				newPatient.setIdentificationNumber(patient.getIdentificationNumber());
 				newPatient.setRegisteredDate(LocalDate.now().toString());
 				newPatient.setHospital(hospitalName);
-				newPatient.setPatientNumber(this.generatePatientNumber(patient));
+				newPatient.setPatientNumber(IDGenerator.generatePatientNumber(newPatient));
 
 				Patient registeredPatient = patientService.savePatientInfo(newPatient);
 
@@ -214,7 +214,7 @@ public class AdmissionController {
 		newadmission.setDepartement(depertment);
 		newadmission.setAdmissionDate(LocalDate.now().toString());
 		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
-		newadmission.setPatientTrackingNumber(this.generateTrackingNumber());
+		newadmission.setPatientTrackingNumber(IDGenerator.generateTrackingNumber());
 		newadmission.setAdmittedBy(user);
 		newadmission.setHospital(user.getHospital());
 		System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
@@ -332,30 +332,12 @@ public class AdmissionController {
 
 	}
 
-	/**
-	 * Generate tracking number.
-	 *
-	 * @return the string
-	 */
-	private String generateTrackingNumber() {
-		return "TRACK-" + RandomStringUtils.randomNumeric(6).toUpperCase();
-	}
-
-	/**
-	 * Generate patient number.
-	 *
-	 * @param patient the patient
-	 * @return the string
-	 */
-	private String generatePatientNumber(Patient patient) {
-		return "PN-" + RandomStringUtils.randomAlphanumeric(8).toUpperCase();
-	}
 	@GetMapping("/department/{employeeId}")
 	public String addDpt(Model model, @PathVariable Long employeeId, Principal principal) {
 		if (employeeId != null) {
 			Employee result = userService.findByEmployeeId(employeeId);
 			Hospital hospital = result.getHospital();
-			// if the Doctor is found, we proceed 
+			// if the Doctor is found, we proceed
 			if (result != null) {
 				DoctorData doctor = new DoctorData();
 				Iterable<Department> departemt = departemtService.findPerHospital(hospital);
@@ -364,17 +346,18 @@ public class AdmissionController {
 				model.addAttribute("doctors", result);
 				return "registration";
 			}
-			
+
 		}
 		return "redirect:/";
 
 	}
+
 	@PostMapping("/updateEmployee")
 	public String addDpt(@ModelAttribute("user") @Valid DoctorData user, Model model) {
 		if (user.getDepertmentName().isEmpty() == false && user.getId() != null) {
 			Employee result = userService.findByEmployeeId(user.getId());
-			Department dpt =departemtService.findPerName(user.getDepertmentName());
-			employeeService.addEmployeeDepartment(result,dpt);
+			Department dpt = departemtService.findPerName(user.getDepertmentName());
+			employeeService.addEmployeeDepartment(result, dpt);
 			return "redirect:/";
 		}
 		return "redirect:/";

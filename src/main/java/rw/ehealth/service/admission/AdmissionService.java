@@ -35,7 +35,9 @@ public class AdmissionService implements IAdmissionService {
 				info.setPatientTrackingNumber(RandomStringUtils.random(10, true, true));
 				return aRepository.save(info);
 			}
-		} catch (Exception ex) {
+		} catch (
+
+		Exception ex) {
 			throw ex;
 		}
 	}

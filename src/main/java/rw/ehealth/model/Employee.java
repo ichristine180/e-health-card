@@ -45,6 +45,14 @@ public class Employee {
 	@Column(name = "phone", nullable = false)
 	private String phone;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hospitalId", nullable = false)
+	private Hospital hospital;
+
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "accountid", nullable = false)
+	private User user;
+
 	/**
 	 * The constant depertment
 	 */
@@ -65,14 +73,6 @@ public class Employee {
 		this.timestamp = timestamp;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hospitalId", nullable = false)
-	private Hospital hospital;
-
-	@OneToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "accountid", nullable = false)
-	private User user;
-
 	public User getUser() {
 		return user;
 	}
@@ -80,8 +80,6 @@ public class Employee {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	
 
 	public Long getEmployeeId() {
 		return employeeId;
