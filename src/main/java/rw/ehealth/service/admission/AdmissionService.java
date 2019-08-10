@@ -23,6 +23,10 @@ public class AdmissionService implements IAdmissionService {
 
 	@Override
 	public Admission createNewPatientAdmission(Admission info) {
+		if (stillAdmitted(info)) {
+			System.out.println(" This person is admitted somewhere else");
+			return aRepository.findActiveAdmission(info.getAdmittedPatient().getPatientNumber());
+		}
 		try {
 			if (info.getAdmittedPatient() == null) {
 				System.out.println("Cant admit an invalid patient");
@@ -40,6 +44,7 @@ public class AdmissionService implements IAdmissionService {
 		Exception ex) {
 			throw ex;
 		}
+
 	}
 
 	@Override
@@ -208,5 +213,12 @@ public class AdmissionService implements IAdmissionService {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	public boolean stillAdmitted(Admission admission) {
+		Admission activeAdmission = aRepository.findActiveAdmision(admission.getAdmittedPatient().getPatientNumber());
+		if (activeAdmission == null)
+			return false;
+		return true;
 	}
 }

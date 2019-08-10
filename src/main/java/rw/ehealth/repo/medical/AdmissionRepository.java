@@ -93,4 +93,10 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	@Query("SELECT new rw.ehealth.report.AdmissionReport(a,p,count(p.patientNumber)) from Admission a JOIN a.admittedPatient p   join a.hospital h WHERE p.gender=:gender and h.hospitalId=:hospitalId group BY p.patientNumber")
 	List<AdmissionReport> findByGender(@Param("gender") String gender, @Param("hospitalId") Long hospitalId);
 
+	/**
+	 * @param patientNumber
+	 * @return
+	 */
+	Admission findActiveAdmission(String patientNumber);
+
 }
