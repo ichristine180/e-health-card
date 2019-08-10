@@ -341,7 +341,7 @@ public class AdmissionController {
 	 * @return the string
 	 */
 	private String generateTrackingNumber() {
-		return "TRACK-" + RandomStringUtils.randomNumeric(6).toUpperCase();
+		return "TR-" + RandomStringUtils.randomNumeric(6).toUpperCase();
 	}
 
 	/**
