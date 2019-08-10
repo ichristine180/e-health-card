@@ -66,7 +66,7 @@ public class AdmissionController {
 		DoctorData doctor = new DoctorData();
 		Iterable<Role> role = userService.findAll();
 		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		Iterable<Department> departemt = departemtService.findDepartemt();
+		Iterable<Department> departemt = departemtService.findAllDepartemts();
 		model.addAttribute("departemt", departemt);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("role", role);
@@ -255,7 +255,7 @@ public class AdmissionController {
 				boolean patientresult = true;
 				model.addAttribute("found", patientresult);
 				AdmissionDto admission = new AdmissionDto();
-				Iterable<Department> departemt = departemtService.findDepartemt();
+				Iterable<Department> departemt = departemtService.findAllDepartemts();
 				model.addAttribute("departemt", departemt);
 				model.addAttribute("admission", admission);
 				System.out.println("We reach this page");

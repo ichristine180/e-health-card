@@ -14,7 +14,7 @@ public class DepartemtService implements IDepartemtService {
 	private DepartemtRepository dRepository;
 
 	@Override
-	public List<Department> findDepartemt() {
+	public List<Department> findAllDepartemts() {
 		try {
 			return dRepository.findAll();
 		} catch (Exception e) {
