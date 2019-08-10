@@ -53,7 +53,7 @@ public class EmployeeService implements IEmployeeService {
 	@Override
 	public Employee addEmployeeDepartment(Employee employee, Department department) {
 		Employee updateEmployee = new Employee();
-		if (empRepository.findOne(employee.getDocId()).getDepertment() != null) {
+		if (empRepository.findOne(employee.getEmployeeId()).getDepertment() != null) {
 			return updateEmployee;
 		}
 		Set<UserRole> roles = employee.getUser().getUserRoles();

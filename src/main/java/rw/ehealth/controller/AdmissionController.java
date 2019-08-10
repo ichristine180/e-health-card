@@ -369,4 +369,15 @@ public class AdmissionController {
 		return "redirect:/";
 
 	}
+	@PostMapping("/updateEmployee")
+	public String addDpt(@ModelAttribute("user") @Valid DoctorData user, Model model) {
+		if (user.getDepertmentName().isEmpty() == false && user.getId() != null) {
+			Employee result = userService.findByEmployeeId(user.getId());
+			Department dpt =departemtService.findPerName(user.getDepertmentName());
+			employeeService.addEmployeeDepartment(result,dpt);
+			return "redirect:/";
+		}
+		return "redirect:/";
+	}
+
 }
