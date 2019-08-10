@@ -201,18 +201,7 @@ public class AdmissionController {
 		return "redirect:/docregistration";
 	}
 
-	/**
-	 * @param patient
-	 * @return
-	 */
-
-	private String generatePatientNumber(Patient patient) {
-		// TODO Revise it to make it more complex return
-		return RandomStringUtils.randomAlphanumeric(12).toUpperCase();
-	}
-
 	@SuppressWarnings("unused")
-
 	@PostMapping("/patient/admission")
 	public String admitPatient(Model model, @ModelAttribute AdmissionDto admission, Principal principal) {
 		String username = principal.getName();
@@ -347,9 +336,21 @@ public class AdmissionController {
 	}
 
 	/**
-	 * @return
+	 * Generate tracking number.
+	 *
+	 * @return the string
 	 */
 	private String generateTrackingNumber() {
-		return RandomStringUtils.randomNumeric(10).toUpperCase();
+		return "TRACK-" + RandomStringUtils.randomNumeric(6).toUpperCase();
+	}
+
+	/**
+	 * Generate patient number.
+	 *
+	 * @param patient the patient
+	 * @return the string
+	 */
+	private String generatePatientNumber(Patient patient) {
+		return "PN-" + RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 	}
 }
