@@ -81,12 +81,14 @@ public class Employee {
 		this.user = user;
 	}
 
-	public Long getDocId() {
+	
+
+	public Long getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setDocId(Long docId) {
-		this.employeeId = docId;
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public String getFname() {

@@ -190,4 +190,14 @@ public class UserService implements IUserService {
 
 	}
 
+	@Override
+	public Employee findByEmployeeId(Long id) {
+		try {
+			return doctorrepo.findByEmployeeId(id);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 }
+

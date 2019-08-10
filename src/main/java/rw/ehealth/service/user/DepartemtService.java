@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Department;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.repo.user.DepartemtRepository;
 
 @Service
@@ -27,6 +28,16 @@ public class DepartemtService implements IDepartemtService {
 	public Department findPerName(String name) {
 		try {
 			return dRepository.findByName(name);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
+
+	@Override
+	public List<Department> findPerHospital(Hospital hospital) {
+		try {
+			return dRepository.findByHospitals(hospital);
 		} catch (Exception e) {
 			throw e;
 		}

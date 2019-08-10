@@ -176,8 +176,7 @@
 											<td th:text="${doctor.phone}" />
 											<td th:text="${doctor.email}" />
 											<td th:text="${doctor.hospital.hospitalName}" />
-											<td th:text="${doctor.depertment.name}" />
-
+											<td  />
 
 											<td><a class="btn btn-info"
 												href="/details?docId='${doctor.docId}'"> <i
@@ -188,7 +187,7 @@
 													class="fa fa-warning"></i>
 
 											</a><a class="btn btn-success"
-												href="/admission?docId='${doctor.docId}'"> <i
+												th:href="@{'/department/' + ${doctor.employeeId}}"> <i
 													class="fa fa-plus"></i>
 
 											</a></td>

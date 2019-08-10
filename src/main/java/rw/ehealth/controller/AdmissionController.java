@@ -350,4 +350,23 @@ public class AdmissionController {
 	private String generatePatientNumber(Patient patient) {
 		return "PN-" + RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 	}
+	@GetMapping("/department/{employeeId}")
+	public String addDpt(Model model, @PathVariable Long employeeId, Principal principal) {
+		if (employeeId != null) {
+			Employee result = userService.findByEmployeeId(employeeId);
+			Hospital hospital = result.getHospital();
+			// if the Doctor is found, we proceed 
+			if (result != null) {
+				DoctorData doctor = new DoctorData();
+				Iterable<Department> departemt = departemtService.findPerHospital(hospital);
+				model.addAttribute("departemtperhospital", departemt);
+				model.addAttribute("doctor", doctor);
+				model.addAttribute("doctors", result);
+				return "registration";
+			}
+			
+		}
+		return "redirect:/";
+
+	}
 }

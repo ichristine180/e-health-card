@@ -43,6 +43,7 @@ public interface IUserService {
 	long countDoctor();
 	List<Employee>finDoctors();
 	Employee findDoctor(String username);
+	Employee findByEmployeeId(Long id);
 
 
 
