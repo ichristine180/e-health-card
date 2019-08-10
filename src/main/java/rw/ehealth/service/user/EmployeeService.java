@@ -58,10 +58,10 @@ public class EmployeeService implements IEmployeeService {
 		}
 		Set<UserRole> roles = employee.getUser().getUserRoles();
 		UserRole role = roles.iterator().next();
-		if (role.getRole().getName().contains(department.getName())) {
+		//if (role.getRole().getName().contains(department.getName())) {
 			employee.setDepertment(department);
 			updateEmployee = empRepository.save(employee);
-		}
+		//}
 		return updateEmployee;
 	}
 }
