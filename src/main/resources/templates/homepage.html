@@ -176,7 +176,8 @@
 											<td th:text="${doctor.phone}" />
 											<td th:text="${doctor.email}" />
 											<td th:text="${doctor.hospital.hospitalName}" />
-											<td th:text="${doctor.depertment.name}" /> 
+											<td th:if="${doctor.depertment != null}" th:text="${doctor.depertment.name}" />
+											<td th:if="${doctor.depertment == null}" >NO DPT ASSIGNED</td>
 											<td><a class="btn btn-info"
 												href="/details?docId='${doctor.docId}'"> <i
 													class="fa fa-info"></i>
@@ -185,7 +186,7 @@
 												href="/details?docId='${doctor.docId}'"> <i
 													class="fa fa-warning"></i>
 
-											</a><a class="btn btn-success"
+											</a><a class="btn btn-success" th:if="${doctor.depertment == null}"
 												th:href="@{'/department/' + ${doctor.employeeId}}"> <i
 													class="fa fa-plus"></i>
 
