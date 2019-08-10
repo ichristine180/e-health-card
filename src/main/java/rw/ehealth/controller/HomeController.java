@@ -40,6 +40,9 @@ public class HomeController {
 		model.addAttribute("doctorsize", doctorsize);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("doctors", userService.finDoctors());
+		for (Employee employee : userService.finDoctors()) {
+			System.out.println(employee.toString() + " htisi");
+		}
 		return "homepage";
 	}
 

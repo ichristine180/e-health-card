@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
@@ -97,6 +98,7 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 * @param patientNumber
 	 * @return
 	 */
-	Admission findActiveAdmission(String patientNumber);
+	@Query("SELECT a from Admission a where a.admittedPatient.patientNumber =:patientNumber and releasedDate is null")
+	Admission findActiveAdmission(@RequestParam("patientNumber") String patientNumber);
 
 }

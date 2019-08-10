@@ -216,9 +216,11 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	public boolean stillAdmitted(Admission admission) {
-		Admission activeAdmission = aRepository.findActiveAdmision(admission.getAdmittedPatient().getPatientNumber());
-		if (activeAdmission == null)
-			return false;
-		return true;
+		Admission activeAdmission = aRepository.findActiveAdmission(admission.getAdmittedPatient().getPatientNumber());
+		boolean found = false;
+		if (activeAdmission != null) {
+			found = true;
+		}
+		return found;
 	}
 }
