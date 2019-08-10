@@ -2,34 +2,33 @@ package rw.ehealth.service.medical;
 
 import java.util.List;
 
-
-import rw.ehealth.model.ExamRecords;
+import rw.ehealth.model.ExamRecord;
 import rw.ehealth.report.ExamReport;
 
-public interface IexamRecordService {
-	String nameString = "examRecordService";
+public interface IExamRecordService {
 
-	ExamRecords creaExamRecords(ExamRecords examRecords);
+	String NAME = "examRecordService";
 
-	List<ExamRecords> findAllPExam(Long id);
+	ExamRecord creaExamRecords(ExamRecord examRecords);
 
-	List<ExamRecords> findExamRecordsByPatient(String patientTrackingNumber);
+	List<ExamRecord> findAllPExam(Long id);
 
-	ExamRecords findOneExam(String pnumber, int examId);
+	List<ExamRecord> findExamRecordsByPatient(String patientTrackingNumber);
 
-	ExamRecords update(ExamRecords examRecords);
+	ExamRecord findOneExam(String pnumber, int examId);
+
+	ExamRecord update(ExamRecord examRecords);
+
 	Long countPatient(Long hospitalId);
 
-	/**
-	 * @param i
-	 * @return
-	 */
-	ExamRecords findExamRecordByExamId(int i); 
-	
-	List<ExamRecords> findInfoByPatient(String patientNumber);
-	List<ExamRecords> findExamrecords(String patientTrackingNumber);
+	ExamRecord findExamRecordByExamId(int i);
+
+	List<ExamRecord> findInfoByPatient(String patientNumber);
+
+	List<ExamRecord> findExamrecords(String patientTrackingNumber);
+
 	List<ExamReport> countByExamName(Long hospitalId);
 
-	List<ExamRecords> findErecords(String patientTrackingNumber);
+	List<ExamRecord> findErecords(String patientTrackingNumber);
 
 }

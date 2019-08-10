@@ -1,12 +1,12 @@
 
 package rw.ehealth.report;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
 
 public class AdmissionReport {
 
-	private AdmissionInfo admission;
+	private Admission admission;
 
 	private Patient patient;
 
@@ -17,7 +17,8 @@ public class AdmissionReport {
 	 * @param patient
 	 * @param admissionCount
 	 */
-	public AdmissionReport(AdmissionInfo admission, Patient patient, long admissionCount) {
+
+	public AdmissionReport(Admission admission, Patient patient, long admissionCount) {
 		this.admission = admission;
 		this.patient = patient;
 		this.admissionCount = admissionCount;
@@ -26,13 +27,15 @@ public class AdmissionReport {
 	/**
 	 * @return the admission
 	 */
-	public AdmissionInfo getAdmission() {
+
+	public Admission getAdmission() {
 		return admission;
 	}
 
 	/**
 	 * @return the patient
 	 */
+
 	public Patient getPatient() {
 		return patient;
 	}
@@ -40,6 +43,7 @@ public class AdmissionReport {
 	/**
 	 * @return the admissionCount
 	 */
+
 	public long getAdmissionCount() {
 		return admissionCount;
 	}
@@ -47,13 +51,15 @@ public class AdmissionReport {
 	/**
 	 * @param admission the admission to set
 	 */
-	public void setAdmission(AdmissionInfo admission) {
+
+	public void setAdmission(Admission admission) {
 		this.admission = admission;
 	}
 
 	/**
 	 * @param patient the patient to set
 	 */
+
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}

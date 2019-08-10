@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import rw.ehealth.model.Departemt;
+import rw.ehealth.model.Department;
 
 @Repository
-public interface DepartemtRepository extends JpaRepository<Departemt, Long> {
-	List<Departemt> findAll();
-	Departemt findByName( String name);
+public interface DepartemtRepository extends JpaRepository<Department, Long> {
+	List<Department> findAll();
+	Department findByName( String name);
 
 }

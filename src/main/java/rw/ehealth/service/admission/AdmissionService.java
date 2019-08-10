@@ -10,28 +10,24 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
-import rw.ehealth.repo.medical.AdmissionInfoRepository;
+import rw.ehealth.repo.medical.AdmissionRepository;
 import rw.ehealth.report.AdmissionReport;
 
 @Service(IAdmissionService.NAME)
 public class AdmissionService implements IAdmissionService {
 
 	@Autowired
-	private AdmissionInfoRepository aRepository;
+	private AdmissionRepository aRepository;
 
-	/*
-	 *
-	 * @see com.us.service.admission.IAdmissionService#createNewPatientAdmission(com.us.models.AdmissionInfo)
-	 */
 	@Override
-	public AdmissionInfo createNewPatientAdmission(AdmissionInfo info) {
+	public Admission createNewPatientAdmission(Admission info) {
 		try {
 			if (info.getAdmittedPatient() == null) {
 				System.out.println("Cant admit an invalid patient");
 				return null;
-			} else if (info.getDoctor() == null) {
+			} else if (info.getAdmittedBy() == null) {
 				System.out.println("A doctor is required to admit a patient");
 				return null;
 			} else {
@@ -47,7 +43,7 @@ public class AdmissionService implements IAdmissionService {
 	@Override
 	public long countAdmission(Long hospitalId) {
 		try {
-			return aRepository.countAdmissionInfo(hospitalId);
+			return aRepository.countAdmission(hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -55,9 +51,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId) {
+	public List<Admission> allAdmissionsPerHospital(Long hospitalId) {
 		try {
-			return aRepository.allAdmissionInfos(hospitalId);
+			return aRepository.allAdmissions(hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -75,9 +71,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, Long id) {
+	public List<Admission> listAdmissionsByPatients(String pnumber, Long id) {
 		try {
-			return aRepository.listAdmissionInfosByPatients(pnumber, id);
+			return aRepository.listAdmissionsByPatients(pnumber, id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -85,7 +81,7 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber) {
+	public Admission findByPatientTruckingNumber(String patientTruckingNumber) {
 		try {
 			return aRepository.findByPatientTrackingNumber(patientTruckingNumber);
 		} catch (Exception e) {
@@ -94,9 +90,9 @@ public class AdmissionService implements IAdmissionService {
 
 	}
 
-	public List<AdmissionInfo> AdmissionInfos(Long hospitalId, Long id) {
+	public List<Admission> Admissions(Long hospitalId, Long id) {
 		try {
-			return aRepository.AdmissionInfos(hospitalId, id);
+			return aRepository.Admissions(hospitalId, id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -104,7 +100,7 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> listInfosByPatients(String pnumber) {
+	public List<Admission> listInfosByPatients(String pnumber) {
 		try {
 			return aRepository.listInfosByPatients(pnumber);
 		} catch (Exception e) {
@@ -114,7 +110,7 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionInfo> findByAdmittedPatient(Patient patient) {
+	public List<Admission> findByAdmittedPatient(Patient patient) {
 		try {
 			return aRepository.findByAdmittedPatient(patient);
 		} catch (Exception e) {
@@ -122,8 +118,12 @@ public class AdmissionService implements IAdmissionService {
 		}
 	}
 
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#update(rw.ehealth.model.Admission)
+	 */
 	@Override
-	public AdmissionInfo update(AdmissionInfo admissionInfo) {
+	public Admission update(Admission admissionInfo) {
 		try {
 			return aRepository.save(admissionInfo);
 		} catch (Exception e) {
@@ -133,7 +133,7 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public AdmissionInfo findBYpatientNumber(String patientNumber) {
+	public Admission findBYpatientNumber(String patientNumber) {
 		try {
 			return aRepository.findBYpatientNumber(patientNumber);
 		} catch (Exception e) {
@@ -142,8 +142,12 @@ public class AdmissionService implements IAdmissionService {
 
 	}
 
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#findHospitalBYpatientNumber(java.lang.String)
+	 */
 	@Override
-	public List<AdmissionInfo> findHospitalBYpatientNumber(String patientNumber) {
+	public List<Admission> findHospitalBYpatientNumber(String patientNumber) {
 		try {
 			return aRepository.findHospitalBYpatientNumber(patientNumber);
 		} catch (Exception e) {
@@ -152,10 +156,15 @@ public class AdmissionService implements IAdmissionService {
 
 	}
 
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#findPAdmissionBYpatientNumber(java.lang.String,
+	 * java.lang.Long)
+	 */
 	@Override
-	public List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber, Long hospitalId) {
+	public List<Admission> findPAdmissionBYpatientNumber(String patientNumber, Long hospitalId) {
 		try {
-			return aRepository.findAdmissionInfoBYpatientNumber(patientNumber, hospitalId);
+			return aRepository.findAdmissionBYpatientNumber(patientNumber, hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -167,11 +176,11 @@ public class AdmissionService implements IAdmissionService {
 	 * @see rw.ehealth.service.admission.IAdmissionService#getAdmissionsPerMonth(int)
 	 */
 	@Override
-	public List<AdmissionInfo> getAdmissionsPerMonth(int month) {
-		List<AdmissionInfo> allAdmissions = aRepository.findAll();
+	public List<Admission> getAdmissionsPerMonth(int month) {
+		List<Admission> allAdmissions = aRepository.findAll();
 		System.out.println(allAdmissions.size() + " all admission");
-		List<AdmissionInfo> response = new ArrayList<>();
-		for (AdmissionInfo admissionInfo : allAdmissions) {
+		List<Admission> response = new ArrayList<>();
+		for (Admission admissionInfo : allAdmissions) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate admissionDate = LocalDate.parse(admissionInfo.getAdmissionDate(), formatter);
 			if (admissionDate.getMonthValue() == month) {
@@ -191,9 +200,9 @@ public class AdmissionService implements IAdmissionService {
 	}
 
 	@Override
-	public List<AdmissionReport> findByGender(String gender,Long hospitalId) {
+	public List<AdmissionReport> findByGender(String gender, Long hospitalId) {
 		try {
-			return aRepository.findByGender(gender,hospitalId);
+			return aRepository.findByGender(gender, hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}

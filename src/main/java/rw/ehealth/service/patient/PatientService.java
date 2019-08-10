@@ -17,7 +17,7 @@ public class PatientService implements IPatientService {
 
 	/*
 	 *
-	 * @see com.us.service.patient.IPatientService#savePatientInfo(com.us.models.Patient)
+	 * @see rw.ehealth.service.patient.IPatientService#savePatientInfo(rw.ehealth.model.Patient)
 	 */
 	@Override
 	public Patient savePatientInfo(Patient patient) {
@@ -91,6 +91,7 @@ public class PatientService implements IPatientService {
 	/**
 	 * @return
 	 */
+	@Override
 	public List<Patient> findAll() {
 		try {
 			return pRepository.findAll();
@@ -118,17 +119,16 @@ public class PatientService implements IPatientService {
 		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 
 	@Override
 	public Patient findByAdmissionStatus(String patientNumber) {
 		try {
 			return pRepository.findByAdmissionStatus(patientNumber);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
-		
+
 	}
 }

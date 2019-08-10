@@ -15,9 +15,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "ADMISSION_INFORMATION")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class AdmissionInfo {
+@Table(name = "ADMISSIONS")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class Admission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ADMISSION_ID", nullable = false, updatable = false)
@@ -43,25 +43,15 @@ public class AdmissionInfo {
 	@JoinColumn(name = "patientId")
 	private Patient admittedPatient;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hospitalId", nullable = false)
-	private Hospital hospital;
-
-	public Hospital getHospital() {
-		return hospital;
-	}
-
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-
-	/**
-	 * The constant doctor - Doctor
-	 */
+	/** The admitted by. */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admittedBy")
-	private Doctor doctor;
+	private Employee admittedBy;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hospitalId", nullable = false)
+	private Hospital hospital;
 
 	/**
 	 * The constant patientTrackingNumber - String
@@ -89,18 +79,17 @@ public class AdmissionInfo {
 	 * The constant heartRate - String
 	 */
 	private String heartRate;
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "depertmentId")
-	private Departemt departement;
+	@JoinColumn(name = "departmentId")
+	private Department departement;
 
-	
-
-	public Departemt getDepartement() {
+	public Department getDepartement() {
 		return departement;
 	}
 
-	public void setDepartement(Departemt departement) {
+	public void setDepartement(Department departement) {
 		this.departement = departement;
 	}
 
@@ -109,6 +98,14 @@ public class AdmissionInfo {
 	 */
 	public Long getAdmissionId() {
 		return admissionId;
+	}
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
 	}
 
 	/**
@@ -123,13 +120,6 @@ public class AdmissionInfo {
 	 */
 	public Patient getAdmittedPatient() {
 		return admittedPatient;
-	}
-
-	/**
-	 * @return the doctor
-	 */
-	public Doctor getDoctor() {
-		return doctor;
 	}
 
 	/**
@@ -196,13 +186,6 @@ public class AdmissionInfo {
 	}
 
 	/**
-	 * @param doctor the doctor to set
-	 */
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-
-	/**
 	 * @param patientTrackingNumber the patientTrackingNumber to set
 	 */
 	public void setPatientTrackingNumber(String patientTrackingNumber) {
@@ -258,17 +241,31 @@ public class AdmissionInfo {
 		this.admissionDate = admissionDate;
 	}
 
+	/**
+	 * @return the admittedBy
+	 */
+	public Employee getAdmittedBy() {
+		return admittedBy;
+	}
+
+	/**
+	 * @param admittedBy the admittedBy to set
+	 */
+	public void setAdmittedBy(Employee admittedBy) {
+		this.admittedBy = admittedBy;
+	}
+
 	/*
 	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "AdmissionInfo [admissionId=" + admissionId + ", admissionDate=" + admissionDate + ", releasedDate="
-				+ releasedDate + ", admittedPatient=" + admittedPatient + ", doctor=" + doctor
-				+ ", patientTrackingNumber=" + patientTrackingNumber + ", height=" + height + ", temperature="
-				+ temperature + ", bloodPressure=" + bloodPressure + ", weight=" + weight + ", heartRate=" + heartRate
-				+ "]";
+		return "Admission [admissionId=" + admissionId + ", admissionDate=" + admissionDate + ", releasedDate="
+				+ releasedDate + ", admittedPatient=" + admittedPatient + ", admittedBy=" + admittedBy + ", hospital="
+				+ hospital + ", patientTrackingNumber=" + patientTrackingNumber + ", height=" + height
+				+ ", temperature=" + temperature + ", bloodPressure=" + bloodPressure + ", weight=" + weight
+				+ ", heartRate=" + heartRate + ", departement=" + departement + "]";
 	}
 
 }

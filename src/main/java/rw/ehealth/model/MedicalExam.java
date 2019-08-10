@@ -1,19 +1,22 @@
 package rw.ehealth.model;
 
-import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "exams")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Exams {
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class MedicalExam {
 	/**
 	 * The constant examId - Long
 	 */
@@ -24,8 +27,14 @@ public class Exams {
 	/**
 	 * The constant name - String
 	 */
+	@Column(name = "name")
 	private String name;
-	
+
+	@Column(name = "code", unique = true, nullable = false)
+	private String code;
+
+	@ManyToMany(mappedBy = "exams")
+	private Set<Hospital> hospitals = new HashSet<>();
 
 	public Long getExamId() {
 		return examId;
@@ -37,6 +46,7 @@ public class Exams {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * @param examId the examId to set
 	 */
@@ -52,20 +62,31 @@ public class Exams {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @return the code
 	 */
-	
+	public String getCode() {
+		return code;
+	}
 
-	
-	
-
-	/*
-	 *
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the hospitals
 	 */
-	@Override
-	public String toString() {
-		return "Exams [examId=" + examId + ", name=" + name + "]";
+	public Set<Hospital> getHospitals() {
+		return hospitals;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	/**
+	 * @param hospitals the hospitals to set
+	 */
+	public void setHospitals(Set<Hospital> hospitals) {
+		this.hospitals = hospitals;
 	}
 
 }

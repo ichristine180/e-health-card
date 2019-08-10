@@ -1,14 +1,7 @@
-/*
- * Copyright (c)  2018. Irembo
- *
- * All rights reserved.
- */
 
 package rw.ehealth.controller;
 
 import java.security.Principal;
-
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -25,16 +18,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import rw.ehealth.model.AdmissionInfo;
-import rw.ehealth.model.Departemt;
-import rw.ehealth.model.Doctor;
+
+import rw.ehealth.model.Admission;
+import rw.ehealth.model.Department;
+import rw.ehealth.model.Employee;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
-import rw.ehealth.service.admission.AdmissionService;
-import rw.ehealth.service.medical.HospitalService;
+import rw.ehealth.service.admission.IAdmissionService;
+import rw.ehealth.service.medical.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.UserService;
@@ -44,14 +38,19 @@ import rw.ehealth.utils.PatientData;
 
 @Controller
 public class AdmissionController {
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
-	private HospitalService hospitalService;
+	private IHospitalService hospitalService;
+
 	@Autowired
-	private AdmissionService admissionService;
+	private IAdmissionService admissionService;
+
 	@Autowired
 	private IPatientService patientService;
+
 	@Autowired
 	private DepartemtService departemtService;
 
@@ -67,7 +66,7 @@ public class AdmissionController {
 		DoctorData doctor = new DoctorData();
 		Iterable<Role> role = userService.findAll();
 		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		Iterable<Departemt> departemt = departemtService.findDepartemt();
+		Iterable<Department> departemt = departemtService.findDepartemt();
 		model.addAttribute("departemt", departemt);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("role", role);
@@ -89,7 +88,7 @@ public class AdmissionController {
 	@PostMapping("/registration")
 	public String registerPatient(Model model, @ModelAttribute @Valid Patient patient, Principal principal) {
 		String username = principal.getName();
-		Doctor doctor = userService.findDoctor(username);
+		Employee doctor = userService.findDoctor(username);
 		Hospital hospital = doctor.getHospital();
 		String hospitalName = hospital.getHospitalName();
 		if (patient.getIdentificationNumber().isEmpty() == false) {
@@ -162,7 +161,7 @@ public class AdmissionController {
 	@PostMapping("/docregistration")
 	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
 		if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
-			Doctor doc = new Doctor();
+			Employee doc = new Employee();
 			doc.setEmail(user.getEmail());
 			doc.setFname(user.getFname());
 			doc.setLname(user.getLname());
@@ -170,7 +169,7 @@ public class AdmissionController {
 			doc.setPhone(user.getPhone());
 			Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
 			doc.setHospital(hospitals);
-			Departemt departemt = departemtService.findPerName(user.getDepertmentName());
+			Department departemt = departemtService.findPerName(user.getDepertmentName());
 			doc.setDepertment(departemt);
 
 			if (userService.checkUsernameExists(user.getEmail())) {
@@ -199,40 +198,39 @@ public class AdmissionController {
 	 * @param patient
 	 * @return
 	 */
+
 	private String generatePatientNumber(Patient patient) {
-		// TODO Revise it to make it more complex
+		// TODO Revise it to make it more complex return
 		return RandomStringUtils.randomAlphanumeric(12).toUpperCase();
 	}
 
 	@SuppressWarnings("unused")
+
 	@PostMapping("/patient/admission")
 	public String admitPatient(Model model, @ModelAttribute AdmissionDto admission, Principal principal) {
-
 		String username = principal.getName();
-		Doctor user = userService.findUserByUsername(username);
-		AdmissionInfo newadmission = new AdmissionInfo();
+		Employee user = userService.findUserByUsername(username);
+		Admission newadmission = new Admission();
 		newadmission.setBloodPressure(admission.getBloodPressure());
 		newadmission.setHeartRate(admission.getHeartRate());
 		newadmission.setHeight(admission.getHeight());
 		newadmission.setWeight(admission.getWeight());
 		newadmission.setTemperature(admission.getTemperature());
-		Departemt depertment = departemtService.findPerName(admission.getDepartementName());
+
+		Department depertment = departemtService.findPerName(admission.getDepartementName());
 		newadmission.setDepartement(depertment);
 		newadmission.setAdmissionDate(LocalDate.now().toString());
 		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
 		newadmission.setPatientTrackingNumber(this.generateTrackingNumber());
-		newadmission.setDoctor(user);
+		newadmission.setAdmittedBy(user);
 		newadmission.setHospital(user.getHospital());
 		System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
 
-		AdmissionInfo savedadmission = admissionService.createNewPatientAdmission(newadmission);
-
+		Admission savedadmission = admissionService.createNewPatientAdmission(newadmission);
 		// Update the patient admission status
 		Patient patient = savedadmission.getAdmittedPatient();
-
 		patient.setAdmissionStatus(true);
 		patientService.updatePatient(patient);
-
 		if (savedadmission != null) {
 			model.addAttribute("admission", savedadmission);
 			boolean showAdmission = true;
@@ -257,13 +255,13 @@ public class AdmissionController {
 				boolean patientresult = true;
 				model.addAttribute("found", patientresult);
 				AdmissionDto admission = new AdmissionDto();
-				Iterable<Departemt> departemt = departemtService.findDepartemt();
+				Iterable<Department> departemt = departemtService.findDepartemt();
 				model.addAttribute("departemt", departemt);
 				model.addAttribute("admission", admission);
 				System.out.println("We reach this page");
 				return "admit";
 			}
-			// If not found, go to registration page to register a patient first
+			// If not found, go to registration page toregister a patient first
 			Patient patient = new Patient();
 			model.addAttribute("patient", patient);
 			return "registration";
@@ -292,7 +290,7 @@ public class AdmissionController {
 			Patient result = patientService.findPatientByPatientNumber(pData.getPatientNumber());
 			// if the patient is found, we proceed with closing admission
 			if (result != null) {
-				AdmissionInfo admitepToday = admissionService.findBYpatientNumber(pData.getPatientNumber());
+				Admission admitepToday = admissionService.findBYpatientNumber(pData.getPatientNumber());
 				admitepToday.setReleasedDate(LocalDateTime.now().toString());
 				admissionService.update(admitepToday);
 				result.setAdmissionStatus(false);
@@ -324,13 +322,13 @@ public class AdmissionController {
 	@GetMapping("/details/admission/{patientNumber}")
 	public String showAdnissionInformation(Model model, @PathVariable String patientNumber, Principal principal) {
 		String username = principal.getName();
-		Doctor doctor = userService.findDoctor(username);
+		Employee doctor = userService.findDoctor(username);
 		Hospital hospital = doctor.getHospital();
 		Long id = hospital.getHospitalId();
 		if (patientNumber != null) {
 			long admissionNumber = admissionService.countAdmissionBypatient(patientNumber, id);
 			boolean admissionInfo = true;
-			List<AdmissionInfo> results = admissionService.listAdmissionInfosByPatients(patientNumber, id);
+			List<Admission> results = admissionService.listAdmissionsByPatients(patientNumber, id);
 			model.addAttribute("admissionList", results);
 			model.addAttribute("admissionInfo", admissionInfo);
 			model.addAttribute("admissionNumber", admissionNumber);

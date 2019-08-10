@@ -4,7 +4,7 @@ package rw.ehealth.utils;
 import java.util.List;
 
 import rw.ehealth.model.Patient;
-import rw.ehealth.model.PatientRecordsViewHistory;
+import rw.ehealth.model.RecordHistoryLog;
 
 
 public class PatientListResponse {
@@ -14,13 +14,13 @@ public class PatientListResponse {
 	private String message;
 
 	private Patient patients;
-private List<PatientRecordsViewHistory> patientRecordsViewHistory;
+private List<RecordHistoryLog> patientRecordsViewHistory;
 	
-	public List<PatientRecordsViewHistory> getPatientRecordsViewHistory() {
+	public List<RecordHistoryLog> getPatientRecordsViewHistory() {
 	return patientRecordsViewHistory;
 }
 
-public void setPatientRecordsViewHistory(List<PatientRecordsViewHistory> patientRecordsViewHistory) {
+public void setPatientRecordsViewHistory(List<RecordHistoryLog> patientRecordsViewHistory) {
 	this.patientRecordsViewHistory = patientRecordsViewHistory;
 }
 

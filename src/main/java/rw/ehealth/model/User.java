@@ -40,13 +40,13 @@ public class User implements UserDetails {
 	private String username;
 	private String password;
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
-	private Doctor doctor;
+	private Employee doctor;
 	
-	public Doctor getDoctor() {
+	public Employee getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(Employee doctor) {
 		this.doctor = doctor;
 	}
 

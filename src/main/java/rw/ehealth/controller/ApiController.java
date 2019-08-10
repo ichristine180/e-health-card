@@ -1,3 +1,4 @@
+
 package rw.ehealth.controller;
 
 import java.time.LocalDate;
@@ -11,39 +12,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.enums.EViewRequestStatus;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
-import rw.ehealth.model.ExamRecords;
+import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Patient;
-import rw.ehealth.model.PatientRecordsViewHistory;
 import rw.ehealth.model.Prescription;
-import rw.ehealth.model.Request;
-import rw.ehealth.service.admission.AdmissionService;
-import rw.ehealth.service.medical.ConsultationService;
-import rw.ehealth.service.medical.ExamRecordService;
-import rw.ehealth.service.medical.PatientRecordsViewHistoryService;
-import rw.ehealth.service.medical.PrescriptionService;
-import rw.ehealth.service.medical.RequestService;
+import rw.ehealth.model.RecordHistoryLog;
+import rw.ehealth.model.ViewRecordRequest;
+import rw.ehealth.service.admission.IAdmissionService;
+import rw.ehealth.service.medical.IConsultationService;
+import rw.ehealth.service.medical.IExamRecordService;
+import rw.ehealth.service.medical.IPrescriptionService;
+import rw.ehealth.service.medical.IViewRecordHistoryService;
+import rw.ehealth.service.medical.IViewRequestService;
 import rw.ehealth.service.patient.PatientService;
 import rw.ehealth.utils.PatientListResponse;
 import rw.ehealth.utils.PinfoListResponse;
 
 @RestController
 public class ApiController {
+
 	@Autowired
 	private PatientService pservice;
+
 	@Autowired
-	private ExamRecordService eService;
+	private IExamRecordService eService;
+
 	@Autowired
-	private AdmissionService aService;
+	private IAdmissionService aService;
+
 	@Autowired
-	private ConsultationService cService;
+	private IConsultationService cService;
+
 	@Autowired
-	private PrescriptionService pService;
+	private IPrescriptionService pService;
+
 	@Autowired
-	private RequestService rService;
+	private IViewRequestService rService;
+
 	@Autowired
-	private PatientRecordsViewHistoryService vService;
+	private IViewRecordHistoryService vService;
+
 	@PostMapping("/pIn")
 	public ResponseEntity<PatientListResponse> getPatientInfo(@RequestParam String patientNumber) {
 		PatientListResponse response = new PatientListResponse();
@@ -64,7 +74,7 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
+		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");
@@ -80,11 +90,11 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> getHospitalPerPatient(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		List<AdmissionInfo> results = aService.findHospitalBYpatientNumber(patientNumber);
+		List<Admission> results = aService.findHospitalBYpatientNumber(patientNumber);
 		if (results.size() != 0) {
 			response.setError(false);
 			response.setMessage("hospital found");
-			List<AdmissionInfo> hospitals = new ArrayList<AdmissionInfo>();
+			List<Admission> hospitals = new ArrayList<Admission>();
 			hospitals.addAll(results);
 			response.setAdmissionInfos(hospitals);
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -99,19 +109,19 @@ public class ApiController {
 
 	@PostMapping("/getAdmission")
 	public ResponseEntity<PinfoListResponse> getAdmissionPerHospital(@RequestParam String patientNumber,
+
 			@RequestParam Long hospitalId) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		List<AdmissionInfo> results = aService.findPAdmissionInfoBYpatientNumber(patientNumber, hospitalId);
+		List<Admission> results = aService.findPAdmissionBYpatientNumber(patientNumber, hospitalId);
 		if (results.size() != 0) {
 			response.setError(false);
 			response.setMessage("Information found");
-			List<AdmissionInfo> hospitals = new ArrayList<AdmissionInfo>();
+			List<Admission> hospitals = new ArrayList<Admission>();
 			hospitals.addAll(results);
-			response.setAdmissionInfos(hospitals);
+			response.setAdmissionInfos(results);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
-
 		response.setError(true);
 		response.setAdmissionInfos(null);
 		response.setMessage("no information found");
@@ -119,13 +129,11 @@ public class ApiController {
 
 	}
 
-	
-
 	@PostMapping("/getAll")
 	public ResponseEntity<PinfoListResponse> getAll(@RequestParam String patientTrackingNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		List<ExamRecords> examrecords = eService.findExamRecordsByPatient(patientTrackingNumber);
+		List<ExamRecord> examrecords = eService.findExamRecordsByPatient(patientTrackingNumber);
 		Consultation results = cService.findByPatientTruckingNumber(patientTrackingNumber);
 		Prescription medecine = pService.findPByPatientTruckingNumber(patientTrackingNumber);
 		if (results != null || examrecords.size() != 0 || medecine != null) {
@@ -133,7 +141,7 @@ public class ApiController {
 			response.setMessage("Information found");
 			response.setConsultation(results);
 			response.setPrescription(medecine);
-			List<ExamRecords> hospitals = new ArrayList<ExamRecords>();
+			List<ExamRecord> hospitals = new ArrayList<ExamRecord>();
 			hospitals.addAll(examrecords);
 			response.setExamRecords(hospitals);
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -150,12 +158,10 @@ public class ApiController {
 
 	@PostMapping("/ApproveStatus")
 	public ResponseEntity<PinfoListResponse> approveStatus(@RequestParam String patientNumber) {
-
 		System.out.println("Reaching at this point at least");
-		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
-
-		results.setStatus("APPROVED");
+		// Getting the student data from the client request andcreate a new student object to be saved
+		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
+		results.setRequestStatus(EViewRequestStatus.APPROVED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
 			response.setError(false);
@@ -172,12 +178,9 @@ public class ApiController {
 
 	@PostMapping("/DenyStatus")
 	public ResponseEntity<PinfoListResponse> denyStatus(@RequestParam String patientNumber) {
-
 		System.out.println("Reaching at this point at least");
-		// Getting the student data from the client request and create a new student object to be saved
-		Request results = rService.findPRequest(patientNumber,LocalDate.now().toString());
-
-		results.setStatus("DENYED");
+		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
+		results.setRequestStatus(EViewRequestStatus.DENIED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
 			response.setError(false);
@@ -191,15 +194,16 @@ public class ApiController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
+
 	@PostMapping("/getHistory")
 	public ResponseEntity<PatientListResponse> getMedicalHistory(@RequestParam String patientNumber) {
 		PatientListResponse response = new PatientListResponse();
 		System.out.println("Hitting here");
-		List<PatientRecordsViewHistory> results = vService.findMedicalHistory(patientNumber);
+		List<RecordHistoryLog> results = vService.findMedicalHistory(patientNumber);
 		if (results.size() != 0) {
 			response.setError(false);
 			response.setMessage("Info found");
-			List<PatientRecordsViewHistory> hospitals = new ArrayList<PatientRecordsViewHistory>();
+			List<RecordHistoryLog> hospitals = new ArrayList<RecordHistoryLog>();
 			hospitals.addAll(results);
 			response.setPatientRecordsViewHistory(hospitals);
 			return new ResponseEntity<>(response, HttpStatus.OK);

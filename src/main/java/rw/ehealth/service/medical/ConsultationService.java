@@ -1,3 +1,4 @@
+
 package rw.ehealth.service.medical;
 
 import java.util.List;
@@ -6,20 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Consultation;
-import rw.ehealth.model.Request;
+import rw.ehealth.model.ViewRecordRequest;
 import rw.ehealth.repo.medical.ConsultationRepository;
 
 @Service
-public class ConsultationService implements IconsultationService {
+public class ConsultationService implements IConsultationService {
+
 	@Autowired
 	private ConsultationRepository cRepository;
+
 	@Autowired
-	private RequestService rService;
+	private ViewRequestService rService;
 
 	@Override
 	public Consultation createConsultation(Consultation consultation) {
 		Consultation admitConsultation = findByPatientTruckingNumber(
-				consultation.getAdmissionInfo().getPatientTrackingNumber());
+				consultation.getAdmission().getPatientTrackingNumber());
 		try {
 			if (admitConsultation == null) {
 				return cRepository.save(consultation);
@@ -38,19 +41,18 @@ public class ConsultationService implements IconsultationService {
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
 	@Override
 	public List<Consultation> findAllInfoByPatient(String pnumber) {
-		Request requestt = rService.findRequestByPatient(pnumber);
-		if(requestt!=null) {
-		try {
-			return cRepository.findAllInfoByPatient(pnumber);
-		} catch (Exception e) {
-			throw e;
+		ViewRecordRequest requestt = rService.findRequestByPatient(pnumber);
+		if (requestt != null) {
+			try {
+				return cRepository.findAllInfoByPatient(pnumber);
+			} catch (Exception e) {
+				throw e;
 
-		}
+			}
 		}
 		return null;
 	}
@@ -58,8 +60,8 @@ public class ConsultationService implements IconsultationService {
 	@Override
 	public Long countPatientByGender(Long id, String gender) {
 		try {
-		return cRepository.CountByGender(id, gender);
-		}catch(Exception e) {
+			return cRepository.CountByGender(id, gender);
+		} catch (Exception e) {
 			throw e;
 		}
 	}

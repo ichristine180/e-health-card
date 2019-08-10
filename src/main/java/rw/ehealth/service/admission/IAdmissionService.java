@@ -3,7 +3,7 @@ package rw.ehealth.service.admission;
 
 import java.util.List;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
 import rw.ehealth.report.AdmissionReport;
 
@@ -12,17 +12,19 @@ public interface IAdmissionService {
 	/**
 	 * The constant NAME - String
 	 */
+
 	String NAME = "admissionService";
 
 	/**
 	 * @param info
 	 * @return
 	 */
-	AdmissionInfo createNewPatientAdmission(AdmissionInfo info);
+
+	Admission createNewPatientAdmission(Admission info);
 
 	long countAdmission(Long hospitalId);
 
-	AdmissionInfo findBYpatientNumber(String patientNumber);
+	Admission findBYpatientNumber(String patientNumber);
 
 	List<AdmissionReport> findBydoctor(String email);
 
@@ -30,6 +32,7 @@ public interface IAdmissionService {
 	 * @param gender
 	 * @return
 	 */
+
 	List<AdmissionReport> findByGender(String gender, Long hospitalId);
 
 	/**
@@ -38,23 +41,24 @@ public interface IAdmissionService {
 	 * @param hospitalname the hospitalname
 	 * @return the list
 	 */
-	List<AdmissionInfo> allAdmissionsPerHospital(Long hospitalId);
+
+	List<Admission> allAdmissionsPerHospital(Long hospitalId);
 
 	long countAdmissionBypatient(String pnumber, Long id);
 
-	List<AdmissionInfo> listAdmissionInfosByPatients(String pnumber, Long id);
+	List<Admission> listAdmissionsByPatients(String pnumber, Long id);
 
-	AdmissionInfo findByPatientTruckingNumber(String patientTruckingNumber);
+	Admission findByPatientTruckingNumber(String patientTruckingNumber);
 
-	List<AdmissionInfo> listInfosByPatients(String pnumber);
+	List<Admission> listInfosByPatients(String pnumber);
 
-	List<AdmissionInfo> findByAdmittedPatient(Patient patient);
+	List<Admission> findByAdmittedPatient(Patient patient);
 
-	AdmissionInfo update(AdmissionInfo admissionInfo);
+	Admission update(Admission admissionInfo);
 
-	List<AdmissionInfo> findHospitalBYpatientNumber(String patientNumber);
+	List<Admission> findHospitalBYpatientNumber(String patientNumber);
 
-	List<AdmissionInfo> findPAdmissionInfoBYpatientNumber(String patientNumber, Long hospitalId);
+	List<Admission> findPAdmissionBYpatientNumber(String patientNumber, Long hospitalId);
 
 	/**
 	 * Gets the admissions per month.
@@ -62,5 +66,5 @@ public interface IAdmissionService {
 	 * @param month the month
 	 * @return the admissions per month
 	 */
-	List<AdmissionInfo> getAdmissionsPerMonth(int month);
+	List<Admission> getAdmissionsPerMonth(int month);
 }

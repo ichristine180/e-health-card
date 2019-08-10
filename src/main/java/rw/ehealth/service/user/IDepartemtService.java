@@ -2,10 +2,10 @@ package rw.ehealth.service.user;
 
 import java.util.List;
 
-import rw.ehealth.model.Departemt;
+import rw.ehealth.model.Department;
 
 public interface IDepartemtService {
 
-	List<Departemt>findDepartemt();
-	Departemt findPerName(String name);
+	List<Department>findDepartemt();
+	Department findPerName(String name);
 }

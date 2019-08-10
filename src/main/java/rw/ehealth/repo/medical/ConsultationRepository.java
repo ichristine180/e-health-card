@@ -3,40 +3,66 @@ package rw.ehealth.repo.medical;
 
 import java.util.List;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
-import rw.ehealth.model.Doctor;
+import rw.ehealth.model.Employee;
 
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
 
 	/**
-	 * @param info
-	 * @return
+	 * Find by admission.
+	 *
+	 * @param info the info
+	 * @return the consultation
 	 */
-	Consultation findByAdmissionInfo(AdmissionInfo info);
+	Consultation findByAdmission(Admission info);
 
 	/**
-	 * @param doctor
-	 * @return
+	 * Find by doctor.
+	 *
+	 * @param doctor the doctor
+	 * @return the list
 	 */
-	List<Consultation> findByDoctor(Doctor doctor);
-	@Query("SELECT c from Consultation c JOIN c.admissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber= :patientNumber")
+	List<Consultation> findByDoctor(Employee doctor);
+
+	/**
+	 * Find all info by patient.
+	 *
+	 * @param patientNumber the patient number
+	 * @return the list
+	 */
+	@Query("SELECT c from Consultation c JOIN c.admission a JOIN a.admittedPatient p WHERE p.patientNumber= :patientNumber")
 	List<Consultation> findAllInfoByPatient(@Param("patientNumber") String patientNumber);
 
 	/**
-	 * @param id
-	 * @return
+	 * Find by consultation id.
+	 *
+	 * @param id the id
+	 * @return the consultation
 	 */
 	Consultation findByConsultationId(Long id);
-	@Query("SELECT c from Consultation c JOIN c.admissionInfo a WHERE a.patientTrackingNumber=:patientTrackingNumber")
+
+	/**
+	 * Find by patient trucking number.
+	 *
+	 * @param patientTrackingNumber the patient tracking number
+	 * @return the consultation
+	 */
+	@Query("SELECT c from Consultation c JOIN c.admission a WHERE a.patientTrackingNumber=:patientTrackingNumber")
 	Consultation findByPatientTruckingNumber(@Param("patientTrackingNumber") String patientTrackingNumber);
-	@Query("SELECT count(p.gender) from Consultation c JOIN c.admissionInfo a JOIN a.admittedPatient p JOIN c.hospital h WHERE p.gender=:gender and h.hospitalId=:hospitalId ")
-	Long CountByGender(@Param("hospitalId") Long hospitalId,@Param("gender") String gender);
-	
+
+	/**
+	 * Count by gender.
+	 *
+	 * @param hospitalId the hospital id
+	 * @param gender     the gender
+	 * @return the long
+	 */
+	@Query("SELECT count(p.gender) from Consultation c JOIN c.admission a JOIN a.admittedPatient p JOIN c.hospital h WHERE p.gender=:gender and h.hospitalId=:hospitalId ")
+	Long CountByGender(@Param("hospitalId") Long hospitalId, @Param("gender") String gender);
 
 }

@@ -1,3 +1,4 @@
+
 package rw.ehealth.service.medical;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,8 @@ import rw.ehealth.model.Prescription;
 import rw.ehealth.repo.medical.PrescriptionRepository;
 
 @Service
-public class PrescriptionService implements IPrescriptionService{
+public class PrescriptionService implements IPrescriptionService {
+
 	@Autowired
 	PrescriptionRepository prepository;
 
@@ -18,14 +20,14 @@ public class PrescriptionService implements IPrescriptionService{
 		} catch (Exception e) {
 			throw e;
 		}
-	
+
 	}
 
 	@Override
 	public Prescription findPByPatientTruckingNumber(String patientTrackingNumber) {
 		try {
-		return prepository.findByPatientTruckingNumber(patientTrackingNumber);
-		}catch(Exception e) {
+			return prepository.findByPatientTruckingNumber(patientTrackingNumber);
+		} catch (Exception e) {
 			throw e;
 		}
 	}

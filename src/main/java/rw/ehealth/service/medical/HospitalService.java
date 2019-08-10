@@ -4,7 +4,6 @@ package rw.ehealth.service.medical;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Hospital;
@@ -18,27 +17,27 @@ public class HospitalService implements IHospitalService {
 
 	/*
 	 *
-	 * @see com.us.service.medical.IHospitalService#createHospital(com.us.models.Hospital)
+	 * @see rw.ehealth.service.medical.IHospitalService#countHospital()
+	 */
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IHospitalService#createHospital(rw.ehealth.model.Hospital)
 	 */
 	@Override
 	public Hospital createHospital(Hospital hospital) {
 		Hospital savedHospital = hRepository.findByHospitalName(hospital.getHospitalName());
-		 if (savedHospital != null) {
+		if (savedHospital != null) {
 			System.out.println("hospital already saved");
 			return null;
-		 }else {
-		try {
-			return hRepository.save(hospital);
-		} catch (Exception ex) {
-			throw ex;
+		} else {
+			try {
+				return hRepository.save(hospital);
+			} catch (Exception ex) {
+				throw ex;
+			}
 		}
-		 }
 	}
 
-	/*
-	 *
-	 * @see com.us.service.medical.IHospitalService#updateHospital(com.us.models.Hospital)
-	 */
 	@Override
 	public Hospital updateHospital(Hospital hospital) {
 		try {
@@ -48,10 +47,6 @@ public class HospitalService implements IHospitalService {
 		}
 	}
 
-	/*
-	 *
-	 * @see com.us.service.medical.IHospitalService#deleteHospital(com.us.models.Hospital)
-	 */
 	@Override
 	public void deleteHospital(Hospital hospital) {
 		try {
@@ -61,11 +56,6 @@ public class HospitalService implements IHospitalService {
 		}
 	}
 
-
-	/*
-	 *
-	 * @see com.us.service.medical.IHospitalQueryService#findAllHospitals()
-	 */
 	@Override
 	public List<Hospital> findAllHospitals() {
 		try {
@@ -78,7 +68,7 @@ public class HospitalService implements IHospitalService {
 
 	/*
 	 *
-	 * @see com.us.service.medical.IHospitalQueryService#findHospitalById(java.lang.Long)
+	 * @see rw.ehealth.service.medical.IHospitalService#findHospitalById(java.lang.Long)
 	 */
 	@Override
 	public Hospital findHospitalById(Long id) {
@@ -88,6 +78,11 @@ public class HospitalService implements IHospitalService {
 			throw ex;
 		}
 	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IHospitalService#findByHospitalname(java.lang.String)
+	 */
 	@Override
 	public Hospital findByHospitalname(String hospitalname) {
 		try {
@@ -97,6 +92,10 @@ public class HospitalService implements IHospitalService {
 		}
 	}
 
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IHospitalService#countHospital()
+	 */
 	@Override
 	public long countHospital() {
 		try {

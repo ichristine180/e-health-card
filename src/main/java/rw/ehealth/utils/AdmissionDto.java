@@ -1,21 +1,8 @@
-/*
- * Copyright (c)  2018. Irembo
- *
- * All rights reserved.
- */
 
 package rw.ehealth.utils;
 
 import java.time.LocalDateTime;
 
-/**
- * @Author: chabiman
- * @FileName: AdmissionDto.java
- * @Date: Jul 17, 2019
- * @Package: rw.ehealth.utils
- * @ProjectName: e-health-card
- *
- */
 public class AdmissionDto {
 
 	private LocalDateTime admissionDate;
@@ -23,8 +10,8 @@ public class AdmissionDto {
 	private String releasedDate;
 
 	private String patientNumber;
-	private String departementName;
 
+	private String departementName;
 
 	public String getDepartementName() {
 		return departementName;

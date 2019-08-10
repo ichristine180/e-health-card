@@ -1,33 +1,33 @@
 package rw.ehealth.report;
 
-import rw.ehealth.model.Exams;
-import rw.ehealth.model.ExamRecords;
+import rw.ehealth.model.MedicalExam;
+import rw.ehealth.model.ExamRecord;
 
 public class ExamReport {
-	private ExamRecords ExamRecords;
-	private Exams exam;
+	private ExamRecord ExamRecords;
+	private MedicalExam exam;
 
 	
 
-	public ExamReport(rw.ehealth.model.ExamRecords examRecords, Exams exam, long examcount) {
+	public ExamReport(rw.ehealth.model.ExamRecord examRecords, MedicalExam exam, long examcount) {
 		ExamRecords = examRecords;
 		this.exam = exam;
 		this.examcount = examcount;
 	}
 
-	public ExamRecords getExamRecords() {
+	public ExamRecord getExamRecords() {
 		return ExamRecords;
 	}
 
-	public void setExamRecords(ExamRecords examRecords) {
+	public void setExamRecords(ExamRecord examRecords) {
 		ExamRecords = examRecords;
 	}
 
-	public Exams getExam() {
+	public MedicalExam getExam() {
 		return exam;
 	}
 
-	public void setExam(Exams exam) {
+	public void setExam(MedicalExam exam) {
 		this.exam = exam;
 	}
 

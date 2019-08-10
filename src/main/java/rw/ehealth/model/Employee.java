@@ -14,16 +14,16 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "doctor")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Doctor {
+@Table(name = "employee")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class Employee {
 	/**
 	 * The constant docId - Long
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "docId", nullable = false, updatable = false)
-	private Long docId;
+	private Long employeeId;
 	/**
 	 * The constant fname - String
 	 */
@@ -37,19 +37,20 @@ public class Doctor {
 	/**
 	 * The constant email - String
 	 */
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	/**
 	 * The constant phone - String
 	 */
 	@Column(name = "phone", nullable = false)
 	private String phone;
+
 	/**
-	 * The constant depertment 
+	 * The constant depertment
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "depertmentId")
-	private Departemt depertment;
+	@JoinColumn(name = "departmentId")
+	private Department depertment;
 	/**
 	 * The constant timestamp - String
 	 */
@@ -67,8 +68,9 @@ public class Doctor {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
+
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name="accountid",nullable=false)
+	@JoinColumn(name = "accountid", nullable = false)
 	private User user;
 
 	public User getUser() {
@@ -80,11 +82,11 @@ public class Doctor {
 	}
 
 	public Long getDocId() {
-		return docId;
+		return employeeId;
 	}
 
 	public void setDocId(Long docId) {
-		this.docId = docId;
+		this.employeeId = docId;
 	}
 
 	public String getFname() {
@@ -119,11 +121,11 @@ public class Doctor {
 		this.phone = phone;
 	}
 
-	public Departemt getDepertment() {
+	public Department getDepertment() {
 		return depertment;
 	}
 
-	public void setDepertment(Departemt depertment) {
+	public void setDepertment(Department depertment) {
 		this.depertment = depertment;
 	}
 

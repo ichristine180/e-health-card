@@ -1,7 +1,6 @@
 package rw.ehealth.model;
 
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "consultation")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Consultation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,18 +27,21 @@ public class Consultation {
 	 */
 	@Column(name = "DESCRIPTON", length = 1000)
 	private String description;
+
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "admissionId")
-	private AdmissionInfo admissionInfo;
+	private Admission admission;
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "docId")
-	private Doctor doctor;
+	@JoinColumn(name = "consultedBy")
+	private Employee doctor;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
+
 	public Hospital getHospital() {
 		return hospital;
 	}
@@ -65,14 +67,14 @@ public class Consultation {
 	/**
 	 * @return the admissionInfo
 	 */
-	public AdmissionInfo getAdmissionInfo() {
-		return admissionInfo;
+	public Admission getAdmission() {
+		return admission;
 	}
 
 	/**
 	 * @return the doctor
 	 */
-	public Doctor getDoctor() {
+	public Employee getDoctor() {
 		return doctor;
 	}
 
@@ -93,14 +95,14 @@ public class Consultation {
 	/**
 	 * @param admissionInfo the admissionInfo to set
 	 */
-	public void setAdmissionInfo(AdmissionInfo admissionInfo) {
-		this.admissionInfo = admissionInfo;
+	public void setAdmission(Admission admissionInfo) {
+		this.admission = admissionInfo;
 	}
 
 	/**
 	 * @param doctor the doctor to set
 	 */
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(Employee doctor) {
 		this.doctor = doctor;
 	}
 
@@ -111,7 +113,7 @@ public class Consultation {
 	@Override
 	public String toString() {
 		return "Consultation [consultationId=" + consultationId + ", description=" + description + ", admissionInfo="
-				+ admissionInfo + ", doctor=" + doctor + "]";
+				+ admission + ", doctor=" + doctor + "]";
 	}
 
 }

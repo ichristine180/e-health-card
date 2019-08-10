@@ -3,39 +3,43 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import rw.ehealth.model.Doctor;
-import rw.ehealth.service.admission.AdmissionService;
-import rw.ehealth.service.medical.HospitalService;
-import rw.ehealth.service.medical.IexamRecordService;
-import rw.ehealth.service.patient.PatientService;
+import rw.ehealth.model.Employee;
+import rw.ehealth.service.admission.IAdmissionService;
+import rw.ehealth.service.medical.IExamRecordService;
+import rw.ehealth.service.medical.IHospitalService;
+import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.UserService;
 
 @Controller
 public class HomeController {
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
-	private HospitalService hospitalService;
+	private IHospitalService hospitalService;
+
 	@Autowired
-	private PatientService patientservice;
+	private IPatientService patientservice;
+
 	@Autowired
-	private AdmissionService admissionService;
+	private IAdmissionService admissionService;
+
 	@Autowired
-	private IexamRecordService examRecordService;
+	private IExamRecordService examRecordService;
 
 	@GetMapping("/")
 	public String homepage(Model model) {
-			long doctorsize = userService.countDoctor();
-			long hospitals = hospitalService.countHospital();
-			model.addAttribute("doctorsize", doctorsize);
-			model.addAttribute("hospitals", hospitals);
-			model.addAttribute("doctors", userService.finDoctors());
+		long doctorsize = userService.countDoctor();
+		long hospitals = hospitalService.countHospital();
+		model.addAttribute("doctorsize", doctorsize);
+		model.addAttribute("hospitals", hospitals);
+		model.addAttribute("doctors", userService.finDoctors());
 		return "homepage";
 	}
 
@@ -44,35 +48,39 @@ public class HomeController {
 		String username = principal.getName();
 		long patients = patientservice.countPatient();
 		model.addAttribute("patientsSize", patients);
-		Doctor doctor = userService.findDoctor(username);
+		Employee doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		model.addAttribute("admission", admissionService.allAdmissionsPerHospital(hospitalId));
 		long admissions = admissionService.countAdmission(hospitalId);
 		model.addAttribute("admissions", admissions);
 		// Load all patients for easy access to admission
 		model.addAttribute("patients", patientservice.findAll());
-		
 
 		return "homepage";
 	}
+
 	@GetMapping("/gdoctor")
 	public String gDoctor(Model model, Principal principal) {
 		String username = principal.getName();
-		Doctor doctor = userService.findDoctor(username);
+		Employee doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId, doctor.getDepertment().getId()));
+		// Kosora aha hantu sinzi ibyo washatse kuhakora
+		/*
+		 * model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId,
+		 * doctor.getDepertment().getDepartmentId()));
+		 */
 
 		return "homepage";
 	}
+
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
+		Employee activeUser = userService.findDoctor(principal.getName());
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("pExam", examRecordService.findAllPExam(activeUser.getHospital().getHospitalId()));
-		
 
 		return "homepage";
 	}

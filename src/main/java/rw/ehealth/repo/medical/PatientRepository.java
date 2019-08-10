@@ -15,6 +15,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	 * @param id the id
 	 * @return the patient
 	 */
+
 	Patient findByPatientId(Long id);
 
 	/**
@@ -23,6 +24,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	 * @param identificationNumber the identification number
 	 * @return the patient
 	 */
+
 	Patient findByIdentificationNumber(String identificationNumber);
 
 	@Override
@@ -35,6 +37,13 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	 * @return the patient
 	 */
 	Patient findByPatientNumber(String patientNumber);
-@Query("SELECT p from Patient p WHERE p.admissionStatus=true and p.patientNumber=:patientNumber")
+
+	/**
+	 * Find by admission status.
+	 *
+	 * @param patientNumber the patient number
+	 * @return the patient
+	 */
+	@Query("SELECT p from Patient p WHERE p.admissionStatus=true and p.patientNumber=:patientNumber")
 	Patient findByAdmissionStatus(@Param("patientNumber") String patientNumber);
 }

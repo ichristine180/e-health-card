@@ -2,8 +2,8 @@
 package rw.ehealth.controller;
 
 import java.security.Principal;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rw.ehealth.model.AdmissionInfo;
+import rw.ehealth.enums.EViewRequestStatus;
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
-import rw.ehealth.model.Doctor;
-import rw.ehealth.model.ExamRecords;
-import rw.ehealth.model.Exams;
+import rw.ehealth.model.Employee;
+import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
-import rw.ehealth.model.PatientRecordsViewHistory;
 import rw.ehealth.model.Prescription;
-import rw.ehealth.model.Request;
+import rw.ehealth.model.RecordHistoryLog;
+import rw.ehealth.model.ViewRecordRequest;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.ExamService;
-import rw.ehealth.service.medical.IconsultationService;
-import rw.ehealth.service.medical.IexamRecordService;
-import rw.ehealth.service.medical.PatientRecordsViewHistoryService;
+import rw.ehealth.service.medical.IConsultationService;
+import rw.ehealth.service.medical.IExamRecordService;
+import rw.ehealth.service.medical.IViewRecordHistoryService;
+import rw.ehealth.service.medical.IViewRequestService;
 import rw.ehealth.service.medical.PrescriptionService;
-import rw.ehealth.service.medical.RequestService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
@@ -46,24 +47,30 @@ public class HospitalController {
 
 	@Autowired
 	private IUserService userService;
+
 	@Autowired
 	private ExamService examService;
+
 	@Autowired
-	private IconsultationService consultationService;
+	private IConsultationService consultationService;
+
 	@Autowired
-	private IexamRecordService examRecordService;
+	private IExamRecordService examRecordService;
+
 	@Autowired
 	private PrescriptionService prescriptionService;
+
 	@Autowired
-	private RequestService rService;
+	private IViewRequestService rService;
+
 	@Autowired
-	private PatientRecordsViewHistoryService vService;
+	private IViewRecordHistoryService vService;
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
 
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		List<AdmissionInfo> admissionList = admissionService
+		Employee activeUser = userService.findDoctor(principal.getName());
+		List<Admission> admissionList = admissionService
 				.allAdmissionsPerHospital(activeUser.getHospital().getHospitalId());
 		long admissionSize = admissionService.countAdmission(activeUser.getHospital().getHospitalId());
 		model.addAttribute("admissionList", admissionList);
@@ -80,7 +87,7 @@ public class HospitalController {
 
 		if (patientTrackingNumber != null) {
 			boolean admissionInfo = true;
-			AdmissionInfo results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
 
@@ -93,11 +100,11 @@ public class HospitalController {
 
 	@GetMapping("/consultation/{patientTrackingNumber}")
 	public String consultation(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
+		Employee activeUser = userService.findDoctor(principal.getName());
 
 		if (patientTrackingNumber != null) {
 			boolean admissionInfo = true;
-			AdmissionInfo results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 			String department = activeUser.getDepertment().getName();
 			Consultation consultation = new Consultation();
 			model.addAttribute("department", department);
@@ -114,18 +121,18 @@ public class HospitalController {
 
 	@PostMapping("/patient/consultation")
 	public String pConsulatation(Model model, @ModelAttribute ConsultationDto consultationDto, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo admit = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission admit = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
 		Consultation consultation = new Consultation();
 
 		consultation.setDescription(consultationDto.getDescription());
 		consultation.setDoctor(activeUser);
-		consultation.setAdmissionInfo(admit);
+		consultation.setAdmission(admit);
 		consultation.setHospital(activeUser.getHospital());
 		Consultation consultated = consultationService.createConsultation(consultation);
 		if (consultated != null) {
 			boolean admissionInfo = true;
-			AdmissionInfo results = admissionService
+			Admission results = admissionService
 					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
 			String department = activeUser.getDepertment().getName();
 			model.addAttribute("department", department);
@@ -141,20 +148,21 @@ public class HospitalController {
 
 	@GetMapping("/details/consultation/{patientTrackingNumber}")
 	public String viewPatientInfo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		Patient patient = admitedP.getAdmittedPatient();
 		if (patientTrackingNumber.isEmpty() == false) {
 			boolean admissionInfo = true;
-			Request resultRequest = rService.findPRequest(patient.getPatientNumber(), LocalDate.now().toString());
+			ViewRecordRequest resultRequest = rService.findPRequest(patient.getPatientNumber(),
+					LocalDate.now().toString());
 			if (resultRequest != null) {
 				List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
 				if (results != null) {
-					PatientRecordsViewHistory vHistory = new PatientRecordsViewHistory();
-					vHistory.setDoctor(activeUser);
+					RecordHistoryLog vHistory = new RecordHistoryLog();
+					vHistory.setViewer(activeUser);
 					vHistory.setPatient(patient);
 					vHistory.setHospital(activeUser.getHospital());
-					vHistory.setDate(LocalDate.now().toString());
+					vHistory.setViewOn(LocalDateTime.now());
 					vService.create(vHistory);
 					String department = activeUser.getDepertment().getName();
 					Consultation consultation = new Consultation();
@@ -166,10 +174,11 @@ public class HospitalController {
 					return "information";
 				}
 			}
-			Request request = new Request();
+			ViewRecordRequest request = new ViewRecordRequest();
 			request.setPatient(patient);
-			request.setDoctor(activeUser);
-			request.setStatus("PENDING");
+			request.setRequestedBy(activeUser);
+			request.setRequestStatus(EViewRequestStatus.PENDING);
+			request.setActive(true);
 			request.setRequestDate(LocalDate.now().toString());
 			rService.createRequest(request);
 			return "information";
@@ -180,15 +189,15 @@ public class HospitalController {
 
 	@GetMapping("/consultation/sendToLabo/{patientTrackingNumber}")
 	public String sendToLabo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber.isEmpty() == false) {
 			boolean labo = true;
 			model.addAttribute("labo", labo);
 			boolean admissionInfo = true;
 			String department = activeUser.getDepertment().getName();
 			Consultation consultation = new Consultation();
-			ExamRecords examRecord = new ExamRecords();
+			ExamRecord examRecord = new ExamRecord();
 			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("department", department);
 			model.addAttribute("admission", results);
@@ -205,8 +214,8 @@ public class HospitalController {
 
 	@GetMapping("/prescription/{patientTrackingNumber}")
 	public String prescription(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber.isEmpty() == false) {
 			boolean prescription = true;
 			model.addAttribute("prescription", prescription);
@@ -230,13 +239,13 @@ public class HospitalController {
 
 	@PostMapping("/patient/prescription")
 	public String pPrescriptions(Model model, @ModelAttribute PrescriptionsDto prescriptionsDto, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
-		AdmissionInfo admit = admissionService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission admit = admissionService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 		Prescription prescriptions = new Prescription();
 		prescriptions.setDescription(prescriptionsDto.getDescription());
 		prescriptions.setName(prescriptionsDto.getName());
-		prescriptions.setDoctor(activeUser);
-		prescriptions.setAdmissionInfo(admit);
+		prescriptions.setPrescribedBy(activeUser);
+		prescriptions.setAdmission(admit);
 		prescriptions.setHospital(activeUser.getHospital());
 		Prescription pres = prescriptionService.createPrescription(prescriptions);
 		if (pres != null) {
@@ -244,8 +253,7 @@ public class HospitalController {
 			return "redirect:/gdoctor";
 		}
 		boolean admissionInfo = true;
-		AdmissionInfo results = admissionService
-				.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+		Admission results = admissionService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("admission", results);
@@ -257,22 +265,20 @@ public class HospitalController {
 	@PostMapping("/sendLabo")
 	public String sendExamString(@RequestParam(value = "examId", required = false) int[] examId,
 			@ModelAttribute ExamDto examDto, Model model, Principal principal) {
-		Doctor activeUser = userService.findDoctor(principal.getName());
+		Employee activeUser = userService.findDoctor(principal.getName());
 		if (examId != null) {
-			List<Exams> selectedExams = new ArrayList<Exams>();
+			List<MedicalExam> selectedMedicalExam = new ArrayList<MedicalExam>();
 			for (int i = 0; i < examId.length; i++) {
-				Exams exam = examService.findHospitalById(examId[i]);
+				MedicalExam exam = examService.findHospitalById(examId[i]);
 
-				selectedExams.add(exam);
-			}
-			// Do whatever you want with these hospitals from UI(eg:printing)
-			for (Exams exam : selectedExams) {
+				selectedMedicalExam.add(exam);
+			} // Do whatever you want with these hospitals from UI(eg:printing)
+			for (MedicalExam exam : selectedMedicalExam) {
 				System.out.println(exam.getName() + " This came from the UI");
 				exam.getExamId();
-				ExamRecords examrecords = new ExamRecords();
-				AdmissionInfo admitedp = admissionService
-						.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
-				examrecords.setExams(exam);
+				ExamRecord examrecords = new ExamRecord();
+				Admission admitedp = admissionService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
+				examrecords.setMedicalExam(exam);
 				examrecords.setAdmissionInfo(admitedp);
 				examrecords.setDatetaken(LocalDate.now().toString());
 				examrecords.setHospital(activeUser.getHospital());
@@ -286,7 +292,7 @@ public class HospitalController {
 	@GetMapping("/labo/{patientTrackingNumber}")
 	public String viewExam(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber.isEmpty() == false) {
-			ExamRecords examRecord = new ExamRecords();
+			ExamRecord examRecord = new ExamRecord();
 			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
@@ -300,13 +306,14 @@ public class HospitalController {
 
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
+
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
 		for (int i = 0; i < id.length; i++) {
-			ExamRecords records = examRecordService.findExamRecordByExamId(id[i]);
+			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			System.out.println(records.toString() + " not updated");
 			records.setResults(results[i]);
-			ExamRecords savedWithResults = examRecordService.update(records);
+			ExamRecord savedWithResults = examRecordService.update(records);
 			System.out.println(savedWithResults.toString() + " ");
 		}
 		return "redirect:/labodoctor";

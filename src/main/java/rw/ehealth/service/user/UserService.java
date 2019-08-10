@@ -1,3 +1,4 @@
+
 package rw.ehealth.service.user;
 
 import java.util.List;
@@ -10,15 +11,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import rw.ehealth.model.Doctor;
+import rw.ehealth.model.Employee;
 import rw.ehealth.model.User;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
-import rw.ehealth.repo.medical.DoctorRepository;
+import rw.ehealth.repo.medical.EmployeeRepository;
 import rw.ehealth.repo.user.RoleDao;
 import rw.ehealth.repo.user.UserRepository;
 
 @Service
+
 @Transactional
 public class UserService implements IUserService {
 
@@ -29,8 +31,10 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private RoleDao roleDao;
+
 	@Autowired
-	private DoctorRepository doctorrepo;
+	private EmployeeRepository doctorrepo;
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -157,7 +161,7 @@ public class UserService implements IUserService {
 
 	}
 
-	public Doctor findUserByUsername(String username) {
+	public Employee findUserByUsername(String username) {
 		try {
 			return doctorrepo.findDoctor(username);
 		} catch (Exception e) {
@@ -167,7 +171,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<Doctor> finDoctors() {
+	public List<Employee> finDoctors() {
 		try {
 			return doctorrepo.finDoctors();
 		} catch (Exception e) {
@@ -177,7 +181,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Doctor findDoctor(String username) {
+	public Employee findDoctor(String username) {
 		try {
 			return doctorrepo.findDoctor(username);
 		} catch (Exception e) {
