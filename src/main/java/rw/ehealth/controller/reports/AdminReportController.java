@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.IHospitalService;
@@ -34,6 +35,12 @@ public class AdminReportController {
 		model.addAttribute("patientCount", patientService.findAll().size());
 		model.addAttribute("userCount", userService.findUserList().size());
 		return "admin";
+	}
+
+	@GetMapping
+	public String hospitalReportPag(Model model, @PathVariable String hospitalCode) {
+
+		return "report/h_report_page";
 	}
 
 }

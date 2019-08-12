@@ -55,22 +55,24 @@
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<div class="container">
+			<div class="col-md-6" style="margin-top: 70px; width:450px">
 				<div class="row">
 					<div class="box">
 						<div class="box-header">
 							<h3 class="box-title" th:text="${department}"></h3>
 							<h3 class="box-title">Department</h3>
-
-
 						</div>
 
 						<div class="box-body">
-							<button type="button" class="btn bg-navy btn-flat margin">Save
-								Exam</button>
-							<button type="button" class="btn bg-olive btn-flat margin">Save
-								Prescription</button>
+							<a href="/showadmission" type="button" class="btn bg-navy btn-flat margin">New
+								Admissions</a>
+							<a href="/prescription" type="button" class="btn bg-olive btn-flat margin">Save
+								Prescription</a>
+								<a href="/results" type="button" class="btn bg-olive btn-flat margin">Exam
+								Results</a>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>

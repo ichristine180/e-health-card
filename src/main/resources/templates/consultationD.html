@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- general doctor -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<div class="container">
+				<div class="row" style="height: 30px;">
+					<div class="col-xs-12">
+						<div class="box-header">
+						<h3 class="box-title" th:text="${department}"></h3>
+						<h3 class="box-title">Department</h3>
+						</div>
+						<div class="box" th:if="${docAdmissions}">
+							<div class="box-header">
+								<h3 class="box-title">Admissions</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Patient Tracking Number</th>
+											<th>Admission Date</th>
+											<th>Consultation</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="admission, iStat: ${docAdmissions}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${admission.admittedPatient.fname}" />
+											<td th:text="${admission.admittedPatient.lname}" />
+											<td th:text="${admission.patientTrackingNumber}" />
+											<td th:text="${admission.admissionDate}" />
+											<td><a class="btn btn-block btn-primary btn-sm"
+												th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Consult
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="box" th:if="${admission}">
+							<div class="box-header with-border">
+								<h3 class="box-title">Patient Information</h3>
+							</div>
+							<!-- /box-header with-border -->
+							<div class="box-body">
+								<table class="table table-bordered">
+									<tr>
+										<td>First Name</td>
+										<td th:text="${admission.admittedPatient.fname}" />
+									</tr>
+									<tr>
+										<td>Last Name</td>
+										<td th:text="${admission.admittedPatient.lname}" />
+									</tr>
+									<tr>
+										<td>Blood Pressure</td>
+										<td th:text="${admission.bloodPressure}" />
+									</tr>
+									<tr>
+										<td>Heart Rate</td>
+										<td th:text="${admission.heartRate}" />
+									</tr>
+									<tr>
+										<td>Temperature</td>
+										<td th:text="${admission.temperature}" />
+									</tr>
+									<tr>
+										<td>Height</td>
+										<td th:text="${admission.height}" />
+									</tr>
+									<tr>
+										<td>Weight</td>
+										<td th:text="${admission.weight}" />
+									</tr>
+
+								</table>
+							</div>
+						</div>
+						<div style="height: 400px;">
+							<div class="box" th:if="${admission}">
+								<div class="box-header">
+									<h3 class="box-title">
+										Consultation <small>Details</small>
+									</h3>
+									<!-- tools box -->
+									<div class="pull-right box-tools">
+										<button type="button" class="btn btn-default btn-sm"
+											data-widget="collapse" data-toggle="tooltip" title="Collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+										<button type="button" class="btn btn-default btn-sm"
+											data-widget="remove" data-toggle="tooltip" title="Remove">
+											<i class="fa fa-times"></i>
+										</button>
+									</div>
+									<!-- /. tools -->
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body pad">
+									<form th:action="@{/patient/consultation}"
+										th:object="${consultation}" method="POST">
+										<input type="hidden"
+											th:value="${admission.patientTrackingNumber}"
+											class="form-control" th:name="@{patientTrackingNumber}" />
+										<textarea class="textarea" th:name="@{description}"
+											placeholder="Place some text here"
+											style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+										<div class="box-footer">
+											<button type="submit" class="btn btn-info pull-right">Save
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6" style="margin-top: 50px;" th:if="${admission}">
+						<!-- Block buttons -->
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Others</h3>
+							</div>
+							<div class="box-body">
+								<a class="btn btn-block btn-success"
+									th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
+									Records</a> <a class="btn btn-default btn-block"
+									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Send
+									To Labo</a> <a class="btn btn-block btn-success"
+									th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-top: 50px;"
+					th:if="${labo==true}">
+					<!-- Block buttons -->
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">Exams</h3>
+						</div>
+						<div class="box-body">
+							<form class="form" th:action="@{/sendLabo}" method="POST">
+								<input type="hidden"
+									th:value="${admission.patientTrackingNumber}"
+									class="form-control" th:name="@{patientTrackingNumber}" />
+								<table>
+									<tr>
+										<td><th:block th:each="exams : ${examss}">
+												<input type="checkbox" name="examId"
+													th:value="${exams.examId}" />
+												<label th:text="${exams.name}"></label>
+											</th:block></td>
+									</tr>
+									<tr>
+										<td><input type="submit" value="Send" /></td>
+									</tr>
+
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6" style="margin-top: 10px;"
+					th:if="${prescription==true}">
+					<!-- Block buttons -->
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">Results</h3>
+						</div>
+						<div class="box-body">
+							<table id="patients" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>ExamName</th>
+										<th>Results</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="info, iStat: ${examss}">
+										<td th:text="${iStat.index+1}" />
+										<td th:text="${info.exams.name}" />
+										<td th:text="${info.results}" />
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="box box-warning">
+							<div class="box-header with-border">
+								<h3 class="box-title">Prescription Details</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<form th:action="@{/patient/prescription}"
+										th:object="${prescriptions}" method="POST">
+										<input type="hidden"
+											th:value="${patientTrackingNumber}"
+											class="form-control" th:name="@{patientTrackingNumber}" />
+									<!-- text input -->
+									<div class="form-group">
+										<label>Names</label>
+										<textarea class="form-control" rows="3" th:name="@{name}"
+											></textarea>
+									</div>
+									<!-- textarea -->
+									<div class="form-group">
+										<label>Description</label>
+										<textarea class="form-control" rows="3" th:name="@{description}"
+											placeholder="more"></textarea>
+									</div>
+									<div class="box-footer">
+											<button type="submit" class="btn btn-info pull-right">Save
+											</button>
+										</div>
+								</form>
+								</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<footer th:replace="common/header :: footer"></footer>
+			</div>
+			<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>
