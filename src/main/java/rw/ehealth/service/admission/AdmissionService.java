@@ -223,10 +223,21 @@ public class AdmissionService implements IAdmissionService {
 		}
 		return found;
 	}
+
+	// Kora implementation yiyi method
 	@Override
 	public Admission AdmissionInfos(Long hospitalId, Long departmentId) {
 		// TODO Auto-generated method stub
 		return null;
 
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#findAllAdmission()
+	 */
+	@Override
+	public List<Admission> findAllAdmission() {
+		return aRepository.findAll();
 	}
 }

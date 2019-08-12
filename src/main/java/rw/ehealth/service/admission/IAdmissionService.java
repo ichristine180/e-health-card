@@ -58,6 +58,13 @@ public interface IAdmissionService {
 
 	List<Admission> findHospitalBYpatientNumber(String patientNumber);
 
+	/**
+	 * Find P admission B ypatient number.
+	 *
+	 * @param patientNumber the patient number
+	 * @param hospitalId    the hospital id
+	 * @return the list
+	 */
 	List<Admission> findPAdmissionBYpatientNumber(String patientNumber, Long hospitalId);
 
 	/**
@@ -68,5 +75,19 @@ public interface IAdmissionService {
 	 */
 	List<Admission> getAdmissionsPerMonth(int month);
 
+	/**
+	 * Admission infos.
+	 *
+	 * @param hospitalId   the hospital id
+	 * @param departmentId the department id
+	 * @return the admission
+	 */
 	Admission AdmissionInfos(Long hospitalId, Long departmentId);
+
+	/**
+	 * Find all admission.
+	 *
+	 * @return the list
+	 */
+	List<Admission> findAllAdmission();
 }
