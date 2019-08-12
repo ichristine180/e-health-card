@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- ADMIN container -->
+		<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						Dashboard <small>Admin Reports Panel</small>
+					</h1>
+				</section>
+				<!-- /.content -->
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${doctorsize}"></h3>
+									<p>Registered Doctors</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3 th:text="${hospitals}"></h3>
+									<p>Registered Hospitals</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Hospitals List</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Name</th>
+											<th>Code</th>
+											<th>Address</th>
+											<th>Departments</th>
+											<th>Services</th>											
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="hospital, iStat: ${hospitals}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${hospital.hospitalName}" />
+											<td th:text="${hospital.hospitalCode}" />
+											<td th:text="${hospital.address}" />
+											<td th:text="${hospital.departmentCount}" />
+											<td th:text="${hospital.serviceCount}" />											
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/docregistration">
+							<i class="fa fa-user"></i> Register New Doctor
+						</a> <a class="btn btn-success pull-right" href="/hospregistration">
+							<i class="fa fa-plus"></i> Register new Hospital
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false
+			})
+		})
+	</script>
+</body>
+</html>

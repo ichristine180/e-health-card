@@ -58,6 +58,10 @@ public class Hospital {
 				inverseJoinColumns = { @JoinColumn(name = "hospitalId") })
 	private Set<Department> departments = new HashSet<>();
 
+	private int departmentCount;
+
+	private int serviceCount;
+
 	// Available exams
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
@@ -176,6 +180,62 @@ public class Hospital {
 	 */
 	public void setExams(Set<MedicalExam> exams) {
 		this.exams = exams;
+	}
+
+	/**
+	 * @return the departmentCount
+	 */
+	public int getDepartmentCount() {
+		return this.getDepartments().size();
+	}
+
+	/**
+	 * @return the serviceCount
+	 */
+	public int getServiceCount() {
+		return this.getExams().size();
+	}
+
+	/**
+	 * @return the admissions
+	 */
+	public Set<Admission> getAdmissions() {
+		return admissions;
+	}
+
+	/**
+	 * @return the employees
+	 */
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	/**
+	 * @param departmentCount the departmentCount to set
+	 */
+	public void setDepartmentCount(int departmentCount) {
+		this.departmentCount = departmentCount;
+	}
+
+	/**
+	 * @param serviceCount the serviceCount to set
+	 */
+	public void setServiceCount(int serviceCount) {
+		this.serviceCount = serviceCount;
+	}
+
+	/**
+	 * @param admissions the admissions to set
+	 */
+	public void setAdmissions(Set<Admission> admissions) {
+		this.admissions = admissions;
+	}
+
+	/**
+	 * @param employees the employees to set
+	 */
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
 	}
 
 	/*
