@@ -80,7 +80,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="box" th:if="${patientsResults}">
+							<div class="box" th:if="${results}">
 								<div class="box-header">
 									<h3 class="box-title">Exam Results</h3>
 								</div>
@@ -98,13 +98,13 @@
 										</thead>
 
 										<tbody>
-											<tr th:each="admission, iStat: ${consultedpatients}">
+											<tr th:each="admission, iStat: ${results}">
 												<td th:text="${iStat.index+1}" />
-												<td th:text="${admission.admittedPatient.fname}" />
-												<td th:text="${admission.admittedPatient.lname}" />
-												<td th:text="${admission.patientTrackingNumber}" />
+												<td th:text="${admission.admissionInfo.admittedPatient.fname}" />
+												<td th:text="${admission.admissionInfo.admittedPatient.lname}" />
+												<td th:text="${admission.admissionInfo.patientTrackingNumber}" />
 												<td><a class="btn btn-block btn-primary btn-sm"
-													th:href="@{'/resultsview/' + ${admission.patientTrackingNumber}}">results
+													th:href="@{'/resultsview/' + ${admission.admissionInfo.patientTrackingNumber}}">results
 												</a></td>
 											</tr>
 										</tbody>

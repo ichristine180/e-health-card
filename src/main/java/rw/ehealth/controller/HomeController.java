@@ -106,8 +106,8 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("consultedpatients",
-				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "MIDLE"));
+		model.addAttribute("results",
+				examRecordService.findResults(hospitalId,"MIDLE"));
 
 		return "consultationD";
 	}
