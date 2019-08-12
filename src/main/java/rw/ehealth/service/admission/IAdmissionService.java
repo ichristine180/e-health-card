@@ -69,4 +69,6 @@ public interface IAdmissionService {
 	List<Admission> getAdmissionsPerMonth(int month);
 
 	Admission AdmissionInfos(Long hospitalId, Long departmentId);
+
+	List<Admission> Admissions(Long hospitalId, Long departmentId);
 }
