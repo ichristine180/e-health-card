@@ -1,4 +1,3 @@
-
 package rw.ehealth.service.admission;
 
 import java.util.List;
@@ -90,4 +89,7 @@ public interface IAdmissionService {
 	 * @return the list
 	 */
 	List<Admission> findAllAdmission();
+
+	List<Admission> Admissions(Long hospitalId, Long departmentId);
+
 }
