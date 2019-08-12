@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.report.ExamReport;
 
@@ -74,5 +75,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 
 	@Query("SELECT new rw.ehealth.report.ExamReport(ex,e,count(e.examId)) from ExamRecord ex JOIN ex.medicalExam e JOIN ex.admissionInfo a  join ex.hospital h WHERE h.hospitalId=:hospitalId group BY e.examId")
 	List<ExamReport> countByExamName(@Param("hospitalId") Long hospitalId);
+	@Query("SELECT e from ExamRecord e Join e.hospital h join e.admissionInfo a WHERE h.hospitalId=:hospitalId and a.releasedDate is null and a.status=:status")
+	List<ExamRecord> findResults(@Param("hospitalId") Long hospitalId,@Param("status") String status);
 
 }

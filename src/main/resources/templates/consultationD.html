@@ -12,8 +12,8 @@
 				<div class="row" style="height: 30px;">
 					<div class="col-xs-12">
 						<div class="box-header">
-						<h3 class="box-title" th:text="${department}"></h3>
-						<h3 class="box-title">Department</h3>
+							<h3 class="box-title" th:text="${department}"></h3>
+							<h3 class="box-title">Department</h3>
 						</div>
 						<div class="box" th:if="${docAdmissions}">
 							<div class="box-header">
@@ -49,104 +49,135 @@
 							</div>
 						</div>
 						<div class="col-xs-6">
-		<div class="box" th:if="${consultedpatients}">
-							<div class="box-header">
-								<h3 class="box-title">Admissions</h3>
+							<div class="box" th:if="${consultedpatients}">
+								<div class="box-header">
+									<h3 class="box-title">Admissions</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="patients" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Patient Tracking Number</th>
+												<th>Details</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr th:each="admission, iStat: ${consultedpatients}">
+												<td th:text="${iStat.index+1}" />
+												<td th:text="${admission.admittedPatient.fname}" />
+												<td th:text="${admission.admittedPatient.lname}" />
+												<td th:text="${admission.patientTrackingNumber}" />
+												<td><a class="btn btn-block btn-primary btn-sm"
+													th:href="@{'/details/' + ${admission.patientTrackingNumber}}">Details
+												</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
-									<thead>
+							<div class="box" th:if="${patientsResults}">
+								<div class="box-header">
+									<h3 class="box-title">Exam Results</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="patients" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Patient Tracking Number</th>
+												<th>results</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr th:each="admission, iStat: ${consultedpatients}">
+												<td th:text="${iStat.index+1}" />
+												<td th:text="${admission.admittedPatient.fname}" />
+												<td th:text="${admission.admittedPatient.lname}" />
+												<td th:text="${admission.patientTrackingNumber}" />
+												<td><a class="btn btn-block btn-primary btn-sm"
+													th:href="@{'/resultsview/' + ${admission.patientTrackingNumber}}">results
+												</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="box" th:if="${consultation}">
+								<div class="box-header with-border">
+									<h3 class="box-title">Patient Information</h3>
+								</div>
+								<!-- /box-header with-border -->
+								<div class="box-body">
+									<table class="table table-bordered">
 										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Patient Tracking Number</th>
-											<th>Details</th>
-										</tr>
-									</thead>
-
-									<tbody>
-										<tr th:each="admission, iStat: ${consultedpatients}">
-											<td th:text="${iStat.index+1}" />
+											<td>First Name</td>
 											<td th:text="${admission.admittedPatient.fname}" />
-											<td th:text="${admission.admittedPatient.lname}" />
-											<td th:text="${admission.patientTrackingNumber}" />
-											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/details/' + ${admission.patientTrackingNumber}}">Details
-											</a></td>
 										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="box" th:if="${consultation}">
-							<div class="box-header with-border">
-								<h3 class="box-title">Patient Information</h3>
-							</div>
-							<!-- /box-header with-border -->
-							<div class="box-body">
-								<table class="table table-bordered">
-									<tr>
-										<td>First Name</td>
-										<td th:text="${admission.admittedPatient.fname}" />
-									</tr>
-									<tr>
-										<td>Last Name</td>
-										<td th:text="${admission.admittedPatient.lname}" />
-									</tr>
-									<tr>
-										<td>Blood Pressure</td>
-										<td th:text="${admission.bloodPressure}" />
-									</tr>
-									<tr>
-										<td>Heart Rate</td>
-										<td th:text="${admission.heartRate}" />
-									</tr>
-									<tr>
-										<td>Temperature</td>
-										<td th:text="${admission.temperature}" />
-									</tr>
-									<tr>
-										<td>Height</td>
-										<td th:text="${admission.height}" />
-									</tr>
-									<tr>
-										<td>Weight</td>
-										<td th:text="${admission.weight}" />
-									</tr>
+										<tr>
+											<td>Last Name</td>
+											<td th:text="${admission.admittedPatient.lname}" />
+										</tr>
+										<tr>
+											<td>Blood Pressure</td>
+											<td th:text="${admission.bloodPressure}" />
+										</tr>
+										<tr>
+											<td>Heart Rate</td>
+											<td th:text="${admission.heartRate}" />
+										</tr>
+										<tr>
+											<td>Temperature</td>
+											<td th:text="${admission.temperature}" />
+										</tr>
+										<tr>
+											<td>Height</td>
+											<td th:text="${admission.height}" />
+										</tr>
+										<tr>
+											<td>Weight</td>
+											<td th:text="${admission.weight}" />
+										</tr>
 
-								</table>
+									</table>
+								</div>
+							</div>
+							<div class="box" th:if="${consultation}">
+								<div class="box-header with-border">
+									<h3 class="box-title">Symptoms</h3>
+								</div>
+								<!-- /box-header with-border -->
+								<div class="box-body">
+									<table class="table table-bordered">
+										<tr>
+											<td th:text="${consultation.description}" />
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
-					<div class="box" th:if="${consultation}">
-							<div class="box-header with-border">
-								<h3 class="box-title">Symptoms</h3>
-							</div>
-							<!-- /box-header with-border -->
-							<div class="box-body">
-								<table class="table table-bordered">
-									<tr>
-										<td th:text="${consultation.description}" />
-									</tr>
-								</table>
-							</div>	
-					</div>
-					</div>
-					<div class="col-md-6" th:if="${admission}">
-						<!-- Block buttons -->
-						<div class="box">
-							<div class="box-body">
-								<a class="btn bg-maroon btn-flat margin"
-									th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
-									Patient's Records</a> <a class="btn bg-navy btn-flat margin"
-									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Exams
+						<div class="col-md-6" th:if="${admission}">
+							<!-- Block buttons -->
+							<div class="box">
+								<div class="box-body">
+									<a class="btn bg-maroon btn-flat margin"
+										th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
+										Patient's Records</a> <a class="btn bg-navy btn-flat margin"
+										th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Exams
 									</a> <a class="btn bg-maroon btn-flat margin"
-									th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
+										th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 				<div class="col-md-6" style="margin-top: 50px;"
 					th:if="${labo==true}">
@@ -211,37 +242,35 @@
 							<!-- /.box-header -->
 							<div class="box-body">
 								<form th:action="@{/patient/prescription}"
-										th:object="${prescriptions}" method="POST">
-										<input type="hidden"
-											th:value="${patientTrackingNumber}"
-											class="form-control" th:name="@{patientTrackingNumber}" />
+									th:object="${prescriptions}" method="POST">
+									<input type="hidden" th:value="${patientTrackingNumber}"
+										class="form-control" th:name="@{patientTrackingNumber}" />
 									<!-- text input -->
 									<div class="form-group">
 										<label>Names</label>
-										<textarea class="form-control" rows="3" th:name="@{name}"
-											></textarea>
+										<textarea class="form-control" rows="3" th:name="@{name}"></textarea>
 									</div>
 									<!-- textarea -->
 									<div class="form-group">
 										<label>Description</label>
-										<textarea class="form-control" rows="3" th:name="@{description}"
-											placeholder="more"></textarea>
+										<textarea class="form-control" rows="3"
+											th:name="@{description}" placeholder="more"></textarea>
 									</div>
 									<div class="box-footer">
-											<button type="submit" class="btn btn-info pull-right">Save
-											</button>
-										</div>
+										<button type="submit" class="btn btn-info pull-right">Save
+										</button>
+									</div>
 								</form>
-								</div>
-								</div>
-								
 							</div>
 						</div>
+
 					</div>
 				</div>
-
-				<footer th:replace="common/header :: footer"></footer>
 			</div>
-			<div th:replace="common/header :: body-bottom-scripts"></div>
+		</div>
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
 </body>
 </html>
