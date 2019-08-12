@@ -248,7 +248,9 @@ public class AdmissionController {
 				boolean patientresult = true;
 				model.addAttribute("found", patientresult);
 				AdmissionDto admission = new AdmissionDto();
-				Iterable<Department> departemt = departemtService.findAllDepartemts();
+				Employee activeUser = userService.findDoctor(principal.getName());
+				Hospital hospital = activeUser.getHospital();
+				Iterable<Department> departemt = departemtService.findPerHospital(hospital);
 				model.addAttribute("departemt", departemt);
 				model.addAttribute("admission", admission);
 				System.out.println("We reach this page");

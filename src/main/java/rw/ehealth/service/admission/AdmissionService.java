@@ -223,4 +223,10 @@ public class AdmissionService implements IAdmissionService {
 		}
 		return found;
 	}
+	@Override
+	public Admission AdmissionInfos(Long hospitalId, Long departmentId) {
+		// TODO Auto-generated method stub
+		return null;
+
+	}
 }
