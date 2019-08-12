@@ -48,7 +48,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="box" th:if="${docAdmissions}">
+						<div class="box" th:if="${consultedpatients}">
 							<div class="box-header">
 								<h3 class="box-title">Admissions</h3>
 							</div>
@@ -61,20 +61,18 @@
 											<th>First Name</th>
 											<th>Last Name</th>
 											<th>Patient Tracking Number</th>
-											<th>Admission Date</th>
-											<th>Consultation</th>
+											<th>Details</th>
 										</tr>
 									</thead>
 
 									<tbody>
-										<tr th:each="admission, iStat: ${docAdmissions}">
+										<tr th:each="admission, iStat: ${consultedpatients}">
 											<td th:text="${iStat.index+1}" />
 											<td th:text="${admission.admittedPatient.fname}" />
 											<td th:text="${admission.admittedPatient.lname}" />
 											<td th:text="${admission.patientTrackingNumber}" />
-											<td th:text="${admission.admissionDate}" />
 											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Consult
+												th:href="@{'/details/' + ${admission.patientTrackingNumber}}">Consult
 											</a></td>
 										</tr>
 									</tbody>

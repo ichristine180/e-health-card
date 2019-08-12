@@ -90,7 +90,7 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		 model.addAttribute("docAdmissions", admissionService.Admissions(hospitalId,doctor.getDepertment().getDepartmentId(),
+		 model.addAttribute("consultedpatients", admissionService.Admissions(hospitalId,doctor.getDepertment().getDepartmentId(),
 		 "MIDLE"));
 
 
