@@ -63,6 +63,9 @@
 									<h3 class="box-title">
 										Consultation <small>Details</small>
 									</h3>
+									<div class="row" th:if="${message != null}">
+										<span th:text="${message}" style="text-color: red;"></span>
+									</div>
 									<!-- tools box -->
 									<div class="pull-right box-tools">
 										<button type="button" class="btn btn-default btn-sm"
