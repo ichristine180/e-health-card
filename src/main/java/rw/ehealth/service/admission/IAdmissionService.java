@@ -84,10 +84,14 @@ public interface IAdmissionService {
 	 */
 	Admission AdmissionInfos(Long hospitalId, Long departmentId);
 
+
 	/**
 	 * Find all admission.
 	 *
 	 * @return the list
 	 */
 	List<Admission> findAllAdmission();
+
+	List<Admission> Admissions(Long hospitalId, Long departmentId);
+
 }

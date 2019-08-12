@@ -77,11 +77,11 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		 model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId,
+		 model.addAttribute("docAdmissions", admissionService.Admissions(hospitalId,
 		 doctor.getDepertment().getDepartmentId()));
 
 
-		return "homepage";
+		return "consultationD";
 	}
 
 
