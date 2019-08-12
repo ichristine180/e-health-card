@@ -92,6 +92,6 @@ public interface IAdmissionService {
 	 */
 	List<Admission> findAllAdmission();
 
-	List<Admission> Admissions(Long hospitalId, Long departmentId);
+	List<Admission> Admissions(Long hospitalId, Long departmentId,String status);
 
 }

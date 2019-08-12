@@ -1,4 +1,4 @@
-package rw.ehealth.model;
+ package rw.ehealth.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

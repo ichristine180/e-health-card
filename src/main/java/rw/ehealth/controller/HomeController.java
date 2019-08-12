@@ -77,8 +77,21 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		 model.addAttribute("docAdmissions", admissionService.Admissions(hospitalId,
-		 doctor.getDepertment().getDepartmentId()));
+		 model.addAttribute("docAdmissions", admissionService.Admissions(hospitalId,doctor.getDepertment().getDepartmentId(),
+		 "PENDING"));
+
+
+		return "consultationD";
+	}
+	@GetMapping("/consultedpatients")
+	public String showConsulted(Model model, Principal principal) {
+		String username = principal.getName();
+		Employee doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
+		String department = doctor.getDepertment().getName();
+		model.addAttribute("department", department);
+		 model.addAttribute("docAdmissions", admissionService.Admissions(hospitalId,doctor.getDepertment().getDepartmentId(),
+		 "MIDLE"));
 
 
 		return "consultationD";

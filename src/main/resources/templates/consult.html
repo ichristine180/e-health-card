@@ -63,8 +63,8 @@
 									<h3 class="box-title">
 										Consultation <small>Details</small>
 									</h3>
-									<div class="row" th:if="${message != null}">
-										<span th:text="${message}" style="text-color: red;"></span>
+									<div class="box-header" th:if="${message != null}">
+										<span th:text="${message}" style="color: red;"></span>
 									</div>
 									<!-- tools box -->
 									<div class="pull-right box-tools">
@@ -78,7 +78,7 @@
 										</button>
 									</div>
 									<!-- /. tools -->
-								</div>
+								</div> 
 								<!-- /.box-header -->
 								<div class="box-body pad">
 									<form th:action="@{/patient/consultation}"

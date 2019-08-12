@@ -152,7 +152,7 @@ public class HospitalController {
 			model.addAttribute("consultation", consultation);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
-			model.addAttribute("message", "The Consultation Failed! tRY Again");
+			model.addAttribute("message", "Consultation Failed! Try Again");
 			return "consult";
 		}
 
