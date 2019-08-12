@@ -34,7 +34,7 @@ public class AdminReportController {
 		model.addAttribute("admissionCount", admissionService.findAllAdmission().size());
 		model.addAttribute("patientCount", patientService.findAll().size());
 		model.addAttribute("userCount", userService.findUserList().size());
-		return "admin";
+		return "report/admin";
 	}
 
 	@GetMapping
