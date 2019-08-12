@@ -66,17 +66,24 @@ public class HomeController {
 	public String gDoctor(Model model, Principal principal) {
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
+		String department = doctor.getDepertment().getName();
+		model.addAttribute("department", department);
+		return "homepage";
+	}
+	@GetMapping("/showadmission")
+	public String shownewadmission(Model model, Principal principal) {
+		String username = principal.getName();
+		Employee doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		// Kosora aha hantu sinzi ibyo washatse kuhakora
-		/*
-		 * model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId,
-		 * doctor.getDepertment().getDepartmentId()));
-		 */
+		 model.addAttribute("docAdmissions", admissionService.AdmissionInfos(hospitalId,
+		 doctor.getDepertment().getDepartmentId()));
+
 
 		return "homepage";
 	}
+
 
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
