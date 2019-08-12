@@ -75,11 +75,38 @@ public class Hospital {
 	private Set<Admission> admissions;
 
 	// Consultations
+	@OneToMany(mappedBy = "hospital")
+	private Set<Consultation> Consultations;
+	public Set<Consultation> getConsultations() {
+		return Consultations;
+	}
+
+	public void setConsultations(Set<Consultation> consultations) {
+		Consultations = consultations;
+	}
+
+	public Set<Prescription> getPrescriptions() {
+		return Prescriptions;
+	}
+
+	public void setPrescriptions(Set<Prescription> prescriptions) {
+		Prescriptions = prescriptions;
+	}
 
 	// ExamRecords
+	@OneToMany(mappedBy = "hospital")
+	private Set<ExamRecord> ExamRecords;
+	public Set<ExamRecord> getExamRecords() {
+		return ExamRecords;
+	}
+
+	public void setExamRecords(Set<ExamRecord> examRecords) {
+		ExamRecords = examRecords;
+	}
 
 	// Prescriptions
-
+	@OneToMany(mappedBy = "hospital")
+	private Set<Prescription> Prescriptions;
 	// Employees
 	@OneToMany(mappedBy = "hospital")
 	private Set<Employee> employees;

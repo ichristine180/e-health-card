@@ -75,6 +75,15 @@ public class Admission {
 	 * The constant weight - Double
 	 */
 	private String weight;
+	private String status;
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	/**
 	 * The constant heartRate - String
 	 */

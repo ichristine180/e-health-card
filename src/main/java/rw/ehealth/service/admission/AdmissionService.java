@@ -96,10 +96,10 @@ public class AdmissionService implements IAdmissionService {
 		}
 
 	}
-
-	public List<Admission> Admissions(Long hospitalId, Long id) {
+	@Override
+	public List<Admission> Admissions(Long hospitalId, Long id,String status) {
 		try {
-			return aRepository.Admissions(hospitalId, id);
+			return aRepository.Admissions(hospitalId, status,id);
 		} catch (Exception e) {
 			throw e;
 		}

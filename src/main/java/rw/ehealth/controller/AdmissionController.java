@@ -87,6 +87,7 @@ public class AdmissionController {
 		newadmission.setHeight(admission.getHeight());
 		newadmission.setWeight(admission.getWeight());
 		newadmission.setTemperature(admission.getTemperature());
+		newadmission.setStatus("PENDING");
 
 		Department depertment = departemtService.findPerName(admission.getDepartementName());
 		newadmission.setDepartement(depertment);

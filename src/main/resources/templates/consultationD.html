@@ -48,6 +48,40 @@
 								</table>
 							</div>
 						</div>
+<<<<<<< HEAD
+=======
+						<div class="box" th:if="${consultedpatients}">
+							<div class="box-header">
+								<h3 class="box-title">Admissions</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="patients" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Patient Tracking Number</th>
+											<th>Details</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr th:each="admission, iStat: ${consultedpatients}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${admission.admittedPatient.fname}" />
+											<td th:text="${admission.admittedPatient.lname}" />
+											<td th:text="${admission.patientTrackingNumber}" />
+											<td><a class="btn btn-block btn-primary btn-sm"
+												th:href="@{'/details/' + ${admission.patientTrackingNumber}}">Details
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+>>>>>>> e25c4b1b53eb267ed0dc47a310548208a14ce517
 						<div class="box" th:if="${admission}">
 							<div class="box-header with-border">
 								<h3 class="box-title">Patient Information</h3>

@@ -115,7 +115,7 @@ public class HospitalController {
 			return "consult";
 		}
 
-		return "redirect:/";
+		return "redirect:/gdoctor";
 
 	}
 
@@ -134,15 +134,27 @@ public class HospitalController {
 			boolean admissionInfo = true;
 			Admission results = admissionService
 					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+			results.setStatus("MIDLE");
+			admissionService.update(results);
 			String department = activeUser.getDepertment().getName();
 			model.addAttribute("department", department);
 			model.addAttribute("consultation", consultation);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
+			model.addAttribute("message", "The Consultation Successed!");
+			return "consult";
+		}else {
+			boolean admissionInfo = true;
+			Admission results = admissionService
+					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+			String department = activeUser.getDepertment().getName();
+			model.addAttribute("department", department);
+			model.addAttribute("consultation", consultation);
+			model.addAttribute("admission", results);
+			model.addAttribute("admissionInfo", admissionInfo);
+			model.addAttribute("message", "Consultation Failed! Try Again");
 			return "consult";
 		}
-
-		return "redirect:/gdoctor";
 
 	}
 

@@ -90,6 +90,23 @@ public interface IAdmissionService {
 	 */
 	List<Admission> findAllAdmission();
 
+	/**
+	 * Admissions.
+	 *
+	 * @param hospitalId   the hospital id
+	 * @param departmentId the department id
+	 * @return the list
+	 */
 	List<Admission> Admissions(Long hospitalId, Long departmentId);
+
+	/**
+	 * Admissions.
+	 *
+	 * @param hospitalId   the hospital id
+	 * @param departmentId the department id
+	 * @param status       the status
+	 * @return the list
+	 */
+	List<Admission> Admissions(Long hospitalId, Long departmentId, String status);
 
 }
