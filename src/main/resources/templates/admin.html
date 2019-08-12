@@ -62,7 +62,7 @@
 									class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
-						
+
 						<div class="col-lg-3 col-xs-6">
 							<!-- small box -->
 							<div class="small-box bg-cyan">
@@ -92,8 +92,8 @@
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Name</th>
 											<th>Code</th>
+											<th>Name</th>
 											<th>Address</th>
 											<th>Departments</th>
 											<th>Services</th>
@@ -103,8 +103,8 @@
 									<tbody>
 										<tr th:each="hospital, iStat: ${hospitals}">
 											<td th:text="${iStat.index+1}" />
+											<td><a th:href="@{'/admin/report/'+${hospital.hospitalCode}}"><span th:text="${hospital.hospitalCode}"/></a></td>
 											<td th:text="${hospital.hospitalName}" />
-											<td th:text="${hospital.hospitalCode}" />
 											<td th:text="${hospital.address}" />
 											<td th:text="${hospital.departmentCount}" />
 											<td th:text="${hospital.serviceCount}" />
