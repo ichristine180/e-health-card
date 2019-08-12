@@ -157,7 +157,7 @@ public class AdminController {
 			userService.createUser(myuser);
 			userService.createUser(myuser, userRoles);
 			return "redirect:/";
-		} else
-			return "redirect:/docregistration";
+		}
+		return "redirect:/docregistration";
 	}
 }

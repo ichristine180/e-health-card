@@ -96,10 +96,11 @@ public class AdmissionService implements IAdmissionService {
 		}
 
 	}
+
 	@Override
-	public List<Admission> Admissions(Long hospitalId, Long id,String status) {
+	public List<Admission> Admissions(Long hospitalId, Long id, String status) {
 		try {
-			return aRepository.Admissions(hospitalId, status,id);
+			return aRepository.Admissions(hospitalId, status, id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -239,5 +240,15 @@ public class AdmissionService implements IAdmissionService {
 	@Override
 	public List<Admission> findAllAdmission() {
 		return aRepository.findAll();
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#Admissions(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public List<Admission> Admissions(Long hospitalId, Long departmentId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
