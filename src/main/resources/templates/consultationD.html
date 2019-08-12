@@ -48,6 +48,7 @@
 								</table>
 							</div>
 						</div>
+						<div class="col-xs-6">
 		<div class="box" th:if="${consultedpatients}">
 							<div class="box-header">
 								<h3 class="box-title">Admissions</h3>
@@ -79,7 +80,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="box" th:if="${admission}">
+						<div class="box" th:if="${consultation}">
 							<div class="box-header with-border">
 								<h3 class="box-title">Patient Information</h3>
 							</div>
@@ -118,60 +119,34 @@
 								</table>
 							</div>
 						</div>
-						<div style="height: 400px;">
-							<div class="box" th:if="${admission}">
-								<div class="box-header">
-									<h3 class="box-title">
-										Consultation <small>Details</small>
-									</h3>
-									<!-- tools box -->
-									<div class="pull-right box-tools">
-										<button type="button" class="btn btn-default btn-sm"
-											data-widget="collapse" data-toggle="tooltip" title="Collapse">
-											<i class="fa fa-minus"></i>
-										</button>
-										<button type="button" class="btn btn-default btn-sm"
-											data-widget="remove" data-toggle="tooltip" title="Remove">
-											<i class="fa fa-times"></i>
-										</button>
-									</div>
-									<!-- /. tools -->
-								</div>
-								<!-- /.box-header -->
-								<div class="box-body pad">
-									<form th:action="@{/patient/consultation}"
-										th:object="${consultation}" method="POST">
-										<input type="hidden"
-											th:value="${admission.patientTrackingNumber}"
-											class="form-control" th:name="@{patientTrackingNumber}" />
-										<textarea class="textarea" th:name="@{description}"
-											placeholder="Place some text here"
-											style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-										<div class="box-footer">
-											<button type="submit" class="btn btn-info pull-right">Save
-											</button>
-										</div>
-									</form>
-								</div>
+					<div class="box" th:if="${consultation}">
+							<div class="box-header with-border">
+								<h3 class="box-title">Symptoms</h3>
 							</div>
-						</div>
+							<!-- /box-header with-border -->
+							<div class="box-body">
+								<table class="table table-bordered">
+									<tr>
+										<td th:text="${consultation.description}" />
+									</tr>
+								</table>
+							</div>	
 					</div>
-					<div class="col-md-6" style="margin-top: 50px;" th:if="${admission}">
+					</div>
+					<div class="col-md-6" th:if="${admission}">
 						<!-- Block buttons -->
 						<div class="box">
-							<div class="box-header">
-								<h3 class="box-title">Others</h3>
-							</div>
 							<div class="box-body">
-								<a class="btn btn-block btn-success"
+								<a class="btn bg-maroon btn-flat margin"
 									th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
-									Records</a> <a class="btn btn-default btn-block"
-									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Send
-									To Labo</a> <a class="btn btn-block btn-success"
+									Patient's Records</a> <a class="btn bg-navy btn-flat margin"
+									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Exams
+									</a> <a class="btn bg-maroon btn-flat margin"
 									th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>
 							</div>
 						</div>
 					</div>
+				</div>
 				</div>
 				<div class="col-md-6" style="margin-top: 50px;"
 					th:if="${labo==true}">

@@ -118,7 +118,26 @@ public class HospitalController {
 		return "redirect:/gdoctor";
 
 	}
+	@GetMapping("/details/{patientTrackingNumber}")
+	public String consultationdetails(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
+		Employee activeUser = userService.findDoctor(principal.getName());
 
+		if (patientTrackingNumber != null) {
+			boolean admissionInfo = true;
+			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			String department = activeUser.getDepertment().getName();
+			Consultation consultation = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
+			model.addAttribute("department", department);
+			model.addAttribute("consultation", consultation);
+			model.addAttribute("admission", results);
+			model.addAttribute("admissionInfo", admissionInfo);
+
+			return "consultationD";
+		}
+
+		return "redirect:/gdoctor";
+
+	}
 	@PostMapping("/patient/consultation")
 	public String pConsulatation(Model model, @ModelAttribute ConsultationDto consultationDto, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
