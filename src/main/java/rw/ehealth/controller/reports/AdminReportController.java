@@ -37,7 +37,7 @@ public class AdminReportController {
 		return "report/admin";
 	}
 
-	@GetMapping
+	@GetMapping("admin/report/{hospitalCode}")
 	public String hospitalReportPag(Model model, @PathVariable String hospitalCode) {
 
 		return "report/h_report_page";

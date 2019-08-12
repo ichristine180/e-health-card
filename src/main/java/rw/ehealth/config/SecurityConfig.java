@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private static final String[] PUBLIC_MATCHERS = { "/bower_components/**", "/dist/**", "/plugins/**", "/js/**",
-			"/build/**" };
+			"build/**", "imgs/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -63,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		// This is in-memory authentication
-		auth.inMemoryAuthentication().withUser("user@health.com").password("password").roles("RECEPTIONIST");
-		auth.inMemoryAuthentication().withUser("admin@health.com").password("password").roles("ADMIN");
+		auth.inMemoryAuthentication().withUser("user@health.com").password("pass").roles("RECEPTIONIST");
+		auth.inMemoryAuthentication().withUser("admin@health.com").password("pass").roles("ADMIN");
 		// Database login
 		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 	}
