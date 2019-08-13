@@ -1,5 +1,5 @@
 
-package rw.ehealth.service.medical;
+package rw.ehealth.service.hospital;
 
 import java.util.ArrayList;
 import java.util.List;

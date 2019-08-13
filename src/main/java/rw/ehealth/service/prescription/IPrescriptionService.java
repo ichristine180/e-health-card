@@ -1,4 +1,4 @@
-package rw.ehealth.service.medical;
+package rw.ehealth.service.prescription;
 
 import rw.ehealth.model.Prescription;
 

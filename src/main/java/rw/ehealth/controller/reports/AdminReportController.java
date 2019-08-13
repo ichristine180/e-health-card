@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import rw.ehealth.model.Hospital;
 import rw.ehealth.service.admission.IAdmissionService;
-import rw.ehealth.service.medical.IHospitalService;
+import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.report.DepartmentReport;

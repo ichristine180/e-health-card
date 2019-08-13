@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import rw.ehealth.model.Employee;
 import rw.ehealth.service.admission.IAdmissionService;
-import rw.ehealth.service.medical.IExamRecordService;
-import rw.ehealth.service.medical.IHospitalService;
+import rw.ehealth.service.exams.IExamRecordService;
+import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.UserService;
 

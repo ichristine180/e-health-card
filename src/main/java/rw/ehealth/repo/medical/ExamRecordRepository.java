@@ -73,9 +73,31 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	@Query("SELECT e FROM ExamRecord e JOIN e.admissionInfo a JOIN a.admittedPatient p WHERE p.patientNumber=:patientNumber")
 	List<ExamRecord> findInfo(@Param("patientNumber") String patientNumber);
 
+	/**
+	 * Count by exam name.
+	 *
+	 * @param hospitalId the hospital id
+	 * @return the list
+	 */
 	@Query("SELECT new rw.ehealth.report.ExamReport(ex,e,count(e.examId)) from ExamRecord ex JOIN ex.medicalExam e JOIN ex.admissionInfo a  join ex.hospital h WHERE h.hospitalId=:hospitalId group BY e.examId")
 	List<ExamReport> countByExamName(@Param("hospitalId") Long hospitalId);
+
+	/**
+	 * Find results.
+	 *
+	 * @param hospitalId the hospital id
+	 * @param status     the status
+	 * @return the list
+	 */
 	@Query("SELECT e from ExamRecord e Join e.hospital h join e.admissionInfo a WHERE h.hospitalId=:hospitalId and e.results  != null and a.status=:status")
-	List<ExamRecord> findResults(@Param("hospitalId") Long hospitalId,@Param("status") String status);
+	List<ExamRecord> findResults(@Param("hospitalId") Long hospitalId, @Param("status") String status);
+
+	/**
+	 * Find by admission info.
+	 *
+	 * @param admissionInfo the admission info
+	 * @return the exam record
+	 */
+	ExamRecord findByAdmissionInfo(Admission admissionInfo);
 
 }

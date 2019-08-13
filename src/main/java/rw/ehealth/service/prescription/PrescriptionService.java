@@ -1,5 +1,5 @@
 
-package rw.ehealth.service.medical;
+package rw.ehealth.service.prescription;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

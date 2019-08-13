@@ -1,5 +1,5 @@
 
-package rw.ehealth.service.medical;
+package rw.ehealth.service.exams;
 
 import java.util.List;
 

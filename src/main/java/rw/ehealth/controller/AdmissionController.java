@@ -23,7 +23,7 @@ import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.service.admission.IAdmissionService;
-import rw.ehealth.service.medical.IHospitalService;
+import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.IEmployeeService;

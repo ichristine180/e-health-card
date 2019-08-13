@@ -1,5 +1,5 @@
 
-package rw.ehealth.service.medical;
+package rw.ehealth.service.consultation;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ViewRecordRequest;
 import rw.ehealth.repo.medical.ConsultationRepository;
+import rw.ehealth.service.medical.ViewRequestService;
 
 @Service
 public class ConsultationService implements IConsultationService {

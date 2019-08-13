@@ -1,4 +1,4 @@
-package rw.ehealth.service.medical;
+package rw.ehealth.service.exams;
 
 import java.util.List;
 
@@ -30,6 +30,9 @@ public interface IExamRecordService {
 	List<ExamReport> countByExamName(Long hospitalId);
 
 	List<ExamRecord> findErecords(String patientTrackingNumber);
-	List<ExamRecord> findResults(Long hospitalId,String status);
+
+	List<ExamRecord> findResults(Long hospitalId, String status);
+
+	boolean isNotCreated(ExamRecord examRecords);
 
 }

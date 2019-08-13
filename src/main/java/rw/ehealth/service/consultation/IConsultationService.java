@@ -1,4 +1,4 @@
-package rw.ehealth.service.medical;
+package rw.ehealth.service.consultation;
 
 import java.util.List;
 

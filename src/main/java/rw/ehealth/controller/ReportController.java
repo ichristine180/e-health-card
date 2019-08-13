@@ -14,8 +14,8 @@ import rw.ehealth.model.Employee;
 import rw.ehealth.report.AdmissionReport;
 import rw.ehealth.report.ExamReport;
 import rw.ehealth.service.admission.IAdmissionService;
-import rw.ehealth.service.medical.IConsultationService;
-import rw.ehealth.service.medical.IExamRecordService;
+import rw.ehealth.service.consultation.IConsultationService;
+import rw.ehealth.service.exams.IExamRecordService;
 import rw.ehealth.service.user.UserService;
 
 @Controller

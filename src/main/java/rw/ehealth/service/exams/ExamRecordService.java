@@ -1,5 +1,5 @@
 
-package rw.ehealth.service.medical;
+package rw.ehealth.service.exams;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.ExamRecord;
-import rw.ehealth.repo.medical.ConsultationRepository;
 import rw.ehealth.repo.medical.ExamRecordRepository;
 import rw.ehealth.report.ExamReport;
 
@@ -16,21 +15,33 @@ public class ExamRecordService implements IExamRecordService {
 
 	@Autowired
 	private ExamRecordRepository eRepository;
+
 	@Override
 	public ExamRecord creaExamRecords(ExamRecord examRecords) {
-		try {
-			return eRepository.save(examRecords);
-		} catch (Exception e) {
-			throw e;
+		if (this.isNotCreated(examRecords)) {
+			try {
+				return eRepository.save(examRecords);
+			} catch (Exception e) {
+				throw e;
+			}
 		}
+		return examRecords;
+	}
 
+	@Override
+	public boolean isNotCreated(ExamRecord examRecords) {
+		boolean isNotCreated = false;
+		ExamRecord record = eRepository.findByAdmissionInfo(examRecords.getAdmissionInfo());
+		if (record == null) {
+			isNotCreated = true;
+		}
+		return isNotCreated;
 	}
 
 	@Override
 	public List<ExamRecord> findAllPExam(Long id) {
 		try {
 			return eRepository.findPatiExamRecord(id);
-
 		} catch (Exception e) {
 			throw e;
 		}
@@ -44,7 +55,6 @@ public class ExamRecordService implements IExamRecordService {
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
 	@Override
@@ -136,7 +146,7 @@ public class ExamRecordService implements IExamRecordService {
 	@Override
 	public List<ExamRecord> findResults(Long hospitalId, String status) {
 		try {
-			return eRepository.findResults(hospitalId,status);
+			return eRepository.findResults(hospitalId, status);
 		} catch (Exception e) {
 			throw e;
 		}
