@@ -98,6 +98,6 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @param admissionInfo the admission info
 	 * @return the exam record
 	 */
-	ExamRecord findByAdmissionInfo(Admission admissionInfo);
+	List<ExamRecord> findByAdmissionInfo(Admission admissionInfo);
 
 }
