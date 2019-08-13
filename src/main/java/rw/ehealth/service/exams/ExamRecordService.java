@@ -31,7 +31,8 @@ public class ExamRecordService implements IExamRecordService {
 	@Override
 	public boolean isNotCreated(ExamRecord examRecords) {
 		boolean isNotCreated = false;
-		ExamRecord record = eRepository.findByAdmissionInfo(examRecords.getAdmissionInfo());
+		ExamRecord record = eRepository.findByAdmissionInfoAndExam(examRecords.getAdmissionInfo(),
+				examRecords.getMedicalExam());
 		if (record == null) {
 			isNotCreated = true;
 		}

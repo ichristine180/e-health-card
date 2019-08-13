@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.MedicalExam;
 import rw.ehealth.report.ExamReport;
 
 @Repository
@@ -99,5 +100,14 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @return the exam record
 	 */
 	ExamRecord findByAdmissionInfo(Admission admissionInfo);
+
+	/**
+	 * Find by admission info and exam.
+	 *
+	 * @param admissionInfo the admission info
+	 * @param medicalExam   the medical exam
+	 * @return the exam record
+	 */
+	ExamRecord findByAdmissionInfoAndExam(Admission admissionInfo, MedicalExam medicalExam);
 
 }
