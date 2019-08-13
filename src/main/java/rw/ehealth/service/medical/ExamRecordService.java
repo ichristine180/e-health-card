@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.repo.medical.ConsultationRepository;
 import rw.ehealth.repo.medical.ExamRecordRepository;
 import rw.ehealth.report.ExamReport;
 
@@ -15,7 +16,6 @@ public class ExamRecordService implements IExamRecordService {
 
 	@Autowired
 	private ExamRecordRepository eRepository;
-
 	@Override
 	public ExamRecord creaExamRecords(ExamRecord examRecords) {
 		try {

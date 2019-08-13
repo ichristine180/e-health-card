@@ -118,6 +118,7 @@ public class HospitalController {
 		return "redirect:/gdoctor";
 
 	}
+
 	@GetMapping("/details/{patientTrackingNumber}")
 	public String consultationdetails(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
@@ -138,6 +139,7 @@ public class HospitalController {
 		return "redirect:/gdoctor";
 
 	}
+
 	@PostMapping("/patient/consultation")
 	public String pConsulatation(Model model, @ModelAttribute ConsultationDto consultationDto, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
@@ -162,7 +164,7 @@ public class HospitalController {
 			model.addAttribute("admissionInfo", admissionInfo);
 			model.addAttribute("message", "The Consultation Successed!");
 			return "consult";
-		}else {
+		} else {
 			boolean admissionInfo = true;
 			Admission results = admissionService
 					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
@@ -223,23 +225,30 @@ public class HospitalController {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber.isEmpty() == false) {
-			boolean labo = true;
-			model.addAttribute("labo", labo);
-			boolean admissionInfo = true;
-			String department = activeUser.getDepertment().getName();
-			Consultation consultation = new Consultation();
-			ExamRecord examRecord = new ExamRecord();
-			model.addAttribute("examRecord", examRecord);
-			model.addAttribute("department", department);
-			model.addAttribute("admission", results);
-			model.addAttribute("consultation", consultation);
-			model.addAttribute("admissionInfo", admissionInfo);
-			model.addAttribute("examss", examService.findExams());
-
-			return "consult";
+			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
+			if (consult != null) {
+				String department = activeUser.getDepertment().getName();
+				ExamRecord examRecord = new ExamRecord();
+				model.addAttribute("examRecord", examRecord);
+				model.addAttribute("department", department);
+				model.addAttribute("admission", results);
+				model.addAttribute("examss", examService.findExams());
+				model.addAttribute("department", department);
+				model.addAttribute("consultation", consult);
+				model.addAttribute("admission", results);
+				return "consultationD";
+			}
 		}
-
-		return "redirect:/gdoctor";
+		String department = activeUser.getDepertment().getName();
+		model.addAttribute("department", department);
+		model.addAttribute("admission", results);
+		boolean admissionInfo = true;
+		Consultation consultation = new Consultation();
+		model.addAttribute("department", department);
+		model.addAttribute("consultation", consultation);
+		model.addAttribute("admissionInfo", admissionInfo);
+		model.addAttribute("message", "Consultate First!");
+		return "consult";
 
 	}
 
@@ -297,11 +306,11 @@ public class HospitalController {
 	public String sendExamString(@RequestParam(value = "examId", required = false) int[] examId,
 			@ModelAttribute ExamDto examDto, Model model, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
+
 		if (examId != null) {
 			List<MedicalExam> selectedMedicalExam = new ArrayList<MedicalExam>();
 			for (int i = 0; i < examId.length; i++) {
 				MedicalExam exam = examService.findHospitalById(examId[i]);
-
 				selectedMedicalExam.add(exam);
 			} // Do whatever you want with these hospitals from UI(eg:printing)
 			for (MedicalExam exam : selectedMedicalExam) {
@@ -316,6 +325,7 @@ public class HospitalController {
 				examRecordService.creaExamRecords(examrecords);
 			}
 
+			return "consultationD";
 		}
 		return "redirect:/gdoctor";
 	}

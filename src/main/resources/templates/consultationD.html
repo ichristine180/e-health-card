@@ -100,9 +100,12 @@
 										<tbody>
 											<tr th:each="admission, iStat: ${results}">
 												<td th:text="${iStat.index+1}" />
-												<td th:text="${admission.admissionInfo.admittedPatient.fname}" />
-												<td th:text="${admission.admissionInfo.admittedPatient.lname}" />
-												<td th:text="${admission.admissionInfo.patientTrackingNumber}" />
+												<td
+													th:text="${admission.admissionInfo.admittedPatient.fname}" />
+												<td
+													th:text="${admission.admissionInfo.admittedPatient.lname}" />
+												<td
+													th:text="${admission.admissionInfo.patientTrackingNumber}" />
 												<td><a class="btn btn-block btn-primary btn-sm"
 													th:href="@{'/resultsview/' + ${admission.admissionInfo.patientTrackingNumber}}">results
 												</a></td>
@@ -167,6 +170,9 @@
 						<div class="col-md-6" th:if="${admission}">
 							<!-- Block buttons -->
 							<div class="box">
+							<div class="box-header" th:if="${message != null}">
+										<span th:text="${message}" style="color: red;"></span>
+									</div>
 								<div class="box-body">
 									<a class="btn bg-maroon btn-flat margin"
 										th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
@@ -180,35 +186,37 @@
 					</div>
 				</div>
 				<div class="col-md-6" style="margin-top: 50px;"
-					th:if="${labo==true}">
-					<!-- Block buttons -->
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">Exams</h3>
-						</div>
-						<div class="box-body">
-							<form class="form" th:action="@{/sendLabo}" method="POST">
-								<input type="hidden"
-									th:value="${admission.patientTrackingNumber}"
-									class="form-control" th:name="@{patientTrackingNumber}" />
-								<table>
-									<tr>
-										<td><th:block th:each="exams : ${examss}">
-												<input type="checkbox" name="examId"
-													th:value="${exams.examId}" />
-												<label th:text="${exams.name}"></label>
-											</th:block></td>
-									</tr>
-									<tr>
-										<td><input type="submit" value="Send" /></td>
-									</tr>
+						th:if="${examRecord}">
+						<!-- Block buttons -->
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Exams</h3>
+							</div>
+							<div class="box-header" th:if="${message != null}">
+										<span th:text="${message}" style="color: red;"></span>
+									</div>
+							<div class="box-body">
+								<form class="form" th:action="@{/sendLabo}" method="POST">
+									<input type="hidden"
+										th:value="${admission.patientTrackingNumber}"
+										class="form-control" th:name="@{patientTrackingNumber}" />
+									<table>
+										<tr>
+											<td><th:block th:each="exams : ${examss}">
+													<input type="checkbox" name="examId"
+														th:value="${exams.examId}" />
+													<label th:text="${exams.name}"></label>
+												</th:block></td>
+										</tr>
+										<tr>
+											<td><input type="submit" value="Send" /></td>
+										</tr>
 
-								</table>
-							</form>
+									</table>
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-
 				<div class="col-md-6" style="margin-top: 10px;"
 					th:if="${prescription==true}">
 					<!-- Block buttons -->
