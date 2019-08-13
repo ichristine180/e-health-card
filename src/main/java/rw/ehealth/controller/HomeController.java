@@ -99,6 +99,19 @@ public class HomeController {
 
 		return "consultationD";
 	}
+	@GetMapping("/results")
+	public String examResults(Model model, Principal principal) {
+		String username = principal.getName();
+		Employee doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
+		String department = doctor.getDepertment().getName();
+		model.addAttribute("department", department);
+		model.addAttribute("results",
+				examRecordService.findResults(hospitalId,"MIDLE"));
+
+		return "consultationD";
+	}
+
 
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
