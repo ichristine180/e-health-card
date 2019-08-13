@@ -4,6 +4,7 @@ package rw.ehealth.service.medical;
 import java.util.List;
 
 import rw.ehealth.model.Hospital;
+import rw.ehealth.utils.report.DepartmentReport;
 
 public interface IHospitalService {
 
@@ -45,4 +46,12 @@ public interface IHospitalService {
 	 * @return the hospital
 	 */
 	Hospital findHospitalByCode(String hospitalCode);
+
+	/**
+	 * Gets the department statistics.
+	 *
+	 * @param hospitalCode the hospital code
+	 * @return the department statistics
+	 */
+	List<DepartmentReport> getDepartmentStatistics(String hospitalCode);
 }

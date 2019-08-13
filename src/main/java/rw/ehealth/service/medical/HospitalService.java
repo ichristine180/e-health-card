@@ -1,13 +1,17 @@
 
 package rw.ehealth.service.medical;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rw.ehealth.model.Department;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.repo.medical.HospitalRepository;
+import rw.ehealth.utils.report.DepartmentReport;
 
 @Service(IHospitalService.name)
 public class HospitalService implements IHospitalService {
@@ -15,10 +19,6 @@ public class HospitalService implements IHospitalService {
 	@Autowired
 	private HospitalRepository hRepository;
 
-	/*
-	 *
-	 * @see rw.ehealth.service.medical.IHospitalService#countHospital()
-	 */
 	/*
 	 *
 	 * @see rw.ehealth.service.medical.IHospitalService#createHospital(rw.ehealth.model.Hospital)
@@ -111,5 +111,25 @@ public class HospitalService implements IHospitalService {
 	@Override
 	public Hospital findHospitalByCode(String hospitalCode) {
 		return hRepository.findByHospitalCode(hospitalCode);
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IHospitalService#getDepartmentStatistics(java.lang.String)
+	 */
+	@Override
+	public List<DepartmentReport> getDepartmentStatistics(String hospitalCode) {
+		List<DepartmentReport> departmentReports = new ArrayList<>();
+
+		Set<Department> departments = hRepository.findByHospitalCode(hospitalCode).getDepartments();
+		System.out.println(departments.size() + " dep size");
+		for (Department department : departments) {
+			DepartmentReport dReport = new DepartmentReport();
+			dReport.setDepartment(department);
+			departmentReports.add(dReport);
+
+		}
+
+		return departmentReports;
 	}
 }

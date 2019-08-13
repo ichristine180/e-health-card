@@ -1,6 +1,8 @@
 
 package rw.ehealth.controller.reports;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.IUserService;
+import rw.ehealth.utils.report.DepartmentReport;
 
 @Controller
 public class AdminReportController {
@@ -51,6 +54,19 @@ public class AdminReportController {
 		model.addAttribute("departmentCount", hospital.getDepartments().size());
 
 		return "report/h_report_page";
+	}
+
+	@GetMapping("/admin/report/departments/{hospitalCode}")
+	public String hospitalDepartmentsReportPage(Model model, @PathVariable String hospitalCode) {
+
+		Hospital hospital = hospitalService.findHospitalByCode(hospitalCode);
+
+		List<DepartmentReport> dReports = hospitalService.getDepartmentStatistics(hospitalCode);
+
+		model.addAttribute("dReports", dReports);
+		model.addAttribute("hospital", hospital);
+
+		return "report/h_report_department_page";
 	}
 
 }
