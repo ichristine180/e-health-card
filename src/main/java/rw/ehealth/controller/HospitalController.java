@@ -257,9 +257,8 @@ public class HospitalController {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber.isEmpty() == false) {
-			boolean prescription = true;
-			model.addAttribute("prescription", prescription);
-			boolean admissionInfo = true;
+			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
+			if (consult != null) {
 			String department = activeUser.getDepertment().getName();
 
 			Prescription prescriptions = new Prescription();
@@ -267,14 +266,22 @@ public class HospitalController {
 			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 			model.addAttribute("department", department);
 			model.addAttribute("admission", results);
-			model.addAttribute("admissionInfo", admissionInfo);
+			model.addAttribute("consultation", consult);
 			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 
-			return "consult";
+			return "consultationD";
+			}
 		}
-
-		return "redirect:/gdoctor";
-
+		String department = activeUser.getDepertment().getName();
+		model.addAttribute("department", department);
+		model.addAttribute("admission", results);
+		boolean admissionInfo = true;
+		Consultation consultation = new Consultation();
+		model.addAttribute("department", department);
+		model.addAttribute("consultation", consultation);
+		model.addAttribute("admissionInfo", admissionInfo);
+		model.addAttribute("messagee", "Consultate First!");
+		return "consult";
 	}
 
 	@PostMapping("/patient/prescription")

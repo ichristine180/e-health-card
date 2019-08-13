@@ -99,7 +99,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @param admissionInfo the admission info
 	 * @return the exam record
 	 */
-	ExamRecord findByAdmissionInfo(Admission admissionInfo);
+	List<ExamRecord> findByAdmissionInfo(Admission admissionInfo);
 
 	/**
 	 * Find by admission info and exam.
@@ -108,6 +108,8 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @param medicalExam   the medical exam
 	 * @return the exam record
 	 */
-	ExamRecord findByAdmissionInfoAndExam(Admission admissionInfo, MedicalExam medicalExam);
+	@Query("SELECT e from ExamRecord e where e.admissionInfo =: admissionInfo AND e.medicalExam =: medicalExam")
+	ExamRecord findByAdmissionInfoAndExam(@Param("admissionInfo") Admission admissionInfo,
+			@Param("medicalExam") MedicalExam medicalExam);
 
 }
