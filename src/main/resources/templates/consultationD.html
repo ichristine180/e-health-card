@@ -167,11 +167,12 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="col-md-6" th:if="${admission}">
 							<!-- Block buttons -->
 							<div class="box">
-							<div class="box-header" th:if="${message != null}">
-										<span th:text="${message}" style="color: red;"></span>
+							<div class="box-header" th:if="${messagee != null}">
+										<span th:text="${messagee}" style="color: red;"></span>
 									</div>
 								<div class="box-body">
 									<a class="btn bg-maroon btn-flat margin"
@@ -183,9 +184,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-md-6" style="margin-top: 50px;"
+						<div class="col-md-6" style="margin-top: 50px;"
 						th:if="${examRecord}">
 						<!-- Block buttons -->
 						<div class="box">
@@ -217,6 +216,9 @@
 							</div>
 						</div>
 					</div>
+					</div>
+				</div>
+				
 				<div class="col-md-6" style="margin-top: 10px;"
 					th:if="${prescription==true}">
 					<!-- Block buttons -->

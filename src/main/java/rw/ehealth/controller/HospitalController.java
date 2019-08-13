@@ -247,7 +247,7 @@ public class HospitalController {
 		model.addAttribute("department", department);
 		model.addAttribute("consultation", consultation);
 		model.addAttribute("admissionInfo", admissionInfo);
-		model.addAttribute("message", "Consultate First!");
+		model.addAttribute("messagee", "Consultate First!");
 		return "consult";
 
 	}

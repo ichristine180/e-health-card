@@ -8,7 +8,7 @@
 		<!-- general doctor -->
 		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
-			<div class="container" th:if="${admissionInfo==true}">
+			<div class="container">
 				<div></div>
 				<div class="row" style="height: 30px;">
 					<div class="col-xs-6">
@@ -63,7 +63,7 @@
 									<h3 class="box-title">
 										Consultation <small>Details</small>
 									</h3>
-									<div class="box-header" th:if="${message != null}">
+									<div class="box-header" th:if="${admissionInfo}">
 										<span th:text="${message}" style="color: red;"></span>
 									</div>
 									<!-- tools box -->
@@ -165,7 +165,7 @@
 								<tbody>
 									<tr th:each="info, iStat: ${examss}">
 										<td th:text="${iStat.index+1}" />
-										<td th:text="${info.exams.name}" />
+										<td th:text="${info.medicalExam.name}" />
 										<td th:text="${info.results}" />
 									</tr>
 								</tbody>
