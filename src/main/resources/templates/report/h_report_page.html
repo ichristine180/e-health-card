@@ -11,7 +11,7 @@
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 					<h1>
-						Reporting <small> Admin Dashboard</small>
+						<span th:text="${hospitalName}" /> <small> Reporting Page</small>
 					</h1>
 				</section>
 				<!-- /.content -->
@@ -22,8 +22,8 @@
 							<!-- small box -->
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<h3 th:text="${hospitalCount}"></h3>
-									<p>Hospitals</p>
+									<h3 th:text="${admissionCount}"></h3>
+									<p>Admissions</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-bag"></i>
@@ -37,41 +37,11 @@
 							<!-- small box -->
 							<div class="small-box bg-green">
 								<div class="inner">
-									<h3 th:text="${userCount}"></h3>
-									<p>Users</p>
+									<h3 th:text="${departmentCount}"></h3>
+									<p>Departments</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-ios-people"></i>
-								</div>
-								<a href="#" class="small-box-footer">More info <i
-									class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-xs-6">
-							<!-- small box -->
-							<div class="small-box bg-red">
-								<div class="inner">
-									<h3 th:text="${patientCount}"></h3>
-									<p>Patients</p>
-								</div>
-								<div class="icon">
-									<i class="ion ion-ios-rose"></i>
-								</div>
-								<a href="#" class="small-box-footer">More info <i
-									class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-xs-6">
-							<!-- small box -->
-							<div class="small-box bg-cyan">
-								<div class="inner">
-									<h3 th:text="${admissionCount}"></h3>
-									<p>Admissions</p>
-								</div>
-								<div class="icon">
-									<i class="ion ion-stats-bars"></i>
 								</div>
 								<a href="#" class="small-box-footer">More info <i
 									class="fa fa-arrow-circle-right"></i></a>
@@ -84,7 +54,7 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Hospitals List</h3>
+								<h3 class="box-title">Admissions</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
@@ -92,22 +62,24 @@
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Code</th>
-											<th>Name</th>
-											<th>Address</th>
-											<th>Departments</th>
-											<th>Services</th>
+											<th>Patient Track Number</th>
+											<th>Patient Names</th>
+											<th>Admission Date</th>
+											<th>Release Status</th>
+											<th>Details</th>
 										</tr>
 									</thead>
 
 									<tbody>
-										<tr th:each="hospital, iStat: ${hospitals}">
+										<tr th:each="admission, iStat: ${admissions}">
 											<td th:text="${iStat.index+1}" />
-											<td><a th:href="@{'/admin/report/'+${hospital.hospitalCode}}"><span th:text="${hospital.hospitalCode}"/></a></td>
-											<td th:text="${hospital.hospitalName}" />
-											<td th:text="${hospital.address}" />
-											<td th:text="${hospital.departmentCount}" />
-											<td th:text="${hospital.serviceCount}" />
+											<td><a
+												th:href="@{'/admin/report/record/'+${admission.patientTrackingNumber}}"><span
+													th:text="${admission.patientTrackingNumber}" /></a></td>
+											<td th:text="${admission.admittedPatient.fname}" />
+											<td th:text="${admission.admissionDate}" />
+											<td />
+											<td  />
 
 										</tr>
 									</tbody>

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import rw.ehealth.model.Hospital;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.medical.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
@@ -39,6 +40,15 @@ public class AdminReportController {
 
 	@GetMapping("admin/report/{hospitalCode}")
 	public String hospitalReportPag(Model model, @PathVariable String hospitalCode) {
+
+		Hospital hospital = hospitalService.findHospitalByCode(hospitalCode);
+
+		model.addAttribute("hospitalName", hospital.getHospitalName());
+		model.addAttribute("hospital", hospital);
+		model.addAttribute("admissions", hospital.getAdmissions());
+		model.addAttribute("departments", hospital.getDepartments());
+		model.addAttribute("admissionCount", hospital.getAdmissions().size());
+		model.addAttribute("departmentCount", hospital.getDepartments().size());
 
 		return "report/h_report_page";
 	}

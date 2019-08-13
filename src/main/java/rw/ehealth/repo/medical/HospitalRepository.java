@@ -3,7 +3,6 @@ package rw.ehealth.repo.medical;
 
 import java.util.List;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -42,5 +41,13 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
 	@Override
 	long count();
+
+	/**
+	 * Find by hospital code.
+	 *
+	 * @param hospitalCode the hospital code
+	 * @return the hospital
+	 */
+	Hospital findByHospitalCode(String hospitalCode);
 
 }

@@ -103,4 +103,13 @@ public class HospitalService implements IHospitalService {
 			throw ex;
 		}
 	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.medical.IHospitalService#findHospitalByCode(java.lang.String)
+	 */
+	@Override
+	public Hospital findHospitalByCode(String hospitalCode) {
+		return hRepository.findByHospitalCode(hospitalCode);
+	}
 }

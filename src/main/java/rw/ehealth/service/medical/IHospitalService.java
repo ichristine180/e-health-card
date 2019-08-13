@@ -5,7 +5,6 @@ import java.util.List;
 
 import rw.ehealth.model.Hospital;
 
-
 public interface IHospitalService {
 
 	String name = "hospitalService";
@@ -26,7 +25,7 @@ public interface IHospitalService {
 	 * @param hospital
 	 */
 	void deleteHospital(Hospital hospital);
-	
+
 	List<Hospital> findAllHospitals();
 
 	/**
@@ -36,5 +35,14 @@ public interface IHospitalService {
 	Hospital findHospitalById(Long id);
 
 	Hospital findByHospitalname(String hospitalname);
+
 	long countHospital();
+
+	/**
+	 * Find hospital by code.
+	 *
+	 * @param hospitalCode the hospital code
+	 * @return the hospital
+	 */
+	Hospital findHospitalByCode(String hospitalCode);
 }
