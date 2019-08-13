@@ -333,7 +333,7 @@ public class HospitalController {
 			}
 			return "redirect:/gdoctor";
 		}
-		return "redirect:/gdoctor";
+		return "redirect:/consultedpatients";
 	}
 
 	@GetMapping("/labo/{patientTrackingNumber}")
