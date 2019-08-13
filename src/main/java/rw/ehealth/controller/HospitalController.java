@@ -331,8 +331,7 @@ public class HospitalController {
 				examrecords.setHospital(activeUser.getHospital());
 				examRecordService.creaExamRecords(examrecords);
 			}
-
-			return "consultationD";
+			return "redirect:/gdoctor";
 		}
 		return "redirect:/gdoctor";
 	}
