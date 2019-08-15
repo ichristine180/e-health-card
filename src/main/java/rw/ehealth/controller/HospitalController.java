@@ -21,7 +21,6 @@ import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Employee;
 import rw.ehealth.model.ExamRecord;
-import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
@@ -69,7 +68,6 @@ public class HospitalController {
 	private IViewRecordHistoryService vService;
 	@Autowired
 	private IPatientService patientService;
-
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -170,20 +168,19 @@ public class HospitalController {
 			model.addAttribute("admissionInfo", admissionInfo);
 			model.addAttribute("message", "The Consultation Successed!");
 			return "consult";
-		} else {
-			boolean admissionInfo = true;
-			Admission results = admissionService
-					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
-			String department = activeUser.getDepertment().getName();
-			model.addAttribute("department", department);
-			model.addAttribute("consultation", consultation);
-			model.addAttribute("admission", results);
-			model.addAttribute("admissionInfo", admissionInfo);
-			model.addAttribute("message", "Consultation Failed! Try Again");
-			return "consult";
 		}
+		boolean admissionInfo = true;
+		Admission results = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+		String department = activeUser.getDepertment().getName();
+		model.addAttribute("department", department);
+		model.addAttribute("consultation", consultation);
+		model.addAttribute("admission", results);
+		model.addAttribute("admissionInfo", admissionInfo);
+		model.addAttribute("message", "Consultation Failed! Try Again");
+		return "consult";
 
 	}
+
 	@GetMapping("/details/show/{patientTrackingNumber}")
 	public String showdetails(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber != null) {
@@ -196,13 +193,13 @@ public class HospitalController {
 
 	}
 
-
+	// TODO Refactoring this
 	@GetMapping("/details/consultation/{patientTrackingNumber}")
 	public String viewPatientInfo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		Admission admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		Patient patient = admitedP.getAdmittedPatient();
-		if (patientTrackingNumber.isEmpty() == false) {
+		if (!patientTrackingNumber.isEmpty()) {
 			boolean admissionInfo = true;
 			ViewRecordRequest resultRequest = rService.findPRequest(patient.getPatientNumber(),
 					LocalDate.now().toString());
@@ -218,15 +215,13 @@ public class HospitalController {
 					vHistory.setViewOn(LocalDateTime.now());
 					vService.create(vHistory);
 					String department = activeUser.getDepertment().getName();
-				
+
 					model.addAttribute("department", department);
 					model.addAttribute("consultation", results);
 					model.addAttribute("patient", result);
 					model.addAttribute("admissionindetails", admissionList);
 					model.addAttribute("admissionInfo", admissionInfo);
-					model.addAttribute("results",
-							examRecordService.findExamrecords(patientTrackingNumber));
-
+					model.addAttribute("results", examRecordService.findExamrecords(patientTrackingNumber));
 
 					return "information";
 				}
@@ -283,17 +278,17 @@ public class HospitalController {
 		if (patientTrackingNumber.isEmpty() == false) {
 			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
 			if (consult != null) {
-			String department = activeUser.getDepertment().getName();
+				String department = activeUser.getDepertment().getName();
 
-			Prescription prescriptions = new Prescription();
-			model.addAttribute("prescriptions", prescriptions);
-			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
-			model.addAttribute("department", department);
-			model.addAttribute("admission", results);
-			model.addAttribute("consultation", consult);
-			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
+				Prescription prescriptions = new Prescription();
+				model.addAttribute("prescriptions", prescriptions);
+				model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+				model.addAttribute("department", department);
+				model.addAttribute("admission", results);
+				model.addAttribute("consultation", consult);
+				model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 
-			return "consultationD";
+				return "consultationD";
 			}
 		}
 		String department = activeUser.getDepertment().getName();
@@ -362,7 +357,7 @@ public class HospitalController {
 
 	@GetMapping("/labo/{patientTrackingNumber}")
 	public String viewExam(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		if (patientTrackingNumber.isEmpty() == false) {
+		if (!patientTrackingNumber.isEmpty()) {
 			ExamRecord examRecord = new ExamRecord();
 			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
@@ -375,17 +370,18 @@ public class HospitalController {
 
 	}
 
+	// TODO Fixing this now
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
-
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
+		System.out.println(examDto.toString() + " kjdhjfs");
 		for (int i = 0; i < id.length; i++) {
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
-			System.out.println(records.toString() + " not updated");
 			records.setResults(results[i]);
 			ExamRecord savedWithResults = examRecordService.update(records);
 			System.out.println(savedWithResults.toString() + " ");
+
 		}
 		return "redirect:/labodoctor";
 	}

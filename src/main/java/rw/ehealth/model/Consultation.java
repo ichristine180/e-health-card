@@ -27,14 +27,8 @@ public class Consultation {
 	 */
 	@Column(name = "DESCRIPTON", length = 1000)
 	private String description;
-	private String dateTaken;
-	public String getDateTaken() {
-		return dateTaken;
-	}
 
-	public void setDateTaken(String dateTaken) {
-		this.dateTaken = dateTaken;
-	}
+	private String dateTaken;
 
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
@@ -49,6 +43,14 @@ public class Consultation {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
+
+	public String getDateTaken() {
+		return dateTaken;
+	}
+
+	public void setDateTaken(String dateTaken) {
+		this.dateTaken = dateTaken;
+	}
 
 	public Hospital getHospital() {
 		return hospital;
@@ -120,8 +122,8 @@ public class Consultation {
 	 */
 	@Override
 	public String toString() {
-		return "Consultation [consultationId=" + consultationId + ", description=" + description + ", admissionInfo="
-				+ admission + ", doctor=" + doctor + "]";
+		return "Consultation [consultationId=" + consultationId + ", description=" + description + ", dateTaken="
+				+ dateTaken + ", admission=" + admission + ", doctor=" + doctor + ", hospital=" + hospital + "]";
 	}
 
 }

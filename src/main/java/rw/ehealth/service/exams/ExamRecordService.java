@@ -91,7 +91,7 @@ public class ExamRecordService implements IExamRecordService {
 	@Override
 	public ExamRecord findExamRecordByExamId(int i) {
 		try {
-			return eRepository.findExamRecordById(Long.valueOf(i));
+			return eRepository.findByExamRecordId(Long.valueOf(i));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -108,6 +108,7 @@ public class ExamRecordService implements IExamRecordService {
 
 	}
 
+	@Override
 	public List<ExamRecord> findAll() {
 		try {
 			return eRepository.findAll();
