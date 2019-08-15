@@ -2,6 +2,7 @@ package rw.ehealth.service.exams;
 
 import java.util.List;
 
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.report.ExamReport;
 
@@ -36,5 +37,11 @@ public interface IExamRecordService {
 	boolean isNotCreated(ExamRecord examRecords);
 
 	List<ExamRecord> findAll();
+
+	/**
+	 * @param admission
+	 * @return
+	 */
+	List<ExamRecord> findExamRecordByAddmission(Admission admission);
 
 }

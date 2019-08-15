@@ -375,13 +375,17 @@ public class HospitalController {
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
 		Employee employee = userService.findDoctor(principal.getName());
+		Admission admission = null;
 		for (int i = 0; i < id.length; i++) {
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			records.setResults(results[i]);
 			records.setClosedWithResult(true);
 			records.setExamResponseEmployee(employee);
-			examRecordService.update(records);
+			ExamRecord updatedRecord = examRecordService.update(records);
+			admission = updatedRecord.getAdmissionInfo();
 		}
+		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
+		model.addAttribute(employee.getDepertment().getName());
 		return "labo/exam_result_summary";
 	}
 }

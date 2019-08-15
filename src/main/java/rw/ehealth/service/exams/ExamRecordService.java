@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.repo.medical.ExamRecordRepository;
 import rw.ehealth.report.ExamReport;
@@ -152,5 +153,14 @@ public class ExamRecordService implements IExamRecordService {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.exams.IExamRecordService#findExamRecordByAddmission(rw.ehealth.model.Admission)
+	 */
+	@Override
+	public List<ExamRecord> findExamRecordByAddmission(Admission admission) {
+		return eRepository.findByAdmissionInfo(admission);
 	}
 }
