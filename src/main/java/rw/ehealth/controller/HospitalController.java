@@ -377,13 +377,14 @@ public class HospitalController {
 
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
-
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
+		Employee activeUser = userService.findDoctor(principal.getName());
 		for (int i = 0; i < id.length; i++) {
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			System.out.println(records.toString() + " not updated");
 			records.setResults(results[i]);
+			records.setExamResponseEmployee(activeUser);
 			ExamRecord savedWithResults = examRecordService.update(records);
 			System.out.println(savedWithResults.toString() + " ");
 		}
