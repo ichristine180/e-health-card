@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.report.ExamReport;
 
@@ -33,6 +34,23 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 */
 	@Query("SELECT e FROM ExamRecord e JOIN e.admissionInfo a  JOIN e.hospital h WHERE e.results = null  and h.hospitalId = :hospitalId GROUP BY a.admissionId")
 	List<ExamRecord> findPatiExamRecord(@Param("hospitalId") Long id);
+
+	/**
+	 * Find by hospital.
+	 *
+	 * @param hospital the hospital
+	 * @return the list
+	 */
+	List<ExamRecord> findByHospital(Hospital hospital);
+
+	/**
+	 * Find active exam record by hospital.
+	 *
+	 * @param hospital the hospital
+	 * @return the list
+	 */
+	@Query("SELECT e from ExamRecord e where e.hospital=:hospital and e.closedWithResult is false")
+	List<ExamRecord> findActiveExamRecordByHospital(@Param("hospital") Hospital hospital);
 
 	/**
 	 * Find exam records by patient.

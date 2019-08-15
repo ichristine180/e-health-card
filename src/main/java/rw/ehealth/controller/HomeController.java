@@ -4,6 +4,8 @@ package rw.ehealth.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +37,17 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String homepage(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee activeUser = userService.findDoctor(auth.getName());
+		String department = activeUser.getDepertment().getName();
 		long doctorsize = userService.countDoctor();
 		long hospitals = hospitalService.countHospital();
 		model.addAttribute("doctorsize", doctorsize);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("doctors", userService.finDoctors());
-		for (Employee employee : userService.finDoctors()) {
-			System.out.println(employee.toString() + " htisi");
-		}
+		model.addAttribute("department", department);
+		model.addAttribute("pExam", examRecordService.findActiveExamRecords(activeUser.getHospital()));
+
 		return "homepage";
 	}
 
@@ -99,6 +104,7 @@ public class HomeController {
 
 		return "consultationD";
 	}
+
 	@GetMapping("/results")
 	public String examResults(Model model, Principal principal) {
 		String username = principal.getName();
@@ -106,20 +112,17 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("results",
-				examRecordService.findResults(hospitalId,"MIDLE"));
+		model.addAttribute("results", examRecordService.findResults(hospitalId, "MIDLE"));
 
 		return "consultationD";
 	}
-
 
 	@GetMapping("/labodoctor")
 	public String laboString(Model model, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("pExam", examRecordService.findAllPExam(activeUser.getHospital().getHospitalId()));
-
+		model.addAttribute("pExam", examRecordService.findActiveExamRecords(activeUser.getHospital()));
 		return "homepage";
 	}
 

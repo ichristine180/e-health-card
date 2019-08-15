@@ -4,6 +4,7 @@ import java.util.List;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.report.ExamReport;
 
 public interface IExamRecordService {
@@ -43,5 +44,11 @@ public interface IExamRecordService {
 	 * @return
 	 */
 	List<ExamRecord> findExamRecordByAddmission(Admission admission);
+
+	/**
+	 * @param hospital
+	 * @return
+	 */
+	List<ExamRecord> findActiveExamRecords(Hospital hospital);
 
 }

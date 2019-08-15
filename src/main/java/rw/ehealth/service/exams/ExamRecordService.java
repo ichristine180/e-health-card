@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.repo.medical.ExamRecordRepository;
 import rw.ehealth.report.ExamReport;
 
@@ -162,5 +163,15 @@ public class ExamRecordService implements IExamRecordService {
 	@Override
 	public List<ExamRecord> findExamRecordByAddmission(Admission admission) {
 		return eRepository.findByAdmissionInfo(admission);
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.exams.IExamRecordService#findActiveExamRecords(rw.ehealth.model.Hospital)
+	 */
+	@Override
+	public List<ExamRecord> findActiveExamRecords(Hospital hospital) {
+
+		return eRepository.findActiveExamRecordByHospital(hospital);
 	}
 }
