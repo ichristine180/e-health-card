@@ -374,8 +374,10 @@ public class HospitalController {
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
+
 		Employee employee = userService.findDoctor(principal.getName());
 		Admission admission = null;
+
 		for (int i = 0; i < id.length; i++) {
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			records.setResults(results[i]);
@@ -383,6 +385,7 @@ public class HospitalController {
 			records.setExamResponseEmployee(employee);
 			ExamRecord updatedRecord = examRecordService.update(records);
 			admission = updatedRecord.getAdmissionInfo();
+
 		}
 		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
 		model.addAttribute(employee.getDepertment().getName());
