@@ -63,7 +63,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @return the exam records
 	 */
 	@Query("SELECT a from ExamRecord a where a.medicalExam.examId = :id")
-	ExamRecord findExamRecordById(Long id);
+	ExamRecord findExamRecordById(@Param("id") Long id);
 
 	/**
 	 * Find info.

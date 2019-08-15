@@ -1,4 +1,4 @@
- package rw.ehealth.model;
+package rw.ehealth.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +27,14 @@ public class Consultation {
 	 */
 	@Column(name = "DESCRIPTON", length = 1000)
 	private String description;
+	private String dateTaken;
+	public String getDateTaken() {
+		return dateTaken;
+	}
+
+	public void setDateTaken(String dateTaken) {
+		this.dateTaken = dateTaken;
+	}
 
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)

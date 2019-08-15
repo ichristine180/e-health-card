@@ -21,6 +21,7 @@ import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Employee;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
@@ -32,6 +33,7 @@ import rw.ehealth.service.exams.ExamService;
 import rw.ehealth.service.exams.IExamRecordService;
 import rw.ehealth.service.medical.IViewRecordHistoryService;
 import rw.ehealth.service.medical.IViewRequestService;
+import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.prescription.PrescriptionService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
@@ -65,6 +67,9 @@ public class HospitalController {
 
 	@Autowired
 	private IViewRecordHistoryService vService;
+	@Autowired
+	private IPatientService patientService;
+
 
 	@GetMapping("/admissions")
 	public String getActiveAdmissions(Model model, Principal principal) {
@@ -150,6 +155,7 @@ public class HospitalController {
 		consultation.setDoctor(activeUser);
 		consultation.setAdmission(admit);
 		consultation.setHospital(activeUser.getHospital());
+		consultation.setDateTaken(LocalDate.now().toString());
 		Consultation consultated = consultationService.createConsultation(consultation);
 		if (consultated != null) {
 			boolean admissionInfo = true;
@@ -178,6 +184,18 @@ public class HospitalController {
 		}
 
 	}
+	@GetMapping("/details/show/{patientTrackingNumber}")
+	public String showdetails(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
+		if (patientTrackingNumber != null) {
+			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			model.addAttribute("admissionList", results);
+			return "information";
+		}
+
+		return "redirect:/gdoctor";
+
+	}
+
 
 	@GetMapping("/details/consultation/{patientTrackingNumber}")
 	public String viewPatientInfo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
@@ -190,6 +208,8 @@ public class HospitalController {
 					LocalDate.now().toString());
 			if (resultRequest != null) {
 				List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
+				Patient result = patientService.findPatientByPatientNumber(patient.getPatientNumber());
+				List<Admission> admissionList = admissionService.listInfosByPatients(patient.getPatientNumber());
 				if (results != null) {
 					RecordHistoryLog vHistory = new RecordHistoryLog();
 					vHistory.setViewer(activeUser);
@@ -198,11 +218,15 @@ public class HospitalController {
 					vHistory.setViewOn(LocalDateTime.now());
 					vService.create(vHistory);
 					String department = activeUser.getDepertment().getName();
-					Consultation consultation = new Consultation();
+				
 					model.addAttribute("department", department);
-					model.addAttribute("consultation", consultation);
-					model.addAttribute("docAdmissions", results);
+					model.addAttribute("consultation", results);
+					model.addAttribute("patient", result);
+					model.addAttribute("admissionindetails", admissionList);
 					model.addAttribute("admissionInfo", admissionInfo);
+					model.addAttribute("results",
+							examRecordService.findExamrecords(patientTrackingNumber));
+
 
 					return "information";
 				}

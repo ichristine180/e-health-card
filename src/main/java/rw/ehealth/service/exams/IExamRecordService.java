@@ -35,4 +35,6 @@ public interface IExamRecordService {
 
 	boolean isNotCreated(ExamRecord examRecords);
 
+	List<ExamRecord> findAll();
+
 }

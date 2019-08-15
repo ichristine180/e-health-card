@@ -10,54 +10,174 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
-				<div></div>
-				<div class="row" style="height: 30px;">
-					<div class="col-xs-6">
+				<div class="row" style="height: 30px;" th:if="${patient}">
+					<div class="col-xs-12">
 						<div class="box-header">
 							<h3 class="box-title">Department Of</h3>
 							<h3 class="box-title" th:text="${department}"></h3>
-
 						</div>
-						<!-- /box header -->
 						<div class="box">
-							<div class="box-header with-border">
+							<div class="box-header">
 								<h3 class="box-title">Patient Information</h3>
 							</div>
-							<!-- /box-header with-border -->
+							<!-- /.box-header -->
 							<div class="box-body">
-									<table id="patients" class="table table-bordered table-hover">
+								<table id="patients" class="table table-bordered table-hover">
 									<thead>
 										<tr>
-												<th>#</th>
-												<th>Date</th>
-												<th>Hospital</th>
-												<th>Consultation</th>
-												<th>Details</th>
-											</tr>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Gender</th>
+											<th>Date Of Birth</th>
+											<th>Identification Number</th>
+											<th>Address</th>
+										</tr>
 									</thead>
-
+ 
 									<tbody>
-										<tr th:each="info, iStat: ${docAdmissions}">
+										<tr th:each="patients, iStat: ${patient}">
+											<td th:text="${patients.fname}" />
+											<td th:text="${patients.lname}" />
+											<td th:text="${patients.gender}" />
+											<td th:text="${patients.dateOfBirth}" />
+											<td th:text="${patients.identificationNumber}" />
+											<td th:text="${patients.address}" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /.box -->
+						<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Admission Information Details</h3>
+							</div>
+							<div class="box-body">
+								<table id="example1" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Hospital</th>
+											<th>Admission Date</th>
+											<th>Released Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="admission, iStat: ${admissionindetails}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${info.admissionInfo.admissionDate}" />
-											<td th:text="${info.doctor.hospital.hospitalName}" />
-											<td th:text="${info.description}" />
+											<td th:text="${admission.hospital.hospitalName}" />
+											<td th:text="${admission.admissionDate}" />
+											<td th:text="${admission.releasedDate}" />
 											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/consultation/' + ${info.admissionInfo.admittedPatient.patientNumber}}">MoreInfo
+												th:href="@{'/details/show/' + ${admission.patientTrackingNumber}}">Details
+											</a></td>
+										</tr>
+									</tbody>
+
+								</table>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Consultation Information</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="example1" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Hospital</th>
+											<th>Consultation Date</th>
+											<th>Symptoms</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="consultations, iStat: ${consultation}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${consultations.hospital.hospitalName}" />
+											<td th:text="${consultations.dateTaken}" />
+											<td th:text="${consultations.description}" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Medical Exams Information</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<table id="example1" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Hospital</th>
+											<th>Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="exam, iStat: ${results}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${exam.hospital.hospitalName}" />
+											<td th:text="${exam.datetaken}" />
+											<td><a class="btn btn-block btn-primary btn-sm"
+												th:href="@{'/details/show/' + ${exam.admissionInfo.patientTrackingNumber}}">Details
 											</a></td>
 										</tr>
 									</tbody>
 								</table>
-								</div>
 							</div>
-							
 						</div>
 					</div>
+				</div>
+				<div class="row" th:if="${admissionList}" style="margin-top: 80px;">
+					<div class="col-md-6">
+						<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Admission Information Details</h3>
+							</div>
+							<div class="box-body">
+								<table class="table table-bordered">
+									<tr>
+										<td>Blood Pressure</td>
+										<td th:text="${admissionList.bloodPressure}" />
+									</tr>
+									<tr>
+										<td>Heart Rate</td>
+										<td th:text="${admissionList.heartRate}" />
+									</tr>
+									<tr>
+										<td>Temperature</td>
+										<td th:text="${admissionList.temperature}" />
+									</tr>
+									<tr>
+										<td>Height</td>
+										<td th:text="${admissionList.height}" />
+									</tr>
+									<tr>
+										<td>Weight</td>
+										<td th:text="${admissionList.weight}" />
+									</tr>
+
+								</table>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<a class="btn btn-success pull-left"
+								th:href="@{'/details/consultation/' + ${admissionList.patientTrackingNumber}}">
+								<i></i> Back
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
+
 		</div>
 		<footer th:replace="common/header :: footer"></footer>
 	</div>
 	<div th:replace="common/header :: body-bottom-scripts"></div>
-	
 </body>
 </html>
