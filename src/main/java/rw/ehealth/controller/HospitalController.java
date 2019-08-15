@@ -363,26 +363,25 @@ public class HospitalController {
 			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
 			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 
-			return "labo";
+			return "labo/labo";
 		}
 
 		return "redirect:/labodoctor";
 
 	}
 
-	// TODO Fixing this now
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
-		System.out.println(examDto.toString() + " kjdhjfs");
+		Employee employee = userService.findDoctor(principal.getName());
 		for (int i = 0; i < id.length; i++) {
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			records.setResults(results[i]);
-			ExamRecord savedWithResults = examRecordService.update(records);
-			System.out.println(savedWithResults.toString() + " ");
-
+			records.setClosedWithResult(true);
+			records.setExamResponseEmployee(employee);
+			examRecordService.update(records);
 		}
-		return "redirect:/labodoctor";
+		return "labo/exam_result_summary";
 	}
 }

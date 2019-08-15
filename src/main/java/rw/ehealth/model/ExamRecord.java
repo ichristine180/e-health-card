@@ -53,6 +53,22 @@ public class ExamRecord {
 	private String datetaken;
 	private String results;
 
+	private boolean closedWithResult;
+
+	/**
+	 * @return the closedWithResult
+	 */
+	public boolean isClosedWithResult() {
+		return closedWithResult;
+	}
+
+	/**
+	 * @param closedWithResult the closedWithResult to set
+	 */
+	public void setClosedWithResult(boolean closedWithResult) {
+		this.closedWithResult = closedWithResult;
+	}
+
 	public Hospital getHospital() {
 		return hospital;
 	}
