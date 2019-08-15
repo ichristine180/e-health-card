@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
@@ -65,7 +64,7 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 			@Param("hospitalId") Long hospitalId);
 
 	@Query("SELECT a from Admission a Join a.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and a.releasedDate is null and a.status=:status and d.id=:id")
-	List<Admission> Admissions(@Param("hospitalId") Long hospitalId,@Param("status") String status,
+	List<Admission> Admissions(@Param("hospitalId") Long hospitalId, @Param("status") String status,
 
 			@Param("id") Long id);
 
@@ -99,6 +98,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 * @return
 	 */
 	@Query("SELECT a from Admission a where a.admittedPatient.patientNumber =:patientNumber and releasedDate is null")
-	Admission findActiveAdmission(@RequestParam("patientNumber") String patientNumber);
+	Admission findActiveAdmission(@Param("patientNumber") String patientNumber);
 
 }
