@@ -35,12 +35,11 @@
 									</thead>
 
 									<tbody>
-										<tr th:each="exam, iStat: ${examRecord}">
+										<tr th:each="exam, iStat: ${examRecords}">
 											<td th:text="${iStat.index+1}" />
 											<td th:text="${exam.medicalExam.name}" />
-											<td th:text="${exammedicalExam.code}" />
+											<td th:text="${exam.medicalExam.code}" />
 											<td th:text="${exam.examRequesterDoctor.fname}" />
-											<td th:text="${exam.examResponseEmployee.fname}" />
 											<td th:text="${exam.examResponseEmployee.fname}" />
 											<td th:text="${exam.results}" />
 											

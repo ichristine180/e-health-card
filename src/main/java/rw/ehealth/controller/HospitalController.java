@@ -387,6 +387,7 @@ public class HospitalController {
 			admission = updatedRecord.getAdmissionInfo();
 
 		}
+		System.out.println(admission.getPatientTrackingNumber() + " " + admission.toString());
 		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
 		model.addAttribute(employee.getDepertment().getName());
 		return "labo/exam_result_summary";

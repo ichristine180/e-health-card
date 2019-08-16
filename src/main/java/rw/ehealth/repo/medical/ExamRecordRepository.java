@@ -49,7 +49,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @param hospital the hospital
 	 * @return the list
 	 */
-	@Query("SELECT e from ExamRecord e where e.hospital=:hospital and e.closedWithResult is false")
+	@Query("SELECT e from ExamRecord e where e.hospital=:hospital and e.closedWithResult is false group by e.admissionInfo")
 	List<ExamRecord> findActiveExamRecordByHospital(@Param("hospital") Hospital hospital);
 
 	/**
