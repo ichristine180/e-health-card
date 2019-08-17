@@ -239,10 +239,15 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">All Patients</h3>
+								<h3 class="box-title">Admitted Patients @</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
+							<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/registration"> <i
+							class="fa fa-user"></i> Register New Patient
+						</a>
+					</div>
 							<table id="patients" class="table table-bordered table-hover">
 									<thead>
 										<tr>
@@ -279,13 +284,17 @@
 								</table>
 							</div>
 						</div>
+						</div>
+						</div>
+					<div class="row">
+					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
 								<h3 class="box-title">All Patients</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
+								<table id="patient" class="table table-bordered table-hover">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -322,20 +331,12 @@
 												th:href="@{'/admit/patient/' + ${patient.patientNumber}}">
 													<i class="fa fa-plus"></i>
 
-											</a> <a class="btn btn-default"
-												th:if="${patient.admissionStatus==true}"
-												th:href="@{'/patient/update/' + ${patient.patientNumber}}">Update
 											</a></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-					</div>
-					<div class="col-xs-12">
-						<a class="btn btn-success pull-left" href="/registration"> <i
-							class="fa fa-user"></i> Register New Patient
-						</a>
 					</div>
 				</div>
 			</div>
@@ -350,6 +351,19 @@
 	<script>
 		$(function() {
 			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false,
+				'pageLength' : 2
+			})
+		})
+	</script>
+	<script>
+		$(function() {
+			$('#patient').DataTable({
 				'paging' : true,
 				'lengthChange' : false,
 				'searching' : true,
