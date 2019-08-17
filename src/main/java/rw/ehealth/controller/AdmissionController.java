@@ -105,10 +105,6 @@ public class AdmissionController {
 		patientService.updatePatient(patient);
 		if (savedadmission != null) {
 			model.addAttribute("admission", savedadmission);
-			boolean showAdmission = true;
-			model.addAttribute("admissions", showAdmission);
-			model.addAttribute("patients", savedadmission.getAdmittedPatient());
-			model.addAttribute("message", "Admission is successful for " + savedadmission.getPatientTrackingNumber());
 			return "registrationSuccess";
 
 		}

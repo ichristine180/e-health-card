@@ -17,7 +17,7 @@
 						Dashboard <small>Registration Success</small>
 					</h1>
 				</section>
-				<section class="content-header" th:if="${admissions==true}">
+				<section class="content-header" th:if="${admission}">
 					<h1>
 						Dashboard <small>Admission Success</small>
 					</h1>
@@ -73,53 +73,46 @@
 				</section>
 				<!-- admission container -->
 				<!-- /.content -->
-				<section class="content" th:if="${admissions==true}">
+				<section class="content" th:if="${admission}">
 					<!-- Small boxes (Stat box) -->
 					<div class="row">
-						<div class="box box-widget widget-user">
-							<!-- Add the bg color to the header using any of the bg-* classes -->
-							<div class="widget-user-header bg-aqua-active">
-								<h3 class="widget-user-username" th:text="${patients.fname}"></h3>
-								<h5 class="widget-user-desc" th:text="${patients.patientNumber}"></h5>
-							</div>
-							<div class="widget-user-image">
-								<img class="img-circle" src="imgs/download.png"
-									alt="User Avatar" />
-							</div>
-							<div class="box-footer">
-								<div class="row">
-									<div class="col-sm-4 border-right">
-										<div class="description-block">
-											<h5 class="description-header">patient tracking number</h5>
-											<span class="description-text"
-												th:text="${admission.patientTrackingNumber}"></span>
-										</div>
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
-									<div class="col-sm-4 border-right">
-										<div class="description-block">
-											<h5 class="description-header">Gender</h5>
-											<span class="description-text" th:text="${patients.gender}"></span>
-										</div>
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
-									<div class="col-sm-4">
-										<div class="description-block">
-											<h5 class="description-header">Identification</h5>
-											<span class="description-text"
-												th:text="${patients.identificationNumber}"></span>
-										</div>
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
+						<div class="col-md-4">
+							<!-- Widget: user widget style 1 -->
+							<div class="box box-widget widget-user-2" >
+								<!-- Add the bg color to the header using any of the bg-* classes -->
+								<div class="widget-user-header bg-aqua-active">
+									<!-- /.widget-user-image -->
+									<h3 class="widget-user-username" th:text="${admission.admittedPatient.fname}"></h3>
+									<h5 class="widget-user-desc" th:text="${admission.admittedPatient.lname}"></h5>
 								</div>
-								<!-- /.row -->
+								<div class="box-footer no-padding">
+									<table class="table table-bordered">
+										<tr>
+											<td>Blood Pressure</td>
+											<td th:text="${admission.bloodPressure}" />
+										</tr>
+										<tr>
+											<td>Heart Rate</td>
+											<td th:text="${admission.heartRate}" />
+										</tr>
+										<tr>
+											<td>Temperature</td>
+											<td th:text="${admission.temperature}" />
+										</tr>
+										<tr>
+											<td>Height</td>
+											<td th:text="${admission.height}" />
+										</tr>
+										<tr>
+											<td>Weight</td>
+											<td th:text="${admission.weight}" />
+										</tr>
+									</table>
+								</div>
 							</div>
-						</div>
-
-					</div>
+							</div>
+							</div>
+							
 				</section>
 			</div>
 		</div>
