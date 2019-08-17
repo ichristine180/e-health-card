@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import rw.ehealth.model.Employee;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
+import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
@@ -126,8 +128,22 @@ public class AdminController {
 	}
 
 	@PostMapping("/docregistration")
-	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
-		if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
+	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model,BindingResult bindingResult) {
+		 if (bindingResult.hasErrors()) {
+			 DoctorData doctor = new DoctorData();
+				Iterable<Role> role = userService.findAll();
+				Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
+				Iterable<Department> departemt = departemtService.findAllDepartemts();
+				model.addAttribute("departemt", departemt);
+				model.addAttribute("hospitals", hospitals);
+				model.addAttribute("role", role);
+				model.addAttribute("doctor", doctor);
+				boolean doctors = true;
+				model.addAttribute("doctors", doctors);
+				return "registration";
+		 }
+		 else {
+		//if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
 			Employee doc = new Employee();
 			doc.setEmail(user.getEmail());
 			doc.setFname(user.getFname());
@@ -157,7 +173,8 @@ public class AdminController {
 			userService.createUser(myuser);
 			userService.createUser(myuser, userRoles);
 			return "redirect:/";
-		}
-		return "redirect:/docregistration";
+		//}
+		//return "redirect:/docregistration";
+	}
 	}
 }

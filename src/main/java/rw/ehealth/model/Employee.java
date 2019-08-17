@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,28 +29,32 @@ public class Employee {
 	/**
 	 * The constant fname - String
 	 */
+	@NotNull
 	@Column(name = "fname", nullable = false)
 	private String fname;
 	/**
 	 * The constant lname - String
 	 */
+	@NotNull
 	@Column(name = "lname", nullable = false)
 	private String lname;
 	/**
 	 * The constant email - String
 	 */
+	@NotNull
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	/**
 	 * The constant phone - String
 	 */
+	//@Size(min = 10, max = 10)
 	@Column(name = "phone", nullable = false)
 	private String phone;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
-
+	
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "accountid", nullable = false)
 	private User user;
