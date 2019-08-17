@@ -128,21 +128,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/docregistration")
-	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			DoctorData doctor = new DoctorData();
-			Iterable<Role> role = userService.findAll();
-			Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-			Iterable<Department> departemt = departemtService.findAllDepartemts();
-			model.addAttribute("departemt", departemt);
-			model.addAttribute("hospitals", hospitals);
-			model.addAttribute("role", role);
-			model.addAttribute("doctor", doctor);
-			boolean doctors = true;
-			model.addAttribute("doctors", doctors);
-			return "registration";
-		}
-		// if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
+	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
+		if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
 		Employee doc = new Employee();
 		doc.setEmail(user.getEmail());
 		doc.setFname(user.getFname());
@@ -169,10 +156,20 @@ public class AdminController {
 		userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
 		myuser.setDoctor(doc);
 		doc.setUser(myuser);
-		userService.createUser(myuser);
-		userService.createUser(myuser, userRoles);
-		return "redirect:/";
-		// }
-		// return "redirect:/docregistration";
+		 userService.createUser(myuser);
+		 User empoUser =userService.createUser(myuser, userRoles);
+		 if (empoUser!=null) {
+			 model.addAttribute("user", userService.findByUsername(empoUser.getUsername()));
+		return "registrationSuccess";
+		 }
+		}
+		 return "redirect:/docregistration";
+	}
+	@GetMapping("/listHospital")
+	public String adminReportHomepage(Model model) {
+		model.addAttribute("hospitals", hospitalService.findAllHospitals());
+		model.addAttribute("hospitalCount", hospitalService.findAllHospitals().size());
+		model.addAttribute("userCount", userService.findUserList().size());
+		return "report";
 	}
 }
