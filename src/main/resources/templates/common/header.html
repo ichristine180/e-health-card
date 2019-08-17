@@ -55,7 +55,15 @@
 			<nav class="navbar navbar-static-top">
 				<div class="container">
 					<div class="navbar-header">
-						<a href="/" class="navbar-brand"><b>E</b>HealthCard</a> <a
+						<a href="/" sec:authorize="hasRole('ROLE_ADMIN')"
+							class="navbar-brand"><b>E</b>HealthCard</a> <a href="/gdoctor"
+							sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')"
+							class="navbar-brand"><b>E</b>HealthCard</a> <a href="/recptionist"
+							sec:authorize="hasRole('ROLE_RECEPTIONIST')"
+							class="navbar-brand"><b>E</b>HealthCard</a> 
+							 <a href="/labodoctor"
+							sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')"
+							class="navbar-brand"><b>E</b>HealthCard</a><a
 							sec:authorize="hasRole('ROLE_ADMIN')" href="/"
 							class="navbar-brand"><b>H</b>ome</a> <a
 							sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')" href="/gdoctor"
