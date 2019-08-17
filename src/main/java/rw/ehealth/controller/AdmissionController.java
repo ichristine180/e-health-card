@@ -21,10 +21,12 @@ import rw.ehealth.model.Department;
 import rw.ehealth.model.Employee;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
+import rw.ehealth.model.Prescription;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
+import rw.ehealth.service.prescription.IPrescriptionService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.IEmployeeService;
 import rw.ehealth.service.user.UserService;
@@ -53,6 +55,8 @@ public class AdmissionController {
 
 	@Autowired
 	private DepartemtService departemtService;
+	@Autowired
+	private IPrescriptionService prescriptionService;
 
 	@GetMapping("/registration")
 	public String registerPatient(Model model) {
@@ -161,10 +165,13 @@ public class AdmissionController {
 			// if the patient is found, we proceed with closing admission
 			if (result != null) {
 				Admission admitepToday = admissionService.findBYpatientNumber(pData.getPatientNumber());
+				Prescription prescription = prescriptionService.findPByPatientTruckingNumber(admitepToday.getPatientTrackingNumber());
+				if(prescription != null) {
 				admitepToday.setReleasedDate(LocalDateTime.now().toString());
 				admissionService.update(admitepToday);
 				result.setAdmissionStatus(false);
 				patientService.updatePatient(result);
+				}
 
 			}
 		}
