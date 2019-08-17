@@ -243,11 +243,6 @@
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
-							<div class="col-xs-12">
-						<a class="btn btn-success pull-left" href="/registration"> <i
-							class="fa fa-user"></i> Register New Patient
-						</a>
-					</div>
 							<table id="patients" class="table table-bordered table-hover">
 									<thead>
 										<tr>
@@ -255,7 +250,6 @@
 											<th>Patient Number</th>
 											<th>First Name</th>
 											<th>Last Name</th>
-											<th>Admitted</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -266,8 +260,6 @@
 											<td th:text="${patient.admittedPatient.patientNumber}" />
 											<td th:text="${patient.admittedPatient.fname}" />
 											<td th:text="${patient.admittedPatient.lname}" />
-											<td class="text-uppercase"
-												th:text="${patient.admittedPatient.admissionStatus}"></td>
 											<td><a class="btn btn-info"
 												th:href="@{'/details/patient/' + ${patient.admittedPatient.patientNumber}}">
 													<i class="fa fa-info"></i>
@@ -294,6 +286,11 @@
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
+							<div class="col-xs-12">
+						<a class="btn btn-success pull-left" href="/registration"> <i
+							class="fa fa-user"></i> Register New Patient
+						</a>
+					</div>
 								<table id="patient" class="table table-bordered table-hover">
 									<thead>
 										<tr>
@@ -303,7 +300,6 @@
 											<th>Last Name</th>
 											<th>Gender</th>
 											<th>Born On</th>
-											<th>Admitted</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -316,8 +312,6 @@
 											<td th:text="${patient.lname}" />
 											<td th:text="${patient.gender}" />
 											<td th:text="${patient.dateOfBirth}" />
-											<td class="text-uppercase"
-												th:text="${patient.admissionStatus}"></td>
 											<td><a class="btn btn-info"
 												th:href="@{'/details/patient/' + ${patient.patientNumber}}">
 													<i class="fa fa-info"></i>

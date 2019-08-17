@@ -109,7 +109,7 @@ public class AdmissionController {
 			model.addAttribute("admissions", showAdmission);
 			model.addAttribute("patients", savedadmission.getAdmittedPatient());
 			model.addAttribute("message", "Admission is successful for " + savedadmission.getPatientTrackingNumber());
-			return "redirect:/recptionist";
+			return "registrationSuccess";
 
 		}
 		model.addAttribute("error", true);
