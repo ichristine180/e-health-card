@@ -129,42 +129,51 @@ public class AdminController {
 
 	@PostMapping("/docregistration")
 	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
+		Department departemt;
 		if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
-		Employee doc = new Employee();
-		doc.setEmail(user.getEmail());
-		doc.setFname(user.getFname());
-		doc.setLname(user.getLname());
-		doc.setTimestamp(LocalDate.now().toString());
-		doc.setPhone(user.getPhone());
-		Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
-		doc.setHospital(hospitals);
-		Department departemt = departemtService.findPerName(user.getDepertmentName());
-		doc.setDepertment(departemt);
-
-		if (userService.checkUsernameExists(user.getEmail())) {
+			Employee doc = new Employee();
+			doc.setEmail(user.getEmail());
+			doc.setFname(user.getFname());
+			doc.setLname(user.getLname());
+			doc.setTimestamp(LocalDate.now().toString());
+			doc.setPhone(user.getPhone());
+			Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
+			doc.setHospital(hospitals);
+			if (user.getRoleName().equals("ROLE_RECEPTIONIST")) {
+				departemt = departemtService.findPerName("Reception");
+				doc.setDepertment(departemt);
+			} else if (user.getRoleName().equals("ROLE_GENERAL_DOCTOR")) {
+				departemt = departemtService.findPerName("General Practitioner");
+				doc.setDepertment(departemt);
+			}else if (user.getRoleName().equals("ROLE_LABORATORY_DOCTOR")) {
+				departemt = departemtService.findPerName("Laboratory");
+				doc.setDepertment(departemt);
+			} 
 			if (userService.checkUsernameExists(user.getEmail())) {
-				model.addAttribute("emailExists", true);
-				System.out.println("email exists");
+				if (userService.checkUsernameExists(user.getEmail())) {
+					model.addAttribute("emailExists", true);
+					System.out.println("email exists");
+				}
+				return "redirect:/docregistration";
 			}
-			return "redirect:/docregistration";
-		}
-		User myuser = new User();
+			User myuser = new User();
 
-		myuser.setUsername(user.getEmail());
-		myuser.setPassword("pass");
-		Set<UserRole> userRoles = new HashSet<>();
-		userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
-		myuser.setDoctor(doc);
-		doc.setUser(myuser);
-		 userService.createUser(myuser);
-		 User empoUser =userService.createUser(myuser, userRoles);
-		 if (empoUser!=null) {
-			 model.addAttribute("user", userService.findByUsername(empoUser.getUsername()));
-		return "registrationSuccess";
-		 }
+			myuser.setUsername(user.getEmail());
+			myuser.setPassword("pass");
+			Set<UserRole> userRoles = new HashSet<>();
+			userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
+			myuser.setDoctor(doc);
+			doc.setUser(myuser);
+			userService.createUser(myuser);
+			User empoUser = userService.createUser(myuser, userRoles);
+			if (empoUser != null) {
+				model.addAttribute("user", userService.findByUsername(empoUser.getUsername()));
+				return "registrationSuccess";
+			}
 		}
-		 return "redirect:/docregistration";
+		return "redirect:/docregistration";
 	}
+
 	@GetMapping("/listHospital")
 	public String adminReportHomepage(Model model) {
 		model.addAttribute("hospitals", hospitalService.findAllHospitals());

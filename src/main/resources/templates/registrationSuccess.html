@@ -128,7 +128,7 @@
 		</div>
 	</div>
 <div class="content-wrapper"
-			sec:authorize="hasRole('ROLE_RECEPTIONIST')">
+			sec:authorize="hasRole('ROLE_ADMIN')">
 			<div class="container">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
@@ -148,7 +148,7 @@
 						<div class="box box-widget widget-user">
 							<!-- Add the bg color to the header using any of the bg-* classes -->
 							<div class="widget-user-header bg-aqua-active">
-								<h3 class="widget-user-username" th:text="${user.fname}"></h3>
+								<h3 class="widget-user-username" th:text="${user.doctor.fname}"></h3>
 								<h5 class="widget-user-desc" th:text="${user.username}"></h5>
 							</div>
 							<div class="widget-user-image">
