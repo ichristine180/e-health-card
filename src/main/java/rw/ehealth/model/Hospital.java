@@ -77,6 +77,7 @@ public class Hospital {
 	// Consultations
 	@OneToMany(mappedBy = "hospital")
 	private Set<Consultation> Consultations;
+
 	public Set<Consultation> getConsultations() {
 		return Consultations;
 	}
@@ -96,6 +97,7 @@ public class Hospital {
 	// ExamRecords
 	@OneToMany(mappedBy = "hospital")
 	private Set<ExamRecord> ExamRecords;
+
 	public Set<ExamRecord> getExamRecords() {
 		return ExamRecords;
 	}
