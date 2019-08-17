@@ -55,17 +55,16 @@
 			<nav class="navbar navbar-static-top">
 				<div class="container">
 					<div class="navbar-header">
-					<a href="/"
-							class="navbar-brand"><b>E</b>HealthCard</a>
-						<a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
+						<a href="/" class="navbar-brand"><b>E</b>HealthCard</a> <a
+							sec:authorize="hasRole('ROLE_ADMIN')" href="/"
 							class="navbar-brand"><b>H</b>ome</a> <a
 							sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')" href="/gdoctor"
-							class="navbar-brand"><b>H</b>ome</a>
-							<a sec:authorize="hasRole('ROLE_RECEPTIONIST')" href="/recptionist"
 							class="navbar-brand"><b>H</b>ome</a> <a
-							sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')" href="/labodoctor"
-							class="navbar-brand"><b>H</b>ome</a>
-							
+							sec:authorize="hasRole('ROLE_RECEPTIONIST')" href="/recptionist"
+							class="navbar-brand"><b>H</b>ome</a> <a
+							sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')"
+							href="/labodoctor" class="navbar-brand"><b>H</b>ome</a>
+
 						<button type="button" class="navbar-toggle collapsed"
 							data-toggle="collapse" data-target="#navbar-collapse">
 							<i class="fa fa-bars"></i>
@@ -78,7 +77,6 @@
 							<ul class="nav navbar-nav">
 								<li><a href="/consultation/report">Report</a></li>
 								<li><a href="#">Prescriptions</a></li>
-								<li><a href="/logout">Logout</a></li>
 							</ul>
 						</div>
 						<div sec:authorize="hasRole('ROLE_ADMIN')">
@@ -86,23 +84,24 @@
 								<li><a href="/docregistration">Users</a></li>
 								<li><a href="/hospregistration">Hospitals</a></li>
 								<li><a href="/admin/report">Reports</a></li>
-								<li><a href="/logout">Logout</a></li>
 							</ul>
 						</div>
 						<div sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')">
 							<ul class="nav navbar-nav">
 								<li><a href="/report/labo">Report</a></li>
-								<li><a href="/logout">Logout</a></li>
 							</ul>
 						</div>
 						<div sec:authorize="hasRole('ROLE_RECEPTIONIST')">
 							<ul class="nav navbar-nav">
-								<li><a href="/registration">Patients<span
-										class="sr-only">(current)</span></a></li>
 								<li><a href="/reception/report">Report</a></li>
-								<li><a href="/logout">Logout</a></li>
 							</ul>
 						</div>
+					</div>
+					<div sec:authorize="isAuthenticated()"
+						class="collapse navbar-collapse pull-right" id="navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li><a href="/logout">Logout</a></li>
+						</ul>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
@@ -171,7 +170,8 @@
 		<script th:src="@{/dist/js/demo.js}"></script>
 
 		<script th:src="@{/plugins/input-mask/jquery.inputmask.js}"></script>
-		<script th:src="@{/plugins/input-mask/jquery.inputmask.date.extensions.js}"></script>
+		<script
+			th:src="@{/plugins/input-mask/jquery.inputmask.date.extensions.js}"></script>
 		<script th:src="@{/plugins/input-mask/jquery.inputmask.extensions.js}"></script>
 
 		<script src="/bower_components/moment/min/moment.min.js"></script>
