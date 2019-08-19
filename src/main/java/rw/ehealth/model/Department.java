@@ -88,4 +88,13 @@ public class Department {
 		this.hospitals = hospitals;
 	}
 
+	/*
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Department [departmentId=" + departmentId + ", name=" + name + ", code=" + code + "]";
+	}
+
 }

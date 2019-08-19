@@ -89,4 +89,13 @@ public class MedicalExam {
 		this.hospitals = hospitals;
 	}
 
+	/*
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MedicalExam [examId=" + examId + ", name=" + name + ", code=" + code + "]";
+	}
+
 }

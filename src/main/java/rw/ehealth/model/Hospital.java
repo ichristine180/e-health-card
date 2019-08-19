@@ -274,7 +274,9 @@ public class Hospital {
 	@Override
 	public String toString() {
 		return "Hospital [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalCode="
-				+ hospitalCode + ", type=" + type + ", address=" + address + "]";
+				+ hospitalCode + ", type=" + type + ", address=" + address + ", departments=" + departments
+				+ ", departmentCount=" + departmentCount + ", serviceCount=" + serviceCount + ", exams=" + exams
+				+ ", admissions=" + admissions + ", Consultations=" + Consultations + ", ExamRecords=" + ExamRecords
+				+ ", Prescriptions=" + Prescriptions + ", employees=" + employees + "]";
 	}
-
 }

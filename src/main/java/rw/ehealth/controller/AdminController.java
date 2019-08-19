@@ -3,9 +3,7 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -13,21 +11,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rw.ehealth.model.Admission;
 import rw.ehealth.model.Department;
 import rw.ehealth.model.Employee;
-import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
-import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
 import rw.ehealth.service.exams.ExamService;
 import rw.ehealth.service.hospital.IHospitalService;
@@ -35,7 +29,6 @@ import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.UserService;
 import rw.ehealth.utils.DoctorData;
-import rw.ehealth.utils.ExamDto;
 import rw.ehealth.utils.HopitaData;
 import rw.ehealth.utils.IDGenerator;
 
@@ -112,29 +105,34 @@ public class AdminController {
 	}
 
 	@PostMapping("/hospregistration")
-	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,@RequestParam(value = "departmentId", required = false) Long[] departmentId,
-	@ModelAttribute HopitaData hdata, Model model, Principal principal) {
-			if (examId != null && departmentId != null) {
-				Set<MedicalExam> selectedMedicalExam =new HashSet<>();
-				for (int i = 0; i < examId.length; i++) {
-					MedicalExam exam = examService.findHospitalById(examId[i]);
-					selectedMedicalExam.add(exam);
-				}
-				Set<Department> selectedMedicalDepartment =new HashSet<>();
-				for (int i = 0; i < examId.length; i++) {
-					Department dpt = departemtService.findPerId(departmentId[i]);
-					selectedMedicalDepartment.add(dpt);
-				}
-				for (MedicalExam exam : selectedMedicalExam) {
-					System.out.println(exam.getName() + " This came from the UI");
-					
-				}
-				for (Department dpt : selectedMedicalDepartment) {
-					System.out.println(dpt.getName() + " This came from the UI");
-					
-				}
-	}
-			return "registration";
+	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,
+			@RequestParam(value = "departmentId", required = false) Long[] departmentId,
+			@ModelAttribute HopitaData hdata, Model model, Principal principal) {
+		if (examId != null && departmentId != null) {
+
+			Hospital hospital = new Hospital();
+			hospital.setAddress(hdata.getAddress());
+			hospital.setHospitalCode(hdata.getHospitalCode());
+			hospital.setHospitalName(hdata.getHospitalname());
+
+			Set<MedicalExam> selectedMedicalExam = new HashSet<>();
+			for (int i = 0; i < examId.length; i++) {
+				MedicalExam exam = examService.findHospitalById(examId[i]);
+				selectedMedicalExam.add(exam);
+			}
+			Set<Department> selectedMedicalDepartment = new HashSet<>();
+			for (int i = 0; i < examId.length; i++) {
+				Department dpt = departemtService.findPerId(departmentId[i]);
+				selectedMedicalDepartment.add(dpt);
+			}
+
+			hospital.setDepartments(selectedMedicalDepartment);
+			hospital.setExams(selectedMedicalExam);
+
+			System.out.println(hospital.toString() + " jsdfjsfj");
+
+		}
+		return "registration";
 	}
 
 	@PostMapping("/docregistration")
@@ -155,10 +153,10 @@ public class AdminController {
 			} else if (user.getRoleName().equals("ROLE_GENERAL_DOCTOR")) {
 				departemt = departemtService.findPerName("General Practitioner");
 				doc.setDepertment(departemt);
-			}else if (user.getRoleName().equals("ROLE_LABORATORY_DOCTOR")) {
+			} else if (user.getRoleName().equals("ROLE_LABORATORY_DOCTOR")) {
 				departemt = departemtService.findPerName("Laboratory");
 				doc.setDepertment(departemt);
-			} 
+			}
 			if (userService.checkUsernameExists(user.getEmail())) {
 				if (userService.checkUsernameExists(user.getEmail())) {
 					model.addAttribute("emailExists", true);
