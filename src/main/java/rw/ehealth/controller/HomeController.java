@@ -71,14 +71,15 @@ public class HomeController {
 		Employee doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
-		List<Consultation> consultedp = consultationService.findConsuledPatient(hospitalId, doctor.getDepertment().getDepartmentId());
-		System.out.println(consultedp+"jfjfjjfjj");
+		List<Consultation> consultedp = consultationService.findConsuledPatient(hospitalId,
+				doctor.getDepertment().getDepartmentId());
+		System.out.println(consultedp.size() + "jfjfjjfjj");
 		model.addAttribute("department", department);
 		long admissions = admissionService.countAdmission(hospitalId);
 		long patients = examRecordService.countPatient(hospitalId);
 		model.addAttribute("docAdmissions",
 				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
-		model.addAttribute("consultedpatients",consultedp);
+		model.addAttribute("consultedpatients", consultedp);
 
 		model.addAttribute("patientsSize", patients);
 		model.addAttribute("admissions", admissions);

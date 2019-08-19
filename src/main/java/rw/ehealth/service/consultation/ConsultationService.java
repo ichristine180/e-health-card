@@ -79,7 +79,8 @@ public class ConsultationService implements IConsultationService {
 	@Override
 	public List<Consultation> findConsuledPatient(Long hospitalId, Long departmentId) {
 		try {
-			return cRepository.findConsuledPatients(hospitalId,departmentId);
+			System.out.println(cRepository.findConsuledPatients(hospitalId, departmentId).size() + "SIZE");
+			return cRepository.findConsuledPatients(hospitalId, departmentId);
 		} catch (Exception e) {
 			throw e;
 		}
