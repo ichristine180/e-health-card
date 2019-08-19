@@ -55,8 +55,8 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 	@Query("SELECT c from Consultation c JOIN c.admission a WHERE a.patientTrackingNumber=:patientTrackingNumber")
 	Consultation findByPatientTruckingNumber(@Param("patientTrackingNumber") String patientTrackingNumber);
 
-	@Query("SELECT c from Consultation c JOIN c.hospital h  JOIN h.departments d WHERE h.hospitalId=:hospitalId and c.status=:status and d.departmentId =departmentId ")
-	List<Consultation> findConsuledPatients(@Param("hospitalId") Long hospitalId,@Param("status") String status,@Param("departmentId") Long departmentId);
+	@Query("SELECT c from Consultation c JOIN c.hospital h  JOIN h.departments d WHERE h.hospitalId=:hospitalId and c.status = 'PENDING' or c.status = 'MIDLE' and d.departmentId =:departmentId ")
+	List<Consultation> findConsuledPatients(@Param("hospitalId") Long hospitalId,@Param("departmentId") Long departmentId);
 	/**
 	 * Count by gender.
 	 *

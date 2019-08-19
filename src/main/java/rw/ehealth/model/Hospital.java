@@ -276,7 +276,6 @@ public class Hospital {
 		return "Hospital [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalCode="
 				+ hospitalCode + ", type=" + type + ", address=" + address + ", departments=" + departments
 				+ ", departmentCount=" + departmentCount + ", serviceCount=" + serviceCount + ", exams=" + exams
-				+ ", admissions=" + admissions + ", Consultations=" + Consultations + ", ExamRecords=" + ExamRecords
 				+ ", Prescriptions=" + Prescriptions + ", employees=" + employees + "]";
 	}
 }

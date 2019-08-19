@@ -16,6 +16,6 @@ public interface IConsultationService {
 	Long countPatientByGender(Long id, String gender);
 
 	Consultation update(Consultation consult);
-	List<Consultation> findConsuledPatient(Long hospitalId,String status,Long departmentId);
+	List<Consultation> findConsuledPatient(Long hospitalId,Long departmentId);
 
 }

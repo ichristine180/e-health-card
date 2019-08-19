@@ -2,12 +2,14 @@
 package rw.ehealth.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Employee;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.consultation.IConsultationService;
@@ -69,13 +71,14 @@ public class HomeController {
 		Employee doctor = userService.findDoctor(username);
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
+		List<Consultation> consultedp = consultationService.findConsuledPatient(hospitalId, doctor.getDepertment().getDepartmentId());
+		System.out.println(consultedp+"jfjfjjfjj");
 		model.addAttribute("department", department);
 		long admissions = admissionService.countAdmission(hospitalId);
 		long patients = examRecordService.countPatient(hospitalId);
 		model.addAttribute("docAdmissions",
 				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
-		model.addAttribute("consultedpatients",
-				consultationService.findConsuledPatient(hospitalId, "MIDLE", doctor.getDepertment().getDepartmentId()));
+		model.addAttribute("consultedpatients",consultedp);
 
 		model.addAttribute("patientsSize", patients);
 		model.addAttribute("admissions", admissions);

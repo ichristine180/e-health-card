@@ -198,16 +198,13 @@
 						</div>
 					</div>
 				</section>
-
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="box">
+				<div class="box">
 							<div class="box-header">
 								<h3 class="box-title">Admissions</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
+								<table id="patient" class="table table-bordered table-hover">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -255,14 +252,15 @@
 									</thead>
 
 									<tbody>
-										<tr th:each="admission, iStat: ${consultedpatients}">
+										<tr th:each="p, iStat: ${consultedpatients}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${admission.admittedPatient.fname}" />
-											<td th:text="${admission.admittedPatient.lname}" />
-											<td th:text="${admission.patientTrackingNumber}" />
-											<td th:text="${admission.admissionDate}" />
+											<td th:text="${p.admission.admittedPatient.fname}" />
+											<td th:text="${p.admission.admittedPatient.lname}" />
+											<td th:text="${p.admission.patientTrackingNumber}" />
+											<td th:if="${p.status=='MIDLE'}">YES</td>
+											<td th:if="${p.status=='PENDING'}">NO</td>
 											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/consultation/' + ${admission.patientTrackingNumber}}">Consult
+												th:href="@{'/consultation/' + ${p.admission.patientTrackingNumber}}">Details
 											</a></td>
 										</tr>
 									</tbody>
