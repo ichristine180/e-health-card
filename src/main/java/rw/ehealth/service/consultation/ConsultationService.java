@@ -86,4 +86,13 @@ public class ConsultationService implements IConsultationService {
 		}
 	}
 
+	@Override
+	public long countConsultation(Long hospitalId, Long departmentId) {
+		try {
+			return cRepository.countConsultation(hospitalId,departmentId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 }

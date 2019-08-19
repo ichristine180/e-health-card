@@ -257,11 +257,14 @@
 											<td th:text="${p.admission.admittedPatient.fname}" />
 											<td th:text="${p.admission.admittedPatient.lname}" />
 											<td th:text="${p.admission.patientTrackingNumber}" />
-											<td th:if="${p.status=='MIDLE'}">YES</td>
+											<td th:if="${p.status=='MIDLE'} or ${p.status=='COMPLETE'}">YES</td>
 											<td th:if="${p.status=='PENDING'}">NO</td>
-											<td><a class="btn btn-block btn-primary btn-sm"
+											<td th:if="${p.status=='PENDING'}"><a class="btn btn-block btn-primary btn-sm"
 												th:href="@{'/consultation/' + ${p.admission.patientTrackingNumber}}">Details
 											</a></td>
+											<td th:if="${p.status=='COMPLETE'}"><a class="btn btn-block btn-primary btn-sm"
+													th:href="@{'/prescription/' + ${p.admission.patientTrackingNumber}}">results
+												</a></td>
 										</tr>
 									</tbody>
 								</table>

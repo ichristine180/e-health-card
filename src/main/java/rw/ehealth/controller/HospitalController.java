@@ -351,6 +351,7 @@ public class HospitalController {
 				examrecords.setAdmissionInfo(admitedp);
 				examrecords.setDatetaken(LocalDate.now().toString());
 				examrecords.setHospital(activeUser.getHospital());
+				examrecords.setExamRequesterDoctor(activeUser);
 				examRecordService.creaExamRecords(examrecords);
 			}
 			Consultation consult = consultationService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
@@ -394,6 +395,9 @@ public class HospitalController {
 			admission = updatedRecord.getAdmissionInfo();
 
 		}
+		Consultation consult = consultationService.findByPatientTruckingNumber(admission.getPatientTrackingNumber());
+		consult.setStatus("COMPLETE");
+		consultationService.update(consult);
 		System.out.println(admission.getPatientTrackingNumber() + " " + admission.toString());
 		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
 		model.addAttribute(employee.getDepertment().getName());

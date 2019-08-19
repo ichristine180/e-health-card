@@ -1,6 +1,7 @@
 package rw.ehealth.service.consultation;
 
 import java.util.List;
+
 import rw.ehealth.model.Consultation;
 
 public interface IConsultationService {
@@ -17,5 +18,7 @@ public interface IConsultationService {
 
 	Consultation update(Consultation consult);
 	List<Consultation> findConsuledPatient(Long hospitalId,Long departmentId);
+	long countConsultation(Long hospitalId,
+			Long departmentId);
 
 }
