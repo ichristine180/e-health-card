@@ -165,12 +165,21 @@ public class AdmissionController {
 			// if the patient is found, we proceed with closing admission
 			if (result != null) {
 				Admission admitepToday = admissionService.findBYpatientNumber(pData.getPatientNumber());
-				Prescription prescription = prescriptionService.findPByPatientTruckingNumber(admitepToday.getPatientTrackingNumber());
-				if(prescription != null) {
-				admitepToday.setReleasedDate(LocalDateTime.now().toString());
-				admissionService.update(admitepToday);
-				result.setAdmissionStatus(false);
-				patientService.updatePatient(result);
+				Prescription prescription = prescriptionService
+						.findPByPatientTruckingNumber(admitepToday.getPatientTrackingNumber());
+				if (prescription != null) {
+					admitepToday.setReleasedDate(LocalDateTime.now().toString());
+					admissionService.update(admitepToday);
+					result.setAdmissionStatus(false);
+					patientService.updatePatient(result);
+				} else {
+					boolean update = true;
+					model.addAttribute("update", update);
+					Patient patient = new Patient();
+					model.addAttribute("patient", patient);
+					model.addAttribute("patientNumber", pData.getPatientNumber());
+					model.addAttribute("message", "Can't Close Unconsultated Admission");
+					return "reception";
 				}
 
 			}
