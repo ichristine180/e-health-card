@@ -34,7 +34,7 @@ public class DepartemtService implements IDepartemtService {
 
 	}
 	@Override
-	public Department findPerId(int id) {
+	public Department findPerId(Long id) {
 		try {
 			return dRepository.findByDepartmentId(id);
 		} catch (Exception e) {

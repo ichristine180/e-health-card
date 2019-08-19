@@ -112,7 +112,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/hospregistration")
-	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,@RequestParam(value = "departmentId", required = false) int[] departmentId,
+	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,@RequestParam(value = "departmentId", required = false) Long[] departmentId,
 	@ModelAttribute HopitaData hdata, Model model, Principal principal) {
 			if (examId != null && departmentId != null) {
 				Set<MedicalExam> selectedMedicalExam =new HashSet<>();
