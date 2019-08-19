@@ -26,26 +26,29 @@
 								</div>
 								<!-- /.box-header -->
 								<!-- form start -->
-								<form class="form" th:action="@{/registration}" th:object="${patient}" method="POST">
+								<form class="form" th:action="@{/registration}"
+									th:object="${patient}" method="POST">
 									<div class="box-body">
 										<div class="form-group">
 											<label for="inputEmail3">Identification Document
 												Number</label> <input type="text" class="form-control"
-												placeholder="Identification Document Number" th:name="@{identificationNumber}"/>
+												placeholder="Identification Document Number"
+												th:name="@{identificationNumber}" />
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
-												placeholder="First Name" th:name="@{fname}"/>
+												placeholder="First Name" th:name="@{fname}" />
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
 												class="form-control" id="inputEmail3"
-												placeholder="Last Name" th:name="@{lname}"/>
+												placeholder="Last Name" th:name="@{lname}" />
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3">Gender</label> <select th:field="*{gender}"
-												class="form-control seelct2" style="width: 100%;">
+											<label for="inputEmail3">Gender</label> <select
+												th:field="*{gender}" class="form-control seelct2"
+												style="width: 100%;">
 												<option value="MALE">MALE</option>
 												<option value="FEMALE">FEMALE</option>
 											</select>
@@ -57,14 +60,15 @@
 												<div class="input-group-addon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input type="text" class="form-control pull-right" th:name="@{dateOfBirth}"
-													id="datepicker" />
+												<input type="text" class="form-control pull-right"
+													th:name="@{dateOfBirth}" id="datepicker" />
 											</div>
 											<!-- /.input group -->
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3">Address</label> <input type="text" th:name="@{address}"
-												class="form-control" id="inputEmail3" placeholder="" />
+											<label for="inputEmail3">Address</label> <input type="text"
+												th:name="@{address}" class="form-control" id="inputEmail3"
+												placeholder="" />
 
 										</div>
 									</div>
@@ -83,8 +87,7 @@
 				</section>
 			</div>
 		</div>
-		<div class="content-wrapper"
-			sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="content-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
 				<section class="content-header">
@@ -102,64 +105,64 @@
 								</div>
 								<!-- /.box-header -->
 								<!-- form start -->
-								<form class="form" th:action="@{/docregistration}"  method="POST">
+								<form class="form" th:action="@{/docregistration}" method="POST">
 									<div class="box-body">
-										
+
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
 												placeholder="First Name" name="lname"
-											th:value="${doctor.lname}"/>
+												th:value="${doctor.lname}" />
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
 												class="form-control" id="inputEmail3"
 												placeholder="Last Name" name="fname"
-											th:value="${doctor.lname}"/>
+												th:value="${doctor.lname}" />
 										</div>
-										
+
 										<div class="form-group">
 											<label for="inputEmail3">Phone</label> <input type="tel"
 												class="form-control" id="inputEmail3"
-												placeholder="phone number" name="phone" 
-											th:value="${doctor.phone}"/>
+												placeholder="phone number" name="phone"
+												th:value="${doctor.phone}" />
 										</div>
-											<!-- /.input group -->
+										<!-- /.input group -->
 										<div class="form-group">
-											<label for="inputEmail3">Email</label> <input type="email" name="email" 
-											th:value="${doctor.email}"
-												class="form-control" id="inputEmail3" placeholder="" />
+											<label for="inputEmail3">Email</label> <input type="email"
+												name="email" th:value="${doctor.email}" class="form-control"
+												id="inputEmail3" placeholder="" />
 										</div>
-									<div class="form-group">
-									<label for="hospitalname" class="col-sm-2 control-label">Hospital_Name</label>
-										<select th:field="*{doctor.hospitalname}"
-											th:name="hospitalname"
-											class="form-control col-md-7 col-xs-12">
-											<option value="0">....</option>
-											<option th:each="hospital: ${hospitals}"
-												th:value="${hospital.hospitalName}"
-												th:text="${hospital.hospitalName}"></option>
-										</select>
-									</div>
-									<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Role_Name</label>
+										<div class="form-group">
+											<label for="hospitalname" class="col-sm-2 control-label">Hospital_Name</label>
+											<select th:field="*{doctor.hospitalname}"
+												th:name="hospitalname"
+												class="form-control col-md-7 col-xs-12">
+												<option value="0">....</option>
+												<option th:each="hospital: ${hospitals}"
+													th:value="${hospital.hospitalName}"
+													th:text="${hospital.hospitalName}"></option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">Role_Name</label>
 
-										<select  th:field="*{doctor.roleName}" th:name="roleName"
-											class="form-control col-md-7 col-xs-12">
-											<option value="0">....</option>
-											<option th:each="role: ${role}" th:value="${role.name}"
-												th:text="${role.name}"></option>
-										</select>
-									</div>
-									
+											<select th:field="*{doctor.roleName}" th:name="roleName"
+												class="form-control col-md-7 col-xs-12">
+												<option value="0">....</option>
+												<option th:each="role: ${role}" th:value="${role.name}"
+													th:text="${role.name}"></option>
+											</select>
+										</div>
+
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
 										<button type="submit" class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Register
-											</button>
+										</button>
 									</div>
-									
+
 									<!-- /.box-footer -->
 								</form>
 							</div>
@@ -177,31 +180,30 @@
 								</div>
 								<!-- /.box-header -->
 								<!-- form start -->
-								<form class="form" th:action="@{/updateEmployee}"  method="POST">
+								<form class="form" th:action="@{/updateEmployee}" method="POST">
 									<div class="box-body">
-									<div class="form-group">
-										<input type="hidden" th:value="${doctors.employeeId}"
-											class="form-control" th:name="@{id}" />
-									</div>
-									<div class="form-group">
-									<label for="hospitalname" class="col-sm-2 control-label">Department Name</label>
-										<select th:field="*{doctor.depertmentName}"
-											th:name="depertmentName"
-											class="form-control col-md-7 col-xs-12">
-											<option value="0">....</option>
-											<option th:each="hospital: ${departemtperhospital}"
-												th:value="${hospital.name}"
-												th:text="${hospital.name}"></option>
-										</select>
-									</div>
+										<div class="form-group">
+											<input type="hidden" th:value="${doctors.employeeId}"
+												class="form-control" th:name="@{id}" />
+										</div>
+										<div class="form-group">
+											<label for="hospitalname" class="col-sm-2 control-label">Department
+												Name</label> <select th:field="*{doctor.depertmentName}"
+												th:name="depertmentName"
+												class="form-control col-md-7 col-xs-12">
+												<option value="0">....</option>
+												<option th:each="hospital: ${departemtperhospital}"
+													th:value="${hospital.name}" th:text="${hospital.name}"></option>
+											</select>
+										</div>
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
 										<button type="submit" class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Update
-											</button>
+										</button>
 									</div>
-									
+
 									<!-- /.box-footer -->
 								</form>
 							</div>
@@ -210,7 +212,7 @@
 					</div>
 				</section>
 				<!-- hospitals container -->
-				<section class="content" th:if="${hospitals==true}">
+				<section class="content" th:if="${hospital}">
 					<div class="row">
 						<div class="col-xs-6">
 							<!-- Horizontal Form -->
@@ -218,14 +220,21 @@
 								<div class="box-header with-border">
 									<h3 class="box-title">Hospital Information</h3>
 								</div>
-								
-								<form class="form" th:action="@{/hospregistration}" th:object="${hospital}" method="POST">
+
+								<form class="form" th:action="@{/hospregistration}"
+									th:object="${hospital}" method="POST">
 									<div class="box-body">
-										
+
 										<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Name</label>
-										<input type="text" th:name="@{hospitalName}"  class="form-control" />
-									</div>
+											<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Name</label>
+											<input type="text" th:name="@{hospitalName}"
+												class="form-control" />
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Code</label>
+											<input type="text" th:name="@{hospitalCode}"
+												class="form-control" />
+										</div>
 										<div class="form-group">
 											<label for="inputPassword3" class="col-sm-2 control-label">Type</label>
 
@@ -239,50 +248,74 @@
 											</select>
 										</div>
 										<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Location</label>
-										<select  th:field="*{address}"  class="form-control seelct2" style="width: 100%;">
-                                    <option value="Bugesera">Bugesera</option>
-                                       <option value="Gatsibo">Gatsibo</option>
-                                       <option value="Kayonza">KayonzaL</option>
-                                       <option value="Kirehe">Kirehe</option>
-                                        <option value="Ngoma">Ngoma</option>
-                                       <option value="Nyagatare">Nyagatare</option>
-                                       <option value="Rwamagana">Rwamagana</option>
-                                       <option value="Gasabo">Gasabo</option>
-                                       <option value="Kicukiro">Kicukiro</option>
-                                       <option value="Nyarugenge">Nyarugenge</option>
-                                       <option value="Burera">Burera</option>
-                                        <option value="Gakenke">Gakenke</option>
-                                       <option value="Gicumbi">Gicumbi</option>
-                                       <option value="Musanze">Musanze</option>
-                                       <option value="Rulindo">Rulindo</option>
-                                       <option value="Gisagara">Gisagara</option>
-                                       <option value="Huye">Huye</option>
-                                       <option value="Kamonyi">Kamonyi</option>
-                                        <option value="Muhanga">Muhanga</option>
-                                       <option value="Nyamagabe">Nyamagabe</option>
-                                       <option value="Nyanza">Nyanza</option>
-                                       <option value="Nyaruguru">Nyaruguru</option>
-                                       <option value="Ruhango">Ruhango</option>
-                                       <option value="Karongi">Karongi</option>
-                                       <option value="Ngororero">Ngororero</option>
-                                        <option value="Nyabihu">Nyabihu</option>
-                                       <option value="Nyamasheke">Nyamasheke</option>
-                                       <option value="Rubavu">Rubavu</option>
-                                        <option value="Rusizi">Rusizi</option>
-                                       <option value="Rutsiro">Rutsiro</option>
-                                       <option value="Mukamira">Mukamira</option>
-                                        </select>
+											<label for="inputEmail3" class="col-sm-2 control-label">Location</label>
+											<select th:field="*{address}" class="form-control seelct2"
+												style="width: 100%;">
+												<option value="Bugesera">Bugesera</option>
+												<option value="Gatsibo">Gatsibo</option>
+												<option value="Kayonza">KayonzaL</option>
+												<option value="Kirehe">Kirehe</option>
+												<option value="Ngoma">Ngoma</option>
+												<option value="Nyagatare">Nyagatare</option>
+												<option value="Rwamagana">Rwamagana</option>
+												<option value="Gasabo">Gasabo</option>
+												<option value="Kicukiro">Kicukiro</option>
+												<option value="Nyarugenge">Nyarugenge</option>
+												<option value="Burera">Burera</option>
+												<option value="Gakenke">Gakenke</option>
+												<option value="Gicumbi">Gicumbi</option>
+												<option value="Musanze">Musanze</option>
+												<option value="Rulindo">Rulindo</option>
+												<option value="Gisagara">Gisagara</option>
+												<option value="Huye">Huye</option>
+												<option value="Kamonyi">Kamonyi</option>
+												<option value="Muhanga">Muhanga</option>
+												<option value="Nyamagabe">Nyamagabe</option>
+												<option value="Nyanza">Nyanza</option>
+												<option value="Nyaruguru">Nyaruguru</option>
+												<option value="Ruhango">Ruhango</option>
+												<option value="Karongi">Karongi</option>
+												<option value="Ngororero">Ngororero</option>
+												<option value="Nyabihu">Nyabihu</option>
+												<option value="Nyamasheke">Nyamasheke</option>
+												<option value="Rubavu">Rubavu</option>
+												<option value="Rusizi">Rusizi</option>
+												<option value="Rutsiro">Rutsiro</option>
+												<option value="Mukamira">Mukamira</option>
+											</select>
+										</div>
+										<div class="form-group">
+										<table>
+										<tr>Exams</tr>
+											<tr>
+											<td><th:block th:each="exams : ${examss}">
+													<input type="checkbox" name="examId"
+														th:value="${exams.examId}" />
+													<label th:text="${exams.name}"></label>
+												</th:block></td>
+										</tr>
+									</table>
 									</div>
-									
+									<div class="form-group">
+										<table>
+												<tr>Department</tr>
+											<tr>
+											<td><th:block th:each="dpt : ${departments}">
+													<input type="checkbox" name="departmentId"
+														th:value="${dpt.departmentId}" />
+													<label th:text="${dpt.name}"></label>
+										</th:block></td>
+										</tr>
+									</table>
+									</div>
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
 										<button type="submit" class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Register
-											</button>
+										</button>
 									</div>
-									
+
 									<!-- /.box-footer -->
 								</form>
 							</div>
@@ -291,8 +324,8 @@
 					</div>
 				</section>
 			</div>
-			
-			
+
+
 		</div>
 		<footer th:replace="common/header :: footer"></footer>
 	</div>

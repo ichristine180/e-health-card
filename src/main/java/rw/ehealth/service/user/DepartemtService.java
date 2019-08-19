@@ -33,6 +33,15 @@ public class DepartemtService implements IDepartemtService {
 		}
 
 	}
+	@Override
+	public Department findPerId(int id) {
+		try {
+			return dRepository.findByDepartmentId(id);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 
 	@Override
 	public List<Department> findPerHospital(Hospital hospital) {
