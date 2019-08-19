@@ -107,13 +107,14 @@ public class AdminController {
 	@PostMapping("/hospregistration")
 	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,
 			@RequestParam(value = "departmentId", required = false) Long[] departmentId,
-			@ModelAttribute HopitaData hdata, Model model, Principal principal) {
+			@ModelAttribute Hospital hdata, Model model, Principal principal) {
 		if (examId != null && departmentId != null) {
 
 			Hospital hospital = new Hospital();
 			hospital.setAddress(hdata.getAddress());
 			hospital.setHospitalCode(hdata.getHospitalCode());
-			hospital.setHospitalName(hdata.getHospitalname());
+			hospital.setHospitalName(hdata.getHospitalName());
+			hospital.setType(hdata.getType());
 
 			Set<MedicalExam> selectedMedicalExam = new HashSet<>();
 			for (int i = 0; i < examId.length; i++) {
@@ -121,15 +122,18 @@ public class AdminController {
 				selectedMedicalExam.add(exam);
 			}
 			Set<Department> selectedMedicalDepartment = new HashSet<>();
-			for (int i = 0; i < examId.length; i++) {
+			for (int i = 0; i < departmentId.length; i++) {
 				Department dpt = departemtService.findPerId(departmentId[i]);
 				selectedMedicalDepartment.add(dpt);
 			}
 
 			hospital.setDepartments(selectedMedicalDepartment);
 			hospital.setExams(selectedMedicalExam);
-
-			System.out.println(hospital.toString() + " jsdfjsfj");
+			Hospital savedHospital = hospitalService.createHospital(hospital);
+			if(savedHospital != null) {
+				model.addAttribute("hospital", hospitalService.findHospitalById(savedHospital.getHospitalId()));
+				return "registrationSuccess";
+			}
 
 		}
 		return "registration";

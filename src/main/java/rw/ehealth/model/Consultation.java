@@ -29,6 +29,15 @@ public class Consultation {
 	private String description;
 
 	private String dateTaken;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)

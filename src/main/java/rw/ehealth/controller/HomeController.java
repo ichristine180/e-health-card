@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import rw.ehealth.model.Employee;
 import rw.ehealth.service.admission.IAdmissionService;
+import rw.ehealth.service.consultation.IConsultationService;
 import rw.ehealth.service.exams.IExamRecordService;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
@@ -32,6 +33,8 @@ public class HomeController {
 
 	@Autowired
 	private IExamRecordService examRecordService;
+	@Autowired
+	private IConsultationService consultationService;
 
 	@GetMapping("/")
 	public String homepage(Model model) {
@@ -64,8 +67,18 @@ public class HomeController {
 	public String gDoctor(Model model, Principal principal) {
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
+		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
+		long admissions = admissionService.countAdmission(hospitalId);
+		long patients = examRecordService.countPatient(hospitalId);
+		model.addAttribute("docAdmissions",
+				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
+		model.addAttribute("consultedpatients",
+				consultationService.findConsuledPatient(hospitalId, "MIDLE", doctor.getDepertment().getDepartmentId()));
+
+		model.addAttribute("patientsSize", patients);
+		model.addAttribute("admissions", admissions);
 		return "homepage";
 	}
 

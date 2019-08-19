@@ -131,18 +131,18 @@
 			sec:authorize="hasRole('ROLE_ADMIN')">
 			<div class="container">
 				<!-- Content Header (Page header) -->
-				<section class="content-header">
+				<section class="content-header" th:if="${user}">
 					<h1>
 						Dashboard <small>User Registration Success</small>
 					</h1>
 				</section>
-				<section class="content-header" th:if="${admission}">
+				<section class="content-header" th:if="${hospital}">
 					<h1>
-						Dashboard <small>Admission Success</small>
+						Dashboard <small>Hospital Registration Success</small>
 					</h1>
 				</section>
 				<!-- /.content -->
-				<section class="content">
+				<section class="content" th:if="${user}">
 					<!-- Small boxes (Stat box) -->
 					<div class="row">
 						<div class="box box-widget widget-user">
@@ -196,6 +196,39 @@
 						</div>
 					</div>
 			</div>
+			</section>
+			<section class="content" th:if="${hospital}">
+				<!-- Small boxes (Stat box) -->
+				<div class="row">
+					<div class="col-md-4">
+						<!-- Widget: user widget style 1 -->
+						<div class="box box-widget widget-user-2">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-aqua-active">
+								<!-- /.widget-user-image -->
+								<h3 class="widget-user-username"
+									th:text="${hospital.hospitalName}"></h3>
+								<h5 class="widget-user-desc"
+									th:text="${hospital.hospitalCode}"></h5>
+							</div>
+							<div class="box-footer no-padding">
+								<table class="table table-bordered">
+									<tr>
+										<td>Location</td>
+										<td th:text="${hospital.address}" />
+									</tr>
+									<tr>
+										<td>Hospital Type</td>
+										<td th:text="${hospital.type}" />
+									</tr>
+								</table>
+							</div>
+							<a class="btn btn-success pull-left" href="/listHospital">Back
+												Home </a>
+						</div>
+					</div>
+				</div>
+
 			</section>
 		</div>
 	</div>

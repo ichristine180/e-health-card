@@ -67,4 +67,22 @@ public class ConsultationService implements IConsultationService {
 		}
 	}
 
+	@Override
+	public Consultation update(Consultation consult) {
+		try {
+			return cRepository.save(consult);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public List<Consultation> findConsuledPatient(Long hospitalId, String status, Long departmentId) {
+		try {
+			return cRepository.findConsuledPatients(hospitalId,status,departmentId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 }

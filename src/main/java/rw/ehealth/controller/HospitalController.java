@@ -150,6 +150,7 @@ public class HospitalController {
 		Consultation consultation = new Consultation();
 
 		consultation.setDescription(consultationDto.getDescription());
+		consultation.setStatus("PENDING");
 		consultation.setDoctor(activeUser);
 		consultation.setAdmission(admit);
 		consultation.setHospital(activeUser.getHospital());
@@ -315,7 +316,9 @@ public class HospitalController {
 		prescriptions.setHospital(activeUser.getHospital());
 		Prescription pres = prescriptionService.createPrescription(prescriptions);
 		if (pres != null) {
-
+			Consultation consult = consultationService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+			consult.setStatus("COMPLETE");
+			consultationService.update(consult);
 			return "redirect:/gdoctor";
 		}
 		boolean admissionInfo = true;
@@ -350,6 +353,10 @@ public class HospitalController {
 				examrecords.setHospital(activeUser.getHospital());
 				examRecordService.creaExamRecords(examrecords);
 			}
+			Consultation consult = consultationService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
+			consult.setStatus("MIDLE");
+			consultationService.update(consult);
+			
 			return "redirect:/gdoctor";
 		}
 		return "redirect:/consultedpatients";
