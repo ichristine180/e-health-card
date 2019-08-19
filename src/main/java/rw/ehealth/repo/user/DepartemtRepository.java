@@ -13,5 +13,6 @@ public interface DepartemtRepository extends JpaRepository<Department, Long> {
 	List<Department> findAll();
 	Department findByName( String name);
 	List<Department> findByHospitals(Hospital hospital);
+	Department findByDepartmentId(int id);
 
 }

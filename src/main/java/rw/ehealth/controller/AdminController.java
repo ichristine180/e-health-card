@@ -3,7 +3,9 @@ package rw.ehealth.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -15,19 +17,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import rw.ehealth.model.Admission;
 import rw.ehealth.model.Department;
 import rw.ehealth.model.Employee;
+import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Hospital;
+import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
 import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
+import rw.ehealth.service.exams.ExamService;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.UserService;
 import rw.ehealth.utils.DoctorData;
+import rw.ehealth.utils.ExamDto;
+import rw.ehealth.utils.HopitaData;
 import rw.ehealth.utils.IDGenerator;
 
 @Controller
@@ -44,13 +53,15 @@ public class AdminController {
 
 	@Autowired
 	private DepartemtService departemtService;
+	@Autowired
+	private ExamService examService;
 
 	@GetMapping(value = "/hospregistration")
 	public String registerHospital(Model model) {
 		Hospital newhospital = new Hospital();
 		model.addAttribute("hospital", newhospital);
-		boolean hospitals = true;
-		model.addAttribute("hospitals", hospitals);
+		model.addAttribute("examss", examService.findExams());
+		model.addAttribute("departments", departemtService.findAllDepartemts());
 		return "registration";
 	}
 
@@ -101,30 +112,29 @@ public class AdminController {
 	}
 
 	@PostMapping("/hospregistration")
-	public String registerhospital(Model model, @ModelAttribute @Valid Hospital hospital) {
-		if (hospital.getHospitalName().isEmpty() == false) {
-			Hospital existingHospital = hospitalService.findByHospitalname(hospital.getHospitalName());
-
-			if (existingHospital != null) {
-				model.addAttribute("message", "Hospital already registered");
-				model.addAttribute("hospital", hospital);
-
-				return "redirect:/hospregistration";
-			}
-			Hospital newhospital = new Hospital();
-			newhospital.setHospitalName(hospital.getHospitalName());
-			newhospital.setType(hospital.getType());
-			newhospital.setAddress(hospital.getAddress());
-			hospitalService.createHospital(newhospital);
-			return "redirect:/";
-
-		}
-		model.addAttribute("error", "invalide hospital data");
-		model.addAttribute("hospital", hospital);
-		boolean hospitals = true;
-		model.addAttribute("hospitals", hospitals);
-		return "registration";
-
+	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,@RequestParam(value = "departmentId", required = false) int[] departmentId,
+	@ModelAttribute HopitaData hdata, Model model, Principal principal) {
+			if (examId != null && departmentId != null) {
+				Set<MedicalExam> selectedMedicalExam =new HashSet<>();
+				for (int i = 0; i < examId.length; i++) {
+					MedicalExam exam = examService.findHospitalById(examId[i]);
+					selectedMedicalExam.add(exam);
+				}
+				Set<Department> selectedMedicalDepartment =new HashSet<>();
+				for (int i = 0; i < examId.length; i++) {
+					Department dpt = departemtService.findPerId(departmentId[i]);
+					selectedMedicalDepartment.add(dpt);
+				}
+				for (MedicalExam exam : selectedMedicalExam) {
+					System.out.println(exam.getName() + " This came from the UI");
+					
+				}
+				for (Department dpt : selectedMedicalDepartment) {
+					System.out.println(dpt.getName() + " This came from the UI");
+					
+				}
+	}
+			return "registration";
 	}
 
 	@PostMapping("/docregistration")

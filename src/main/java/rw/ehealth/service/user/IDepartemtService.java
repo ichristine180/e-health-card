@@ -11,4 +11,6 @@ public interface IDepartemtService {
 
 	Department findPerName(String name);
 	List<Department> findPerHospital(Hospital hospital);
+
+	Department findPerId(int id);
 }

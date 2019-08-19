@@ -6,7 +6,16 @@ public class HopitaData {
 private String hospitalname;
 private EHealthFacilityType type;
 private String address;
+private String hospitalCode;
 
+
+public String getHospitalCode() {
+	return hospitalCode;
+}
+
+public void setHospitalCode(String hospitalCode) {
+	this.hospitalCode = hospitalCode;
+}
 
 public EHealthFacilityType getType() {
 	return type;
