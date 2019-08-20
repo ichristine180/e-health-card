@@ -231,6 +231,12 @@ public class HospitalController {
 					List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
 					Patient result = patientService.findPatientByPatientNumber(patient.getPatientNumber());
 					List<Admission> admissionList = admissionService.listInfosByPatients(patient.getPatientNumber());
+					RecordHistoryLog vHistory = new RecordHistoryLog();
+					vHistory.setViewer(activeUser);
+					vHistory.setPatient(patient);
+					vHistory.setHospital(activeUser.getHospital());
+					vHistory.setViewOn(LocalDateTime.now());
+					vService.create(vHistory);
 					model.addAttribute("department", department);
 					model.addAttribute("consultation", results);
 					model.addAttribute("patient", result);
