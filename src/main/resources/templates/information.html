@@ -10,9 +10,14 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
-			<div class="box-header">
-							<h1 class="box-title" th:text="${Message}"></h1>
-						</div>
+			<div class="btn-group-vertical">
+								<a class="btn btn-success pull-left"
+									th:href="@{'/prescription/' + ${patientTrackingNumber}}">Back To Consultation
+									</a>
+							</div>
+				<div class="box-header">
+					<h1 class="box-title" th:text="${Message}"></h1>
+				</div>
 				<div class="row" style="height: 30px;" th:if="${patient}">
 					<div class="col-xs-12">
 						<div class="box-header">
@@ -36,7 +41,7 @@
 											<th>Address</th>
 										</tr>
 									</thead>
- 
+
 									<tbody>
 										<tr th:each="patients, iStat: ${patient}">
 											<td th:text="${patients.fname}" />

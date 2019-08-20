@@ -1,7 +1,5 @@
 package rw.ehealth.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,7 +42,7 @@ public class RecordHistoryLog {
 	private Employee viewer;
 
 	@Column(name = "VIEWD_ON")
-	private LocalDateTime viewOn;
+	private String viewOn;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "viewedRecordType")
@@ -83,12 +81,7 @@ public class RecordHistoryLog {
 		return viewer;
 	}
 
-	/**
-	 * @return the viewOn
-	 */
-	public LocalDateTime getViewOn() {
-		return viewOn;
-	}
+	
 
 	/**
 	 * @return the viewedRecordType
@@ -118,10 +111,12 @@ public class RecordHistoryLog {
 		this.viewer = viewer;
 	}
 
-	/**
-	 * @param viewOn the viewOn to set
-	 */
-	public void setViewOn(LocalDateTime viewOn) {
+
+	public String getViewOn() {
+		return viewOn;
+	}
+
+	public void setViewOn(String viewOn) {
 		this.viewOn = viewOn;
 	}
 
