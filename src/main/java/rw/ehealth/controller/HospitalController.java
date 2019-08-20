@@ -318,14 +318,16 @@ public class HospitalController {
 		if (pres != null) {
 			Consultation consult = consultationService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 			consult.setStatus("COMPLETE");
+			admit.setStatus("COMPLETE");
 			consultationService.update(consult);
+			admissionService.update(admit);
 			return "redirect:/gdoctor";
 		}
 		boolean admissionInfo = true;
-		Admission results = admissionService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+		
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("admission", results);
+		model.addAttribute("admission", admit);
 		model.addAttribute("admissionInfo", admissionInfo);
 		return "consult";
 
