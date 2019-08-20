@@ -174,4 +174,13 @@ public class ExamRecordService implements IExamRecordService {
 
 		return eRepository.findActiveExamRecordByHospital(hospital);
 	}
+
+	@Override
+	public Long countresults(Long hospitalId) {
+		try {
+			return eRepository.countresults(hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

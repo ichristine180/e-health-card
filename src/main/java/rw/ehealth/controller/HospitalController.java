@@ -403,4 +403,19 @@ public class HospitalController {
 		model.addAttribute(employee.getDepertment().getName());
 		return "labo/exam_result_summary";
 	}
+	
+	@GetMapping("/showresults/{patientTrackingNumber}")
+	public String showresults(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
+		if (patientTrackingNumber != null) {
+			Employee employee = userService.findDoctor(principal.getName());
+			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(results));
+			model.addAttribute(employee.getDepertment().getName());
+			return "labo/exam_result_summary";
+		}
+
+		return "redirect:/labodoctor";
+
+	}
+	
 }

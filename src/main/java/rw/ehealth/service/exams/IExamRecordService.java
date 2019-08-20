@@ -22,6 +22,7 @@ public interface IExamRecordService {
 	ExamRecord update(ExamRecord examRecords);
 
 	Long countPatient(Long hospitalId);
+	Long countresults(Long hospitalId);
 
 	ExamRecord findExamRecordByExamId(int i);
 

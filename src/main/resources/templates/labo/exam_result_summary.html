@@ -6,7 +6,7 @@
 		<!-- Main Header -->
 		<header th:replace="common/header :: main-header"></header>
 		<!-- general doctor -->
-			<div class="content-wrapper"
+		<div class="content-wrapper"
 			sec:authorize="hasRole('ROLE_LABORATORY_DOCTOR')">
 			<div class="container">
 				<div></div>
@@ -41,21 +41,27 @@
 											<td th:text="${exam.medicalExam.code}" />
 											<td th:text="${exam.examRequesterDoctor.fname}" />
 											<td th:text="${exam.examResponseEmployee.fname}" />
-											
+
 											<td th:text="${exam.results}" />
-											
+
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="description-block">
+								<a class="btn btn-success pull-left" href="/labodoctor">Back
+									Home </a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<footer th:replace="common/header :: footer"></footer>
-	</div>
-	<div th:replace="common/header :: body-bottom-scripts"></div>
+			<footer th:replace="common/header :: footer"></footer>
+		</div>
+		<div th:replace="common/header :: body-bottom-scripts"></div>
 </body>
 </html>

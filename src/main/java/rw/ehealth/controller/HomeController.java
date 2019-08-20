@@ -132,7 +132,12 @@ public class HomeController {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
+		long patients = examRecordService.countPatient(activeUser.getHospital().getHospitalId());
+		long presults = examRecordService.countresults(activeUser.getHospital().getHospitalId());
+		model.addAttribute("pcount",patients);
+		model.addAttribute("countresults",presults);
 		model.addAttribute("pExam", examRecordService.findActiveExamRecords(activeUser.getHospital()));
+		model.addAttribute("presults", examRecordService.findResults(activeUser.getHospital().getHospitalId(),"MIDLE"));
 		return "homepage";
 	}
 
