@@ -22,6 +22,7 @@ public interface IAdmissionService {
 	Admission createNewPatientAdmission(Admission info);
 
 	long countAdmission(Long hospitalId);
+	long countAdmissionfodoctor(Long hospitalId);
 
 	Admission findBYpatientNumber(String patientNumber);
 

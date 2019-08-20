@@ -25,5 +25,9 @@ public abstract class IDGenerator {
 	public static String generatePatientNumber(Patient patient) {
 		return "PN-" + RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 	}
+	
+	public static String generateAccessCode() {
+		return "ACCESS-" + RandomStringUtils.randomNumeric(4);
+	}
 
 }

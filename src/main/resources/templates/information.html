@@ -10,6 +10,9 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
+			<div class="box-header">
+							<h1 class="box-title" th:text="${Message}"></h1>
+						</div>
 				<div class="row" style="height: 30px;" th:if="${patient}">
 					<div class="col-xs-12">
 						<div class="box-header">

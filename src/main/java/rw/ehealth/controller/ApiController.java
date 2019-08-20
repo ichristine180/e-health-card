@@ -94,7 +94,7 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
+		ViewRecordRequest results = rService.findPRequest(patientNumber);
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");
@@ -180,7 +180,7 @@ public class ApiController {
 	public ResponseEntity<PinfoListResponse> approveStatus(@RequestParam String patientNumber) {
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request andcreate a new student object to be saved
-		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
+		ViewRecordRequest results = rService.findPRequest(patientNumber);
 		results.setRequestStatus(EViewRequestStatus.APPROVED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
@@ -199,7 +199,7 @@ public class ApiController {
 	@PostMapping("/DenyStatus")
 	public ResponseEntity<PinfoListResponse> denyStatus(@RequestParam String patientNumber) {
 		System.out.println("Reaching at this point at least");
-		ViewRecordRequest results = rService.findPRequest(patientNumber, LocalDate.now().toString());
+		ViewRecordRequest results = rService.findPRequest(patientNumber);
 		results.setRequestStatus(EViewRequestStatus.DENIED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {

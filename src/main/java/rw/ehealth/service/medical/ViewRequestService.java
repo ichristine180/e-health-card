@@ -1,8 +1,6 @@
 
 package rw.ehealth.service.medical;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class ViewRequestService implements IViewRequestService {
 	 */
 	@Override
 	public ViewRecordRequest findRequestByPatient(String patientNumber) {
-		return rRepository.findViewRecordRequestBypatient(patientNumber, LocalDate.now().toString());
+		return rRepository.findViewRecordRequest(patientNumber);
 
 	}
 
@@ -52,9 +50,18 @@ public class ViewRequestService implements IViewRequestService {
 	 * @see rw.ehealth.service.medical.IViewRequestService#findPRequest(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public ViewRecordRequest findPRequest(String patientNumber, String requestDate) {
+	public ViewRecordRequest findPRequest(String patientNumber) {
 		try {
-			return rRepository.findViewRecordRequest(patientNumber, requestDate);
+			return rRepository.findViewRecordRequest(patientNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public ViewRecordRequest findRequestByStatus(String patientNumber) {
+		try {
+			return rRepository.findViewRecordBystatus(patientNumber);
 		} catch (Exception e) {
 			throw e;
 		}

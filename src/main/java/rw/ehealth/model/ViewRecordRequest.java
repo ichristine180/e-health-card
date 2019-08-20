@@ -1,6 +1,7 @@
 package rw.ehealth.model;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,8 +27,8 @@ public class ViewRecordRequest {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "patientId")
-	private Patient patient;
+	@JoinColumn(name = "admissionId")
+	private Admission admission;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -35,6 +36,15 @@ public class ViewRecordRequest {
 	private Employee requestedBy;
 
 	private String requestDate;
+	private String accessCode;
+
+	public String getAccessCode() {
+		return accessCode;
+	}
+
+	public void setAccessCode(String accessCode) {
+		this.accessCode = accessCode;
+	}
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "requestStatus", nullable = false)
@@ -92,12 +102,14 @@ public class ViewRecordRequest {
 		this.requestId = requestId;
 	}
 
-	public Patient getPatient() {
-		return patient;
+
+
+	public Admission getAdmission() {
+		return admission;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setAdmission(Admission admission) {
+		this.admission = admission;
 	}
 
 	public String getRequestDate() {
@@ -114,7 +126,7 @@ public class ViewRecordRequest {
 	 */
 	@Override
 	public String toString() {
-		return "ViewRecordRequest [requestId=" + requestId + ", patient=" + patient + ", requestedBy=" + requestedBy
+		return "ViewRecordRequest [requestId=" + requestId + ", admission=" + admission + ", requestedBy=" + requestedBy
 				+ ", requestDate=" + requestDate + ", requestStatus=" + requestStatus + ", isActive=" + isActive + "]";
 	}
 

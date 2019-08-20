@@ -251,4 +251,14 @@ public class AdmissionService implements IAdmissionService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public long countAdmissionfodoctor(Long hospitalId) {
+		try {
+			return aRepository.countAdmissionFordoctor(hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 }

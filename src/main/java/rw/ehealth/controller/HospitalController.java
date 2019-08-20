@@ -38,6 +38,7 @@ import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
 import rw.ehealth.utils.ExamRecordsDto;
+import rw.ehealth.utils.IDGenerator;
 import rw.ehealth.utils.PrescriptionsDto;
 
 @Controller
@@ -197,44 +198,49 @@ public class HospitalController {
 	// TODO Refactoring this
 	@GetMapping("/details/consultation/{patientTrackingNumber}")
 	public String viewPatientInfo(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
-		Employee activeUser = userService.findDoctor(principal.getName());
-		Admission admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
-		Patient patient = admitedP.getAdmittedPatient();
 		if (!patientTrackingNumber.isEmpty()) {
-			boolean admissionInfo = true;
-			ViewRecordRequest resultRequest = rService.findPRequest(patient.getPatientNumber(),
-					LocalDate.now().toString());
-			if (resultRequest != null) {
-				List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
-				Patient result = patientService.findPatientByPatientNumber(patient.getPatientNumber());
-				List<Admission> admissionList = admissionService.listInfosByPatients(patient.getPatientNumber());
-				if (results != null) {
-					RecordHistoryLog vHistory = new RecordHistoryLog();
-					vHistory.setViewer(activeUser);
-					vHistory.setPatient(patient);
-					vHistory.setHospital(activeUser.getHospital());
-					vHistory.setViewOn(LocalDateTime.now());
-					vService.create(vHistory);
-					String department = activeUser.getDepertment().getName();
+			ViewRecordRequest resultRequest = rService.findPRequest(patientTrackingNumber);
+			Employee activeUser = userService.findDoctor(principal.getName());
+			Admission admitedP = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+			Patient patient = admitedP.getAdmittedPatient();
+			String department = activeUser.getDepertment().getName();
 
+			if (resultRequest == null) {
+				ViewRecordRequest request = new ViewRecordRequest();
+				request.setAdmission(admitedP);
+				request.setRequestedBy(activeUser);
+				request.setRequestStatus(EViewRequestStatus.PENDING);
+				request.setActive(false);
+				request.setAccessCode(IDGenerator.generateAccessCode());
+				request.setRequestDate(LocalDate.now().toString());
+				ViewRecordRequest vrequest = rService.createRequest(request);
+				model.addAttribute("Message",
+						"Tell the patient to use the following code to grant you access his/her medical records  "
+								+ vrequest.getAccessCode());
+				model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+				return "vRecordAccess";
+			} else {
+				EViewRequestStatus status = resultRequest.getRequestStatus();
+				if (status.equals(EViewRequestStatus.PENDING)) {
+					model.addAttribute("Message",
+							"please remind the patient to use the following code to allow you viewing his/her record:   "
+									+ resultRequest.getAccessCode());
+					model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+					return "vRecordAccess";
+				}else if(status.equals(EViewRequestStatus.APPROVED)){
+					List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
+					Patient result = patientService.findPatientByPatientNumber(patient.getPatientNumber());
+					List<Admission> admissionList = admissionService.listInfosByPatients(patient.getPatientNumber());
 					model.addAttribute("department", department);
 					model.addAttribute("consultation", results);
 					model.addAttribute("patient", result);
 					model.addAttribute("admissionindetails", admissionList);
-					model.addAttribute("admissionInfo", admissionInfo);
 					model.addAttribute("results", examRecordService.findExamrecords(patientTrackingNumber));
 
 					return "information";
 				}
+				return "redirect:/gdoctor";
 			}
-			ViewRecordRequest request = new ViewRecordRequest();
-			request.setPatient(patient);
-			request.setRequestedBy(activeUser);
-			request.setRequestStatus(EViewRequestStatus.PENDING);
-			request.setActive(true);
-			request.setRequestDate(LocalDate.now().toString());
-			rService.createRequest(request);
-			return "information";
 
 		}
 		return "redirect:/gdoctor";
@@ -316,7 +322,8 @@ public class HospitalController {
 		prescriptions.setHospital(activeUser.getHospital());
 		Prescription pres = prescriptionService.createPrescription(prescriptions);
 		if (pres != null) {
-			Consultation consult = consultationService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+			Consultation consult = consultationService
+					.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 			consult.setStatus("COMPLETE");
 			admit.setStatus("COMPLETE");
 			consultationService.update(consult);
@@ -324,7 +331,7 @@ public class HospitalController {
 			return "redirect:/gdoctor";
 		}
 		boolean admissionInfo = true;
-		
+
 		String department = activeUser.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("admission", admit);
@@ -359,7 +366,7 @@ public class HospitalController {
 			Consultation consult = consultationService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
 			consult.setStatus("MIDLE");
 			consultationService.update(consult);
-			
+
 			return "redirect:/gdoctor";
 		}
 		return "redirect:/consultedpatients";
@@ -405,7 +412,7 @@ public class HospitalController {
 		model.addAttribute(employee.getDepertment().getName());
 		return "labo/exam_result_summary";
 	}
-	
+
 	@GetMapping("/showresults/{patientTrackingNumber}")
 	public String showresults(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber != null) {
@@ -419,5 +426,5 @@ public class HospitalController {
 		return "redirect:/labodoctor";
 
 	}
-	
+
 }

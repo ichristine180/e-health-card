@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<!-- Content Header (Page header) -->
+			<div class="container">
+			 <div class="col-md-6">
+				<div class="box-body">
+					 <div class="callout callout-success" style="margin-top: 50px;">
+						<h4>Requesting TO View Records of Patient</h4>
+
+						<p th:text="${Message}"></p>
+					</div>
+				</div>
+
+				<div class="description-block">
+					<a class="btn btn-success pull-left" th:href="@{'/prescription/' + ${patientTrackingNumber}}">Back
+						Home </a>
+				</div>
+			</div>
+			</div>
+			<!-- /.col -->
+		</div>
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

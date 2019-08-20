@@ -272,7 +272,6 @@ public class Admission {
 	public String toString() {
 		return "Admission [admissionId=" + admissionId + ", admissionDate=" + admissionDate + ", releasedDate="
 				+ releasedDate + ", admittedPatient=" + admittedPatient + ", admittedBy=" + admittedBy + ", hospital="
-				+ hospital + ", patientTrackingNumber=" + patientTrackingNumber + ", height=" + height
 				+ ", temperature=" + temperature + ", bloodPressure=" + bloodPressure + ", weight=" + weight
 				+ ", heartRate=" + heartRate + ", departement=" + departement + "]";
 	}

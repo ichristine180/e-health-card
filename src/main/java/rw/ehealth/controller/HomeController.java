@@ -75,7 +75,7 @@ public class HomeController {
 				doctor.getDepertment().getDepartmentId());
 		System.out.println(consultedp.size() + "jfjfjjfjj");
 		model.addAttribute("department", department);
-		long admissions = admissionService.countAdmission(hospitalId);
+		long admissions = admissionService.countAdmissionfodoctor(hospitalId);
 		long patients = consultationService.countConsultation(hospitalId,doctor.getDepertment().getDepartmentId());
 		model.addAttribute("docAdmissions",
 				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
