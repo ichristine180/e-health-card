@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -28,7 +29,7 @@ public class Department {
 
 	@Column(name = "code")
 	private String code;
-
+	@JsonIgnore
 	@ManyToMany(mappedBy = "departments")
 	private Set<Hospital> hospitals = new HashSet<>();
 

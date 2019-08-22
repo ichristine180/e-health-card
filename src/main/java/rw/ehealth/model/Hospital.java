@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import rw.ehealth.enums.EHealthFacilityType;
@@ -51,6 +52,7 @@ public class Hospital {
 	private String address;
 
 	// Available departments
+	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 			name = "hospitalDepartments",
@@ -63,6 +65,7 @@ public class Hospital {
 	private int serviceCount;
 
 	// Available exams
+	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 			name = "hospitalExams",
@@ -71,10 +74,12 @@ public class Hospital {
 	private Set<MedicalExam> exams = new HashSet<>();
 
 	// Admissions
+	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
 	private Set<Admission> admissions;
 
 	// Consultations
+	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
 	private Set<Consultation> Consultations;
 
@@ -95,6 +100,7 @@ public class Hospital {
 	}
 
 	// ExamRecords
+	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
 	private Set<ExamRecord> ExamRecords;
 
@@ -107,9 +113,11 @@ public class Hospital {
 	}
 
 	// Prescriptions
+	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
 	private Set<Prescription> Prescriptions;
 	// Employees
+	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
 	private Set<Employee> employees;
 

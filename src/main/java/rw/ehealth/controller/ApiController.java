@@ -2,6 +2,7 @@
 package rw.ehealth.controller;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +42,7 @@ import rw.ehealth.utils.PatientListResponse;
 import rw.ehealth.utils.PinfoListResponse;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ApiController {
 
 	@Autowired
@@ -79,10 +79,13 @@ public class ApiController {
 		PatientListResponse response = new PatientListResponse();
 		System.out.println("Hitting here");
 		Patient results = pservice.findPatientByPatientNumber(patientNumber);
+		Admission admin = aService.listAdmissions(patientNumber);
+		
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");
 			response.setPatients(results);
+			response.setAdmission(admin);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		response.setError(true);
@@ -91,10 +94,10 @@ public class ApiController {
 	}
 
 	@PostMapping("/getRequest")
-	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientNumber) {
+	public ResponseEntity<PinfoListResponse> getRequest(@RequestParam String patientTrackingNumber) {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
-		ViewRecordRequest results = rService.findPRequest(patientNumber);
+		ViewRecordRequest results = rService.findPRequest(patientTrackingNumber);
 		if (results != null) {
 			response.setError(false);
 			response.setMessage("patient found");

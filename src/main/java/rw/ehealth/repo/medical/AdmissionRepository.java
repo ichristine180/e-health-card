@@ -101,5 +101,8 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 */
 	@Query("SELECT a from Admission a where a.admittedPatient.patientNumber =:patientNumber and releasedDate is null")
 	Admission findActiveAdmission(@Param("patientNumber") String patientNumber);
+	
+	@Query("SELECT a from Admission a Join a.admittedPatient p Join a.hospital h WHERE p.patientNumber=:patientNumber and a.releasedDate is null")
+	Admission listAdmissions(@Param("patientNumber") String patientNumber);
 
 }

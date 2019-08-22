@@ -209,8 +209,8 @@ public class HospitalController {
 				ViewRecordRequest request = new ViewRecordRequest();
 				request.setAdmission(admitedP);
 				request.setRequestedBy(activeUser);
+				request.setActive(true);
 				request.setRequestStatus(EViewRequestStatus.PENDING);
-				request.setActive(false);
 				request.setAccessCode(IDGenerator.generateAccessCode());
 				request.setRequestDate(LocalDate.now().toString());
 				ViewRecordRequest vrequest = rService.createRequest(request);
@@ -244,6 +244,14 @@ public class HospitalController {
 					model.addAttribute("results", examRecordService.findExamrecords(patientTrackingNumber));
 
 					return "information";
+				}else if(status.equals(EViewRequestStatus.DENIED)){
+					resultRequest.setRequestStatus(EViewRequestStatus.PENDING);
+					ViewRecordRequest vrequest = rService.update(resultRequest);
+					model.addAttribute("Message",
+							"Tell the patient to use the following code to grant you access his/her medical records  "
+									+ vrequest.getAccessCode());
+					model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+					return "vRecordAccess";
 				}
 				return "redirect:/gdoctor";
 			}
@@ -290,6 +298,43 @@ public class HospitalController {
 		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber.isEmpty() == false) {
 			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
+			if (consult != null) {
+				String department = activeUser.getDepertment().getName();
+
+				Prescription prescriptions = new Prescription();
+				model.addAttribute("prescriptions", prescriptions);
+				model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+				model.addAttribute("department", department);
+				model.addAttribute("admission", results);
+				model.addAttribute("consultation", consult);
+				model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
+
+				return "consultationD";
+			}
+		}
+		String department = activeUser.getDepertment().getName();
+		model.addAttribute("department", department);
+		model.addAttribute("admission", results);
+		boolean admissionInfo = true;
+		Consultation consultation = new Consultation();
+		model.addAttribute("department", department);
+		model.addAttribute("consultation", consultation);
+		model.addAttribute("admissionInfo", admissionInfo);
+		model.addAttribute("messagee", "Consultate First!");
+		return "consult";
+	}
+
+	@GetMapping("/prescription/close/{patientTrackingNumber}")
+	public String closerequest(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
+		Employee activeUser = userService.findDoctor(principal.getName());
+		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
+		if (patientTrackingNumber.isEmpty() == false) {
+			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
+			ViewRecordRequest resultRequest = rService.findPRequest(patientTrackingNumber);
+			resultRequest.setRequestStatus(EViewRequestStatus.CLOSED);
+			resultRequest.setActive(false);
+			rService.update(resultRequest);
+			
 			if (consult != null) {
 				String department = activeUser.getDepertment().getName();
 

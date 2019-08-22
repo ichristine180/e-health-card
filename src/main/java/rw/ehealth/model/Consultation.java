@@ -48,7 +48,7 @@ public class Consultation {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "consultedBy")
 	private Employee doctor;
-
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;

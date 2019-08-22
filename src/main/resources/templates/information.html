@@ -10,9 +10,9 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
-			<div class="btn-group-vertical">
+			<div class="btn-group-vertical" style="margin-top: 30px;">
 								<a class="btn btn-success pull-left"
-									th:href="@{'/prescription/' + ${patientTrackingNumber}}">Back To Consultation
+									th:href="@{'/prescription/close/' + ${patientTrackingNumber}}">Back To Consultation
 									</a>
 							</div>
 				<div class="box-header">
@@ -38,8 +38,8 @@
 											<th>Gender</th>
 											<th>Date Of Birth</th>
 											<th>Identification Number</th>
-											<th>Address</th>
-										</tr>
+											<th>Address</th> 
+											</tr>
 									</thead>
 
 									<tbody>

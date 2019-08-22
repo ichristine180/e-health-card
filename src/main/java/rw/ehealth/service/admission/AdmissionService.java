@@ -261,4 +261,14 @@ public class AdmissionService implements IAdmissionService {
 		}
 
 	}
+
+	@Override
+	public Admission listAdmissions(String patientNumber) {
+		try {
+			return aRepository.listAdmissions(patientNumber);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 }

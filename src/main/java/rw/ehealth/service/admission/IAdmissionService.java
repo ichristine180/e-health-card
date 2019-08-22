@@ -2,6 +2,8 @@ package rw.ehealth.service.admission;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Patient;
 import rw.ehealth.report.AdmissionReport;
@@ -27,6 +29,7 @@ public interface IAdmissionService {
 	Admission findBYpatientNumber(String patientNumber);
 
 	List<AdmissionReport> findBydoctor(String email);
+	Admission listAdmissions(String patientNumber);
 
 	/**
 	 * @param gender

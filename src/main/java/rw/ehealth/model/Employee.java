@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -50,11 +51,11 @@ public class Employee {
 	//@Size(min = 10, max = 10)
 	@Column(name = "phone", nullable = false)
 	private String phone;
-	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
-	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "accountid", nullable = false)
 	private User user;
@@ -62,6 +63,7 @@ public class Employee {
 	/**
 	 * The constant depertment
 	 */
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "departmentId")
 	private Department depertment;

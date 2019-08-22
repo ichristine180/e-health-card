@@ -40,7 +40,7 @@ public class Prescription {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "prescribedBy")
 	private Employee prescribedBy;
-
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
