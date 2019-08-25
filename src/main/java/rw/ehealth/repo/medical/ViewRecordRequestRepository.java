@@ -32,7 +32,9 @@ public interface ViewRecordRequestRepository extends JpaRepository<ViewRecordReq
 	@Query("SELECT r FROM ViewRecordRequest r JOIN r.admission a WHERE a.patientTrackingNumber=:patientTrackingNumber and r.isActive is true")
 	ViewRecordRequest findViewRecordRequest(@Param("patientTrackingNumber") String patientTrackingNumber);
 	@Query("SELECT r FROM ViewRecordRequest r JOIN r.admission a WHERE a.patientTrackingNumber=:patientTrackingNumber")
-	ViewRecordRequest findViewRecordBystatus(String patientNumber);
+	ViewRecordRequest findViewRecordBystatus(@Param("patientTrackingNumber") String patientTrackingNumber);
+	@Query("SELECT r FROM ViewRecordRequest r WHERE r.accessCode=:accessCode")
+	ViewRecordRequest findViewRecordRequestByAccessCode(@Param("accessCode") String accessCode);
 
 	/**
 	 * @param pnumber

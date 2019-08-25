@@ -1,8 +1,6 @@
 
 package rw.ehealth.controller;
 
-import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -98,14 +96,13 @@ public class ApiController {
 		PinfoListResponse response = new PinfoListResponse();
 		System.out.println("Hitting here");
 		ViewRecordRequest results = rService.findPRequest(patientTrackingNumber);
-		if (results != null) {
+		EViewRequestStatus status = results.getRequestStatus();
+		if (results != null && status.equals(EViewRequestStatus.PENDING)) {
 			response.setError(false);
-			response.setMessage("patient found");
 			response.setRequest(results);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		response.setError(true);
-		response.setMessage("invalid Pnumber");
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 
@@ -180,10 +177,10 @@ public class ApiController {
 	}
 
 	@PostMapping("/ApproveStatus")
-	public ResponseEntity<PinfoListResponse> approveStatus(@RequestParam String patientNumber) {
+	public ResponseEntity<PinfoListResponse> approveStatus(@RequestParam String accessCode) {
 		System.out.println("Reaching at this point at least");
 		// Getting the student data from the client request andcreate a new student object to be saved
-		ViewRecordRequest results = rService.findPRequest(patientNumber);
+		ViewRecordRequest results = rService.findPRequestByAccessCode(accessCode);
 		results.setRequestStatus(EViewRequestStatus.APPROVED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
@@ -200,9 +197,9 @@ public class ApiController {
 	}
 
 	@PostMapping("/DenyStatus")
-	public ResponseEntity<PinfoListResponse> denyStatus(@RequestParam String patientNumber) {
+	public ResponseEntity<PinfoListResponse> denyStatus(@RequestParam String accessCode) {
 		System.out.println("Reaching at this point at least");
-		ViewRecordRequest results = rService.findPRequest(patientNumber);
+		ViewRecordRequest results = rService.findPRequestByAccessCode(accessCode);
 		results.setRequestStatus(EViewRequestStatus.DENIED);
 		PinfoListResponse response = new PinfoListResponse();
 		if (rService.update(results) != null) {
