@@ -12,5 +12,6 @@ public interface IViewRequestService {
 	ViewRecordRequest findPRequest(String patientNumber);
 
 	ViewRecordRequest update(ViewRecordRequest request);
+	ViewRecordRequest findPRequestByAccessCode(String accessCode);
 
 }

@@ -242,7 +242,10 @@ public class HospitalController {
 					model.addAttribute("patient", result);
 					model.addAttribute("admissionindetails", admissionList);
 					model.addAttribute("results", examRecordService.findExamrecords(patientTrackingNumber));
-
+					ViewRecordRequest resultR = rService.findPRequest(patientTrackingNumber);
+					resultR.setRequestStatus(EViewRequestStatus.CLOSED);
+					resultR.setActive(false);
+					rService.update(resultR);
 					return "information";
 				}else if(status.equals(EViewRequestStatus.DENIED)){
 					resultRequest.setRequestStatus(EViewRequestStatus.PENDING);

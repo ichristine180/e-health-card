@@ -66,4 +66,13 @@ public class ViewRequestService implements IViewRequestService {
 			throw e;
 		}
 	}
+
+	@Override
+	public ViewRecordRequest findPRequestByAccessCode(String accessCode) {
+		try {
+			return rRepository.findViewRecordRequestByAccessCode(accessCode);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }
