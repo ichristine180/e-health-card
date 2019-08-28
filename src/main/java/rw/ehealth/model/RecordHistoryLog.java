@@ -44,10 +44,6 @@ public class RecordHistoryLog {
 	@Column(name = "VIEWD_ON")
 	private String viewOn;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "viewedRecordType")
-	private ERecordType viewedRecordType;
-
 	@Column(name = "viewedRecordId", nullable = false)
 	private long viewedRecordId;
 
@@ -80,16 +76,6 @@ public class RecordHistoryLog {
 	public Employee getViewer() {
 		return viewer;
 	}
-
-	
-
-	/**
-	 * @return the viewedRecordType
-	 */
-	public ERecordType getViewedRecordType() {
-		return viewedRecordType;
-	}
-
 	/**
 	 * @return the viewedRecordId
 	 */
@@ -120,12 +106,7 @@ public class RecordHistoryLog {
 		this.viewOn = viewOn;
 	}
 
-	/**
-	 * @param viewedRecordType the viewedRecordType to set
-	 */
-	public void setViewedRecordType(ERecordType viewedRecordType) {
-		this.viewedRecordType = viewedRecordType;
-	}
+	
 
 	/**
 	 * @param viewedRecordId the viewedRecordId to set
@@ -141,8 +122,7 @@ public class RecordHistoryLog {
 	@Override
 	public String toString() {
 		return "RecordHistoryLog [recordHistoryLogId=" + recordHistoryLogId + ", hospital=" + hospital + ", patient="
-				+ patient + ", viewer=" + viewer + ", viewOn=" + viewOn + ", viewedRecordType=" + viewedRecordType
-				+ ", viewedRecordId=" + viewedRecordId + "]";
+				+ patient + ", viewer=" + viewer + ", viewOn=" + viewOn + ",viewedRecordId=" + viewedRecordId + "]";
 	}
 
 }

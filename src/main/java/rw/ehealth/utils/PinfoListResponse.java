@@ -5,6 +5,7 @@ import java.util.List;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
+import rw.ehealth.model.Employee;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Prescription;
 import rw.ehealth.model.ViewRecordRequest;
@@ -16,6 +17,15 @@ public class PinfoListResponse {
 	private List<ExamRecord> examRecords;
 	private Consultation consultation;
 	private ViewRecordRequest request;
+	private Employee docemployee;
+
+	public Employee getDocemployee() {
+		return docemployee;
+	}
+
+	public void setDocemployee(Employee docemployee) {
+		this.docemployee = docemployee;
+	}
 
 	private List<Admission> admissionInfos;
 
@@ -89,4 +99,5 @@ public class PinfoListResponse {
 		this.examRecords = examRecords;
 	}
 
+	
 }

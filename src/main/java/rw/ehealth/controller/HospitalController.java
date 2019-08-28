@@ -235,7 +235,7 @@ public class HospitalController {
 					vHistory.setViewer(activeUser);
 					vHistory.setPatient(patient);
 					vHistory.setHospital(activeUser.getHospital());
-					vHistory.setViewOn(LocalDateTime.now().toString());
+					vHistory.setViewOn(LocalDate.now().toString());
 					vService.create(vHistory);
 					model.addAttribute("department", department);
 					model.addAttribute("consultation", results);
