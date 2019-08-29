@@ -1,6 +1,6 @@
 package rw.ehealth.model;
-import java.util.Collection;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,9 +23,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import rw.ehealth.model.security.Authority;
 import rw.ehealth.model.security.UserRole;
+
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User implements UserDetails {
 
 	/**
@@ -39,9 +40,10 @@ public class User implements UserDetails {
 	private Long userId;
 	private String username;
 	private String password;
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	private Employee doctor;
-	
+
 	public Employee getDoctor() {
 		return doctor;
 	}
@@ -58,6 +60,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	private boolean enabled = true;
+
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -83,7 +86,6 @@ public class User implements UserDetails {
 		this.username = username;
 	}
 
-	
 	@Override
 	public String getPassword() {
 		return password;

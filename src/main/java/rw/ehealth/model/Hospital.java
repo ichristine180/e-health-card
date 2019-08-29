@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,6 +52,11 @@ public class Hospital {
 	 */
 	private String address;
 
+	// ExamRecords
+	@JsonIgnore
+	@OneToMany(mappedBy = "hospital")
+	private Set<ExamRecord> ExamRecords;
+
 	// Available departments
 	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL })
@@ -63,6 +69,16 @@ public class Hospital {
 	private int departmentCount;
 
 	private int serviceCount;
+
+	// Prescriptions
+	@JsonIgnore
+	@OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY)
+	private Set<Prescription> prescriptions;
+
+	// Employees
+	@JsonIgnore
+	@OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY)
+	private Set<Employee> employees;
 
 	// Available exams
 	@JsonIgnore
@@ -81,28 +97,23 @@ public class Hospital {
 	// Consultations
 	@JsonIgnore
 	@OneToMany(mappedBy = "hospital")
-	private Set<Consultation> Consultations;
+	private Set<Consultation> consultations;
 
 	public Set<Consultation> getConsultations() {
-		return Consultations;
+		return consultations;
 	}
 
 	public void setConsultations(Set<Consultation> consultations) {
-		Consultations = consultations;
+		consultations = consultations;
 	}
 
 	public Set<Prescription> getPrescriptions() {
-		return Prescriptions;
+		return prescriptions;
 	}
 
 	public void setPrescriptions(Set<Prescription> prescriptions) {
-		Prescriptions = prescriptions;
+		prescriptions = prescriptions;
 	}
-
-	// ExamRecords
-	@JsonIgnore
-	@OneToMany(mappedBy = "hospital")
-	private Set<ExamRecord> ExamRecords;
 
 	public Set<ExamRecord> getExamRecords() {
 		return ExamRecords;
@@ -111,15 +122,6 @@ public class Hospital {
 	public void setExamRecords(Set<ExamRecord> examRecords) {
 		ExamRecords = examRecords;
 	}
-
-	// Prescriptions
-	@JsonIgnore
-	@OneToMany(mappedBy = "hospital")
-	private Set<Prescription> Prescriptions;
-	// Employees
-	@JsonIgnore
-	@OneToMany(mappedBy = "hospital")
-	private Set<Employee> employees;
 
 	/**
 	 * @return the hospitalId
@@ -275,15 +277,4 @@ public class Hospital {
 		this.employees = employees;
 	}
 
-	/*
-	 *
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Hospital [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalCode="
-				+ hospitalCode + ", type=" + type + ", address=" + address + ", departments=" + departments
-				+ ", departmentCount=" + departmentCount + ", serviceCount=" + serviceCount + ", exams=" + exams
-				+ ", Prescriptions=" + Prescriptions + ", employees=" + employees + "]";
-	}
 }

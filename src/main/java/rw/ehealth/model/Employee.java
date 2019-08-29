@@ -78,7 +78,6 @@ public class Employee {
 	/**
 	 * The constant depertment
 	 */
-	@NotNull
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "departmentId")

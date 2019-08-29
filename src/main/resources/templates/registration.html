@@ -129,49 +129,51 @@
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
-												placeholder="First Name" th:field="*{fname}" /> </select> <span
+												placeholder="First Name" th:field="*{fname}" /> <span
 												class="error text-danger"
 												th:if="${#fields.hasErrors('fname')}" th:errors="*{fname}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
 												class="form-control" id="inputEmail3"
-												placeholder="Last Name" name="fname"
-												th:value="${lname}" />
+												placeholder="Last Name" th:field="*{lname}" /> <span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('lname')}" th:errors="*{lname}"></span>
 										</div>
 
 										<div class="form-group">
 											<label for="inputEmail3">Phone</label> <input type="tel"
 												class="form-control" id="inputEmail3"
-												placeholder="phone number" name="phone"
-												th:value="${phone}" />
+												placeholder="phone number" th:field="*{phone}" /> <span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
 										</div>
 										<!-- /.input group -->
 										<div class="form-group">
 											<label for="inputEmail3">Email</label> <input type="email"
 												name="email" th:value="${email}" class="form-control"
-												id="inputEmail3" placeholder="" />
+												id="inputEmail3" placeholder="" /> <span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 										</div>
 										<div class="form-group">
-											<label for="hospitalname" class="col-sm-2 control-label">Hospital_Name</label>
-											<select th:field="*{doctor.hospitalname}"
-												th:name="hospitalname"
+											<label for="hospitalname" class="col-sm-2 control-label">Hospital
+											</label> <select th:field="*{hospital}" 
 												class="form-control col-md-7 col-xs-12">
-												<option value="0">....</option>
 												<option th:each="hospital: ${hospitals}"
-													th:value="${hospital.hospitalName}"
-													th:text="${hospital.hospitalName}"></option>
+													th:value="${hospital.hospitalId}" th:text="${hospital.hospitalName}"></option>
 											</select>
+											<span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('hospital')}" th:errors="*{hospital}"></span>
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">Role_Name</label>
-
-											<select th:field="*{doctor.roleName}" th:name="roleName"
+											<label for="inputEmail3" class="col-sm-2 control-label">Role
+											</label> <select th:field="*{user.username}"
 												class="form-control col-md-7 col-xs-12">
-												<option value="0">....</option>
-												<option th:each="role: ${role}" th:value="${role.name}"
+												<option th:each="role: ${roles}" th:value="${role.name}"
 													th:text="${role.name}"></option>
-											</select>
+											</select>											
 										</div>
 
 									</div>
