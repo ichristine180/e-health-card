@@ -23,6 +23,7 @@ import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.User;
+import rw.ehealth.model.security.Role;
 import rw.ehealth.model.security.UserRole;
 import rw.ehealth.service.exams.ExamService;
 import rw.ehealth.service.hospital.IHospitalService;
@@ -58,57 +59,7 @@ public class AdminController {
 		return "registration";
 	}
 
-	@PostMapping("/registration")
-	public String registerPatient(@ModelAttribute @Valid Patient patient, BindingResult results, Principal principal,
-			Model model) {
-		if (results.hasErrors()) {
-			System.out.println("Validation Errors occured");
-			return "registration";
-		}
-		System.out.println("No Errors-then proceed");
-		String username = principal.getName();
-		Employee doctor = userService.findDoctor(username);
-		Hospital hospital = doctor.getHospital();
-		String hospitalName = hospital.getHospitalName();
-		if (patient.getIdentificationNumber().isEmpty() == false) {
-			if (patient.getIdentificationNumber() != null) {
-				Patient existingPatient = patientService
-						.findPatientByIdentificationNumber(patient.getIdentificationNumber());
-
-				if (existingPatient != null) {
-					model.addAttribute("message", "There is Patient with this IdentificationNumber");
-					model.addAttribute("patient", patient);
-
-					return "registration";
-				}
-
-				Patient newPatient = new Patient();
-
-				newPatient.setAddress(patient.getAddress());
-				newPatient.setDateOfBirth(patient.getDateOfBirth());
-				newPatient.setFname(patient.getFname());
-				newPatient.setLname(patient.getLname());
-				newPatient.setGender(patient.getGender());
-				newPatient.setIdentificationNumber(patient.getIdentificationNumber());
-				newPatient.setRegisteredDate(LocalDate.now().toString());
-				newPatient.setHospital(hospitalName);
-				newPatient.setPatientNumber(IDGenerator.generatePatientNumber(newPatient));
-
-				Patient registeredPatient = patientService.savePatientInfo(newPatient);
-
-				model.addAttribute("patientId", registeredPatient.getPatientNumber());
-				model.addAttribute("patient", registeredPatient);
-				boolean registration = true;
-				model.addAttribute("registration", registration);
-
-				return "registrationSuccess";
-			}
-		}
-		model.addAttribute("error", "Invalid Patient Data");
-		model.addAttribute("patient", patient);
-		return "registration";
-	}
-
+	
 	@PostMapping("/hospregistration")
 	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,
 			@RequestParam(value = "departmentId", required = false) Long[] departmentId, @ModelAttribute Hospital hdata,
@@ -144,6 +95,20 @@ public class AdminController {
 		return "registration";
 	}
 
+	@GetMapping("/docregistration")
+	public String registerDoctor(Model model) {
+		DoctorData doctor = new DoctorData();
+		Iterable<Role> role = userService.findAll();
+		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
+		Iterable<Department> departemt = departemtService.findAllDepartemts();
+		model.addAttribute("departemt", departemt);
+		model.addAttribute("hospitals", hospitals);
+		model.addAttribute("role", role);
+		model.addAttribute("doctor", doctor);
+		boolean doctors = true;
+		model.addAttribute("doctors", doctors);
+		return "registration";
+	}
 	@PostMapping("/docregistration")
 	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
 		Department departemt;
