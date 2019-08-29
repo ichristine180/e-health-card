@@ -60,6 +60,7 @@
 												<option value="">...</option>
 												<option value="MALE">MALE</option>
 												<option value="FEMALE">FEMALE</option>
+
 											</select> <span class="error text-danger"
 												th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
 										</div>
@@ -122,65 +123,60 @@
 								</div>
 								<!-- /.box-header -->
 								<!-- form start -->
-								<form class="form" th:action="@{/docregistration}" method="POST"
-									th:object="${user}">
+								<form class="form" th:action="@{/docregistration}" method="POST">
 									<div class="box-body">
+
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
-												placeholder="First Name" th:field="*{fname}" /><span
-												class="error text-danger"
-												th:if="${#fields.hasErrors('fname')}" th:errors="*{fname}"></span>
+												placeholder="First Name" name="lname"
+												th:value="${doctor.lname}" />
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
 												class="form-control" id="inputEmail3"
-												placeholder="Last Name" th:field="*{lname}" />
-												<span class="error text-danger"
-												th:if="${#fields.hasErrors('lname')}" th:errors="*{lname}"></span>
+												placeholder="Last Name" name="fname"
+												th:value="${doctor.lname}" />
 										</div>
 
 										<div class="form-group">
 											<label for="inputEmail3">Phone</label> <input type="tel"
 												class="form-control" id="inputEmail3"
-												placeholder="phone number" name="phone" th:field="*{phone}" />
-												<span class="error text-danger"
-												th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+												placeholder="phone number" name="phone"
+												th:value="${doctor.phone}" />
 										</div>
 										<!-- /.input group -->
 										<div class="form-group">
 											<label for="inputEmail3">Email</label> <input type="email"
-												name="email" th:field="*{email}" class="form-control"
-												id="inputEmail3" placeholder="Email Address" />
-												<span class="error text-danger"
-												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+												name="email" th:value="${doctor.email}" class="form-control"
+												id="inputEmail3" placeholder="" />
 										</div>
 										<div class="form-group">
-											<label for="hospitalname" class="col-sm-2 control-label">Hospital
-												Name</label> <select th:field="*{hospital}"
+											<label for="hospitalname" class="col-sm-2 control-label">Hospital_Name</label>
+											<select th:field="*{doctor.hospitalname}"
 												th:name="hospitalname"
 												class="form-control col-md-7 col-xs-12">
+												<option value="0">....</option>
 												<option th:each="hospital: ${hospitals}"
-													th:field="$*{hospital.hospitalName}" th:text="${hospital.hospitalName}"></option>
+													th:value="${hospital.hospitalName}"
+													th:text="${hospital.hospitalName}"></option>
 											</select>
-											<span class="error text-danger"
-												th:if="${#fields.hasErrors('hospital')}" th:errors="*{hospital}"></span>
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">Role
-												Name</label> <select th:field="*{role}"
-												th:name="roleName" class="form-control col-md-7 col-xs-12">
-												<option th:each="role: ${roles}" th:field="*{role.name}"
+											<label for="inputEmail3" class="col-sm-2 control-label">Role_Name</label>
+
+											<select th:field="*{doctor.roleName}" th:name="roleName"
+												class="form-control col-md-7 col-xs-12">
+												<option value="0">....</option>
+												<option th:each="role: ${role}" th:value="${role.name}"
 													th:text="${role.name}"></option>
 											</select>
-											<span class="error text-danger"
-												th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
 										</div>
 
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
-										<button type="reset" class="btn btn-default">Cancel</button>
+										<button type="submit" class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Register
 										</button>
 									</div>
