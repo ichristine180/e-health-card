@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -24,6 +28,9 @@ public class Patient {
 	/**
 	 * The constant fname - String
 	 */
+	@NotNull
+	@NotBlank(message = "The first name is required")
+	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
 	@Column(name = "FIRST_NAME")
 	private String fname;
 
@@ -32,9 +39,13 @@ public class Patient {
 	/**
 	 * The constant lname - String
 	 */
+	@NotNull
+	@NotBlank(message = "The last name is required")
+	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
 	@Column(name = "LAST_NAME")
 	private String lname;
 
+	@NotBlank(message = "Please select gender")
 	@Column(name = "GENDER")
 	private String gender;
 	/**
@@ -42,15 +53,19 @@ public class Patient {
 	 */
 	@Column(name = "ADDRESS")
 	private String address;
-	
+
+	@Size(min = 16, max = 16, message = "Valid National Identification is 16 Digits")
+	@Pattern(regexp = "\\d{16}", message = "Invalid characters. Use digits only")
+	@NotNull(message = " This field cant be null")
 	@Column(name = "IDENTIFICATION_NUMBER", nullable = false, unique = true)
-	@NotNull
 	private String identificationNumber;
 
 	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
 	private String patientNumber;
+
 	@Column(name = "registeredDateString")
 	private String registeredDate;
+
 	@Column(name = "hospital")
 	private String hospital;
 

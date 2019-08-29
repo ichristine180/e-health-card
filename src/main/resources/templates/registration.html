@@ -26,19 +26,26 @@
 								</div>
 								<!-- /.box-header -->
 								<!-- form start -->
-								<form class="form" th:action="@{/registration}"
+								<form class="form" th:action="@{/registration}" action=""
 									th:object="${patient}" method="POST">
 									<div class="box-body">
 										<div class="form-group">
-											<label for="inputEmail3">Identification Document
+											<label for="inputEmail3">National Identification
 												Number</label> <input type="text" class="form-control"
-												placeholder="Identification Document Number"
-												th:name="@{identificationNumber}" />
+												placeholder="National Identification"
+												th:field="*{identificationNumber}" /> <span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('identificationNumber')}"
+												th:errors="*{identificationNumber}" ></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
-												placeholder="First Name" th:name="@{fname}" />
+												placeholder="First Name" th:field="*{fname}" />
+												<span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('fname')}"
+												th:errors="*{fname}" ></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
@@ -74,7 +81,7 @@
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
-										<button type="submit" class="btn btn-default">Cancel</button>
+										<button  class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Register
 											A Patient</button>
 									</div>

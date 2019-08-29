@@ -30,7 +30,6 @@ import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.UserService;
 import rw.ehealth.utils.DoctorData;
-import rw.ehealth.utils.HopitaData;
 import rw.ehealth.utils.IDGenerator;
 
 @Controller
@@ -60,7 +59,13 @@ public class AdminController {
 	}
 
 	@PostMapping("/registration")
-	public String registerPatient(Model model, @ModelAttribute @Valid Patient patient,Principal principal) {
+	public String registerPatient(@ModelAttribute @Valid Patient patient, BindingResult results, Principal principal,
+			Model model) {
+		if (results.hasErrors()) {
+			System.out.println("Validation Errors occured");
+			return "registration";
+		}
+		System.out.println("No Errors-then proceed");
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
 		Hospital hospital = doctor.getHospital();
@@ -102,13 +107,12 @@ public class AdminController {
 		model.addAttribute("error", "Invalid Patient Data");
 		model.addAttribute("patient", patient);
 		return "registration";
-		}
-	
+	}
 
 	@PostMapping("/hospregistration")
 	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,
-			@RequestParam(value = "departmentId", required = false) Long[] departmentId,
-			@ModelAttribute Hospital hdata, Model model, Principal principal) {
+			@RequestParam(value = "departmentId", required = false) Long[] departmentId, @ModelAttribute Hospital hdata,
+			Model model, Principal principal) {
 		if (examId != null && departmentId != null) {
 
 			Hospital hospital = new Hospital();
@@ -131,7 +135,7 @@ public class AdminController {
 			hospital.setDepartments(selectedMedicalDepartment);
 			hospital.setExams(selectedMedicalExam);
 			Hospital savedHospital = hospitalService.createHospital(hospital);
-			if(savedHospital != null) {
+			if (savedHospital != null) {
 				model.addAttribute("hospital", hospitalService.findHospitalById(savedHospital.getHospitalId()));
 				return "registrationSuccess";
 			}
@@ -194,4 +198,5 @@ public class AdminController {
 		model.addAttribute("userCount", userService.findUserList().size());
 		return "report";
 	}
+
 }
