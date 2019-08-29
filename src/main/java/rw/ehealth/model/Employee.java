@@ -11,7 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,24 +35,31 @@ public class Employee {
 	 * The constant fname - String
 	 */
 	@NotNull
+	@NotBlank(message = "The first name is required")
+	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
 	@Column(name = "fname", nullable = false)
 	private String fname;
 	/**
 	 * The constant lname - String
 	 */
 	@NotNull
+	@NotBlank(message = "The Last name is required")
+	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
 	@Column(name = "lname", nullable = false)
 	private String lname;
 	/**
 	 * The constant email - String
 	 */
-	@NotNull
+	@NotBlank(message = "The Email is required")
+	@Email(message = "Valid email is Requird")
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	/**
 	 * The constant phone - String
 	 */
-	//@Size(min = 10, max = 10)
+	@Size(min = 10, max = 10, message = "Valid Phone Number is 10 Digits")
+	@Pattern(regexp = "\\d{10}", message = "Invalid characters. Use digits only")
+	@NotNull(message = " This field cant be null")
 	@Column(name = "phone", nullable = false)
 	private String phone;
 	@JsonIgnore

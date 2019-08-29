@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,19 +65,54 @@ public class AdmissionController {
 		model.addAttribute("patient", patient);
 		return "registration";
 	}
+	@PostMapping("/registration")
+	public String registerPatient(@ModelAttribute @Valid Patient patient, BindingResult results, Principal principal,
+			Model model) {
+		if (results.hasErrors()) {
+			System.out.println("Validation Errors occured");
+			return "registration";
+		}
+		System.out.println("No Errors-then proceed");
+		String username = principal.getName();
+		Employee doctor = userService.findDoctor(username);
+		Hospital hospital = doctor.getHospital();
+		String hospitalName = hospital.getHospitalName();
+		if (patient.getIdentificationNumber().isEmpty() == false) {
+			if (patient.getIdentificationNumber() != null) {
+				Patient existingPatient = patientService
+						.findPatientByIdentificationNumber(patient.getIdentificationNumber());
 
-	@GetMapping("/docregistration")
-	public String registerDoctor(Model model) {
-		DoctorData doctor = new DoctorData();
-		Iterable<Role> role = userService.findAll();
-		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		Iterable<Department> departemt = departemtService.findAllDepartemts();
-		model.addAttribute("departemt", departemt);
-		model.addAttribute("hospitals", hospitals);
-		model.addAttribute("role", role);
-		model.addAttribute("doctor", doctor);
-		boolean doctors = true;
-		model.addAttribute("doctors", doctors);
+				if (existingPatient != null) {
+					model.addAttribute("message", "There is Patient with this IdentificationNumber");
+					model.addAttribute("patient", patient);
+
+					return "registration";
+				}
+
+				Patient newPatient = new Patient();
+
+				newPatient.setAddress(patient.getAddress());
+				newPatient.setDateOfBirth(patient.getDateOfBirth());
+				newPatient.setFname(patient.getFname());
+				newPatient.setLname(patient.getLname());
+				newPatient.setGender(patient.getGender());
+				newPatient.setIdentificationNumber(patient.getIdentificationNumber());
+				newPatient.setRegisteredDate(LocalDate.now().toString());
+				newPatient.setHospital(hospitalName);
+				newPatient.setPatientNumber(IDGenerator.generatePatientNumber(newPatient));
+
+				Patient registeredPatient = patientService.savePatientInfo(newPatient);
+
+				model.addAttribute("patientId", registeredPatient.getPatientNumber());
+				model.addAttribute("patient", registeredPatient);
+				boolean registration = true;
+				model.addAttribute("registration", registration);
+
+				return "registrationSuccess";
+			}
+		}
+		model.addAttribute("error", "Invalid Patient Data");
+		model.addAttribute("patient", patient);
 		return "registration";
 	}
 
