@@ -36,29 +36,33 @@
 												th:field="*{identificationNumber}" /> <span
 												class="error text-danger"
 												th:if="${#fields.hasErrors('identificationNumber')}"
-												th:errors="*{identificationNumber}" ></span>
+												th:errors="*{identificationNumber}"></span> <span
+												class="error text-danger" th:text="${message}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">First Name</label> <input
 												type="text" class="form-control" id="inputEmail3"
-												placeholder="First Name" th:field="*{fname}" />
-												<span
+												placeholder="First Name" th:field="*{fname}" /> <span
 												class="error text-danger"
-												th:if="${#fields.hasErrors('fname')}"
-												th:errors="*{fname}" ></span>
+												th:if="${#fields.hasErrors('fname')}" th:errors="*{fname}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Last Name</label> <input type="text"
 												class="form-control" id="inputEmail3"
-												placeholder="Last Name" th:name="@{lname}" />
+												placeholder="First Name" th:field="*{lname}" /> <span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('lname')}" th:errors="*{lname}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Gender</label> <select
 												th:field="*{gender}" class="form-control seelct2"
 												style="width: 100%;">
+												<option value="">...</option>
 												<option value="MALE">MALE</option>
 												<option value="FEMALE">FEMALE</option>
-											</select>
+
+											</select> <span class="error text-danger"
+												th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
 										</div>
 										<div class="form-group">
 											<label>Date of Birth:</label>
@@ -68,20 +72,27 @@
 													<i class="fa fa-calendar"></i>
 												</div>
 												<input type="text" class="form-control pull-right"
-													th:name="@{dateOfBirth}" id="datepicker" />
+													th:field="*{dateOfBirth}" id="datepicker" />
+
 											</div>
+											<span class="error text-danger"
+												th:if="${#fields.hasErrors('dateOfBirth')}"
+												th:errors="*{dateOfBirth}"></span>
 											<!-- /.input group -->
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3">Address</label> <input type="text"
-												th:name="@{address}" class="form-control" id="inputEmail3"
+												th:field="*{address}" class="form-control" id="inputEmail3"
 												placeholder="" />
 
 										</div>
+										<span class="error text-danger"
+											th:if="${#fields.hasErrors('address')}"
+											th:errors="*{address}"></span>
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
-										<button  class="btn btn-default">Cancel</button>
+										<button class="btn btn-default">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Register
 											A Patient</button>
 									</div>

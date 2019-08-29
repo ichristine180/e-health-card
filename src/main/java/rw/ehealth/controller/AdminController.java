@@ -76,7 +76,7 @@ public class AdminController {
 						.findPatientByIdentificationNumber(patient.getIdentificationNumber());
 
 				if (existingPatient != null) {
-					model.addAttribute("message", "Patient already registered");
+					model.addAttribute("message", "There is Patient with this IdentificationNumber");
 					model.addAttribute("patient", patient);
 
 					return "registration";
