@@ -22,7 +22,6 @@ import rw.ehealth.model.Employee;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
-import rw.ehealth.model.security.Role;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
@@ -62,21 +61,6 @@ public class AdmissionController {
 	public String registerPatient(Model model) {
 		Patient patient = new Patient();
 		model.addAttribute("patient", patient);
-		return "registration";
-	}
-
-	@GetMapping("/docregistration")
-	public String registerDoctor(Model model) {
-		DoctorData doctor = new DoctorData();
-		Iterable<Role> role = userService.findAll();
-		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		Iterable<Department> departemt = departemtService.findAllDepartemts();
-		model.addAttribute("departemt", departemt);
-		model.addAttribute("hospitals", hospitals);
-		model.addAttribute("role", role);
-		model.addAttribute("doctor", doctor);
-		boolean doctors = true;
-		model.addAttribute("doctors", doctors);
 		return "registration";
 	}
 

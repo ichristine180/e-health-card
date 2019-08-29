@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -43,18 +45,22 @@ public class Employee {
 	 * The constant email - String
 	 */
 	@NotNull
+	@Email(message = "Enter a valid email address")
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	/**
 	 * The constant phone - String
 	 */
-	//@Size(min = 10, max = 10)
+	@Size(min = 10, max = 10)
 	@Column(name = "phone", nullable = false)
 	private String phone;
+
+	@NotNull
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
+
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "accountid", nullable = false)
@@ -63,6 +69,7 @@ public class Employee {
 	/**
 	 * The constant depertment
 	 */
+	@NotNull
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "departmentId")

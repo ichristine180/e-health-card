@@ -22,14 +22,12 @@ import rw.ehealth.model.Employee;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
-import rw.ehealth.model.User;
-import rw.ehealth.model.security.UserRole;
+import rw.ehealth.model.security.Role;
 import rw.ehealth.service.exams.ExamService;
 import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.DepartemtService;
 import rw.ehealth.service.user.UserService;
-import rw.ehealth.utils.DoctorData;
 import rw.ehealth.utils.IDGenerator;
 
 @Controller
@@ -144,50 +142,47 @@ public class AdminController {
 		return "registration";
 	}
 
-	@PostMapping("/docregistration")
-	public String adddoctor(@ModelAttribute("user") @Valid DoctorData user, Model model) {
-		Department departemt;
-		if (user.getHospitalname().isEmpty() == false && user.getEmail().isEmpty() == false) {
-			Employee doc = new Employee();
-			doc.setEmail(user.getEmail());
-			doc.setFname(user.getFname());
-			doc.setLname(user.getLname());
-			doc.setTimestamp(LocalDate.now().toString());
-			doc.setPhone(user.getPhone());
-			Hospital hospitals = hospitalService.findByHospitalname(user.getHospitalname());
-			doc.setHospital(hospitals);
-			if (user.getRoleName().equals("ROLE_RECEPTIONIST")) {
-				departemt = departemtService.findPerName("Reception");
-				doc.setDepertment(departemt);
-			} else if (user.getRoleName().equals("ROLE_GENERAL_DOCTOR")) {
-				departemt = departemtService.findPerName("General Practitioner");
-				doc.setDepertment(departemt);
-			} else if (user.getRoleName().equals("ROLE_LABORATORY_DOCTOR")) {
-				departemt = departemtService.findPerName("Laboratory");
-				doc.setDepertment(departemt);
-			}
-			if (userService.checkUsernameExists(user.getEmail())) {
-				if (userService.checkUsernameExists(user.getEmail())) {
-					model.addAttribute("emailExists", true);
-					System.out.println("email exists");
-				}
-				return "redirect:/docregistration";
-			}
-			User myuser = new User();
+	@GetMapping("/docregistration")
+	public String registerDoctor(Model model) {
+		Employee user = new Employee();
+		Iterable<Role> roles = userService.findAll();
+		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
+		Iterable<Department> departemt = departemtService.findAllDepartemts();
+		model.addAttribute("departemt", departemt);
+		model.addAttribute("hospitals", hospitals);
+		model.addAttribute("roles", roles);
+		model.addAttribute("user", user);
+		boolean doctors = true;
+		model.addAttribute("doctors", doctors);
+		return "registration";
+	}
 
-			myuser.setUsername(user.getEmail());
-			myuser.setPassword("pass");
-			Set<UserRole> userRoles = new HashSet<>();
-			userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName())));
-			myuser.setDoctor(doc);
-			doc.setUser(myuser);
-			userService.createUser(myuser);
-			User empoUser = userService.createUser(myuser, userRoles);
-			if (empoUser != null) {
-				model.addAttribute("user", userService.findByUsername(empoUser.getUsername()));
-				return "registrationSuccess";
-			}
+	@PostMapping("/docregistration")
+	public String adddoctor(@ModelAttribute("user") @Valid Employee user, BindingResult results, Model model) {
+		if (results.hasErrors()) {
+			System.out.println("Validation Errors Found: " + results.toString());
+			return "registration";
 		}
+		/*
+		 * Department departemt; if (!user.getHospitalname().isEmpty() && !user.getEmail().isEmpty()) { Employee doc =
+		 * new Employee(); doc.setEmail(user.getEmail()); doc.setFname(user.getFname()); doc.setLname(user.getLname());
+		 * doc.setTimestamp(LocalDate.now().toString()); doc.setPhone(user.getPhone()); Hospital hospitals =
+		 * hospitalService.findByHospitalname(user.getHospitalname()); doc.setHospital(hospitals); if
+		 * (user..equals("ROLE_RECEPTIONIST")) { departemt = departemtService.findPerName("Reception");
+		 * doc.setDepertment(departemt); } else if (user.getRoleName().equals("ROLE_GENERAL_DOCTOR")) { departemt =
+		 * departemtService.findPerName("General Practitioner"); doc.setDepertment(departemt); } else if
+		 * (user.getRoleName().equals("ROLE_LABORATORY_DOCTOR")) { departemt =
+		 * departemtService.findPerName("Laboratory"); doc.setDepertment(departemt); } if
+		 * (userService.checkUsernameExists(user.getEmail())) { if (userService.checkUsernameExists(user.getEmail())) {
+		 * model.addAttribute("emailExists", true); System.out.println("email exists"); } return
+		 * "redirect:/docregistration"; } User myuser = new User();
+		 * 
+		 * myuser.setUsername(user.getEmail()); myuser.setPassword("pass"); Set<UserRole> userRoles = new HashSet<>();
+		 * userRoles.add(new UserRole(myuser, userService.findByName(user.getRoleName()))); myuser.setDoctor(doc);
+		 * doc.setUser(myuser); userService.createUser(myuser); User empoUser = userService.createUser(myuser,
+		 * userRoles); if (empoUser != null) { model.addAttribute("user",
+		 * userService.findByUsername(empoUser.getUsername())); return "registrationSuccess"; } }
+		 */
 		return "redirect:/docregistration";
 	}
 
