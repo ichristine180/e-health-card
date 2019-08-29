@@ -6,12 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "PATIENTS")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Patient {
 	/**
 	 * The constant patientId - Long
@@ -41,17 +42,18 @@ public class Patient {
 	 */
 	@Column(name = "ADDRESS")
 	private String address;
-
+	
 	@Column(name = "IDENTIFICATION_NUMBER", nullable = false, unique = true)
+	@NotNull
 	private String identificationNumber;
 
 	@Column(name = "PATIENT_NUMBER", nullable = false, unique = true)
 	private String patientNumber;
 	@Column(name = "registeredDateString")
-    private String registeredDate;
+	private String registeredDate;
 	@Column(name = "hospital")
 	private String hospital;
-	
+
 	public String getRegisteredDate() {
 		return registeredDate;
 	}

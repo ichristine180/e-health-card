@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,7 +60,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/registration")
-	public String registerPatient(Model model, @ModelAttribute @Valid Patient patient, Principal principal) {
+	public String registerPatient(Model model, @ModelAttribute @Valid Patient patient,Principal principal) {
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
 		Hospital hospital = doctor.getHospital();
@@ -101,8 +102,8 @@ public class AdminController {
 		model.addAttribute("error", "Invalid Patient Data");
 		model.addAttribute("patient", patient);
 		return "registration";
-
-	}
+		}
+	
 
 	@PostMapping("/hospregistration")
 	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,

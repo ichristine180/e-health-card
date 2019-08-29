@@ -285,29 +285,31 @@
 											</select>
 										</div>
 										<div class="form-group">
-										<table>
-										<tr>Exams</tr>
-											<tr>
-											<td><th:block th:each="exams : ${examss}">
-													<input type="checkbox" name="examId"
-														th:value="${exams.examId}" />
-													<label th:text="${exams.name}"></label>
-												</th:block></td>
-										</tr>
-									</table>
-									</div>
-									<div class="form-group">
-										<table>
-												<tr>Department</tr>
-											<tr>
-											<td><th:block th:each="dpt : ${departments}">
-													<input type="checkbox" name="departmentId"
-														th:value="${dpt.departmentId}" />
-													<label th:text="${dpt.name}"></label>
-										</th:block></td>
-										</tr>
-									</table>
-									</div>
+											<table>
+												<tr>Exams
+												</tr>
+												<tr>
+													<td><th:block th:each="exams : ${examss}">
+															<input type="checkbox" name="examId"
+																th:value="${exams.examId}" />
+															<label th:text="${exams.name}"></label>
+														</th:block></td>
+												</tr>
+											</table>
+										</div>
+										<div class="form-group">
+											<table>
+												<tr>Department
+												</tr>
+												<tr>
+													<td><th:block th:each="dpt : ${departments}">
+															<input type="checkbox" name="departmentId"
+																th:value="${dpt.departmentId}" />
+															<label th:text="${dpt.name}"></label>
+														</th:block></td>
+												</tr>
+											</table>
+										</div>
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">

@@ -11,6 +11,6 @@ import rw.ehealth.model.RecordHistoryLog;
 
 public interface RecordHistoryLogRepository extends JpaRepository<RecordHistoryLog, Long> {
 
-	@Query("SELECT p,d FROM RecordHistoryLog p  JOIN p.viewer d JOIN p.hospital h JOIN p.patient pa WHERE pa.patientNumber=:patientNumber")
+	@Query("SELECT p,d,h FROM RecordHistoryLog p  JOIN p.viewer d JOIN p.hospital h JOIN p.patient pa WHERE pa.patientNumber=:patientNumber")
 	List<RecordHistoryLog> viewHistory(@Param("patientNumber") String patientNumber);
 }

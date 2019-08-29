@@ -19,6 +19,7 @@ import rw.ehealth.enums.EViewRequestStatus;
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Department;
+import rw.ehealth.model.Employee;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
@@ -65,13 +66,6 @@ public class ApiController {
 
 	@Autowired
 	private IViewRecordHistoryService vService;
-
-	@Autowired
-	private IDepartemtService departmentService;
-
-	@Autowired
-	private IExamService eexamService;
-
 	@PostMapping("/pIn")
 	public ResponseEntity<PatientListResponse> getPatientInfo(@RequestParam String patientNumber) {
 		PatientListResponse response = new PatientListResponse();
@@ -159,6 +153,8 @@ public class ApiController {
 		if (results != null || examrecords.size() != 0 || medecine != null) {
 			response.setError(false);
 			response.setMessage("Information found");
+			Employee docemployee = results.getDoctor();
+			response.setDocemployee(docemployee);
 			response.setConsultation(results);
 			response.setPrescription(medecine);
 			List<ExamRecord> hospitals = new ArrayList<ExamRecord>();
@@ -236,38 +232,5 @@ public class ApiController {
 
 	}
 
-	@GetMapping("/create/master/data/hospital")
-	public ResponseEntity<List<Hospital>> createMasterData() {
-		List<Department> allDepartments = departmentService.findAllDepartemts();
-		List<MedicalExam> allExams = eexamService.findExams();
-
-		Set<Department> departments = new HashSet<>(allDepartments);
-		Set<MedicalExam> exams = new HashSet<>(allExams);
-		// Hospitals
-		Hospital firstHospital = new Hospital();
-		firstHospital.setAddress("Kicukiro");
-		firstHospital.setHospitalCode("KFH");
-		firstHospital.setHospitalName("King Faical Hospital");
-		firstHospital.setType(EHealthFacilityType.REFERRAL_HOSPITAL);
-
-		firstHospital.setDepartments(departments);
-		firstHospital.setExams(exams);
-
-		Hospital secondHospital = new Hospital();
-		secondHospital.setAddress("Bugesera");
-		secondHospital.setHospitalCode("NAH");
-		secondHospital.setHospitalName("Nyamata ADEPER Hospital");
-		secondHospital.setType(EHealthFacilityType.DISTRICT_HOSPITAL);
-
-		secondHospital.setDepartments(departments);
-		secondHospital.setExams(exams);
-
-		List<Hospital> createdHospitals = new ArrayList<>();
-
-		createdHospitals.add(hospitalService.createHospital(firstHospital));
-		createdHospitals.add(hospitalService.createHospital(secondHospital));
-
-		return new ResponseEntity<>(createdHospitals, HttpStatus.OK);
-
-	}
+	
 }
