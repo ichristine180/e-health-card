@@ -42,9 +42,6 @@ public class AdmissionController {
 	private UserService userService;
 
 	@Autowired
-	private IHospitalService hospitalService;
-
-	@Autowired
 	private IEmployeeService employeeService;
 
 	@Autowired
@@ -114,9 +111,23 @@ public class AdmissionController {
 		return "registration";
 	}
 
-	@SuppressWarnings("unused")
+
 	@PostMapping("/patient/admission")
-	public String admitPatient(Model model, @ModelAttribute AdmissionDto admission, Principal principal) {
+	public String admitPatient(Model model, @ModelAttribute("admission") @Valid AdmissionDto admission, BindingResult results,Principal principal) {
+		if(admission.getPatientNumber() != null) {
+			Patient result = patientService.findPatientByPatientNumber(admission.getPatientNumber());
+			if (results.hasErrors()) {
+				model.addAttribute("patients", result);
+				boolean patientresult = true;
+				model.addAttribute("found", patientresult);
+				Employee activeUser = userService.findDoctor(principal.getName());
+				Hospital hospital = activeUser.getHospital();
+				Iterable<Department> departemt = departemtService.findPerHospital(hospital);
+				model.addAttribute("departemt", departemt);
+				System.out.println("We reach this page");
+				return "admit";
+			}
+		System.out.println(admission.getPatientNumber() + " THis is the patnbr to be saved");
 		String username = principal.getName();
 		Employee user = userService.findUserByUsername(username);
 		Admission newadmission = new Admission();
@@ -127,7 +138,7 @@ public class AdmissionController {
 		newadmission.setTemperature(admission.getTemperature());
 		newadmission.setStatus("PENDING");
 
-		Department depertment = departemtService.findPerName(admission.getDepartementName());
+		Department depertment = departemtService.findPerName(admission.getDepartemtName());
 		newadmission.setDepartement(depertment);
 		newadmission.setAdmissionDate(LocalDate.now().toString());
 		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
@@ -146,6 +157,7 @@ public class AdmissionController {
 			return "registrationSuccess";
 
 		}
+		}
 		model.addAttribute("error", true);
 		model.addAttribute("message", "The Admission Failed! Try Again");
 		return "redirect:/recptionist";
@@ -157,7 +169,7 @@ public class AdmissionController {
 			Patient result = patientService.findPatientByPatientNumber(patientNumber);
 			// if the patient is found, we proceed with admission
 			if (result != null) {
-				model.addAttribute("patient", result);
+				model.addAttribute("patients", result);
 				boolean patientresult = true;
 				model.addAttribute("found", patientresult);
 				AdmissionDto admission = new AdmissionDto();

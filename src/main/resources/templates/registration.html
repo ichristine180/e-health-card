@@ -155,6 +155,9 @@
 												id="inputEmail3" placeholder="" /> <span
 												class="error text-danger"
 												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+												 <span
+												class="error text-danger" th:text="${message}"
+												></span>
 										</div>
 										<div class="form-group">
 											<label for="hospitalname" class="col-sm-2 control-label">Hospital

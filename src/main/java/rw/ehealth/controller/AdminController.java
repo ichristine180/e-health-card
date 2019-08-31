@@ -93,8 +93,6 @@ public class AdminController {
 		Employee user = new Employee();
 		Iterable<Role> roles = userService.findAll();
 		Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-		Iterable<Department> departemt = departemtService.findAllDepartemts();
-		model.addAttribute("departemt", departemt);
 		model.addAttribute("hospitals", hospitals);
 		model.addAttribute("roles", roles);
 		model.addAttribute("user", user);
@@ -109,15 +107,13 @@ public class AdminController {
 		if (results.hasErrors()) {
 			Iterable<Role> roles = userService.findAll();
 			Iterable<Hospital> hospitals = hospitalService.findAllHospitals();
-			Iterable<Department> departemt = departemtService.findAllDepartemts();
-			model.addAttribute("departemt", departemt);
 			model.addAttribute("hospitals", hospitals);
 			model.addAttribute("roles", roles);
 			model.addAttribute("doctors", true);
 			System.out.println("Errors Found" + results.getAllErrors().toString());
 			return "registration";
 		}
-		System.out.println(user.toString() + " Use to be saved");
+		System.out.println(user.toString() + " User to be saved");
 		Department departemt;
 		if (user.getHospital() != null && user.getEmail() != null) {
 			Employee doc = new Employee();
@@ -140,10 +136,16 @@ public class AdminController {
 			}
 			if (userService.checkUsernameExists(user.getEmail())) {
 				if (userService.checkUsernameExists(user.getEmail())) {
-					model.addAttribute("emailExists", true);
+					Iterable<Role> roles = userService.findAll();
+					Iterable<Hospital> hospitalss = hospitalService.findAllHospitals();
+					model.addAttribute("hospitals", hospitalss);
+					model.addAttribute("roles", roles);
+					model.addAttribute("doctors", true);
+					System.out.println("Errors Found" + results.getAllErrors().toString());
+					model.addAttribute("message", "There is user with this Email ");
 					System.out.println("email exists");
+					return "registration";
 				}
-				return "redirect:/docregistration";
 			}
 			User myuser = new User();
 			myuser.setUsername(user.getEmail());

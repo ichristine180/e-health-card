@@ -2,6 +2,7 @@
 package rw.ehealth.model;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -62,19 +66,19 @@ public class Admission {
 	/**
 	 * The constant height - Double
 	 */
-	private String height;
+	private Double height;
 	/**
 	 * The constant temperature - Long
 	 */
-	private String temperature;
+	private Double temperature;
 	/**
 	 * The constant bloodPressure - Double
 	 */
-	private String bloodPressure;
+	private Double bloodPressure;
 	/**
 	 * The constant weight - Double
 	 */
-	private String weight;
+	private Double weight;
 	private String status;
 	public String getStatus() {
 		return status;
@@ -87,7 +91,7 @@ public class Admission {
 	/**
 	 * The constant heartRate - String
 	 */
-	private String heartRate;
+	private Double heartRate;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -141,38 +145,7 @@ public class Admission {
 	/**
 	 * @return the height
 	 */
-	public String getHeight() {
-		return height;
-	}
-
-	/**
-	 * @return the temperature
-	 */
-	public String getTemperature() {
-		return temperature;
-	}
-
-	/**
-	 * @return the bloodPressure
-	 */
-	public String getBloodPressure() {
-		return bloodPressure;
-	}
-
-	/**
-	 * @return the weight
-	 */
-	public String getWeight() {
-		return weight;
-	}
-
-	/**
-	 * @return the heartRate
-	 */
-	public String getHeartRate() {
-		return heartRate;
-	}
-
+	
 	/**
 	 * @param admissionId the admissionId to set
 	 */
@@ -204,43 +177,52 @@ public class Admission {
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(String height) {
-		this.height = height;
-	}
-
-	/**
-	 * @param temperature the temperature to set
-	 */
-	public void setTemperature(String temperature) {
-		this.temperature = temperature;
-	}
-
-	/**
-	 * @param bloodPressure the bloodPressure to set
-	 */
-	public void setBloodPressure(String bloodPressure) {
-		this.bloodPressure = bloodPressure;
-	}
-
-	/**
-	 * @param weight the weight to set
-	 */
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-
-	/**
-	 * @param heartRate the heartRate to set
-	 */
-	public void setHeartRate(String heartRate) {
-		this.heartRate = heartRate;
-	}
-
+	
 	/**
 	 * @return the admissionDate
 	 */
 	public String getAdmissionDate() {
 		return admissionDate;
+	}
+
+	public Double getHeight() {
+		return height;
+	}
+
+	public void setHeight(Double height) {
+		this.height = height;
+	}
+
+	public Double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(Double temperature) {
+		this.temperature = temperature;
+	}
+
+	public Double getBloodPressure() {
+		return bloodPressure;
+	}
+
+	public void setBloodPressure(Double bloodPressure) {
+		this.bloodPressure = bloodPressure;
+	}
+
+	public Double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
+
+	public Double getHeartRate() {
+		return heartRate;
+	}
+
+	public void setHeartRate(Double heartRate) {
+		this.heartRate = heartRate;
 	}
 
 	/**
