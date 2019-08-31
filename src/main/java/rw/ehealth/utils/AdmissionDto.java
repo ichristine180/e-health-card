@@ -2,21 +2,25 @@
 package rw.ehealth.utils;
 
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 public class AdmissionDto {
 
-	@NotNull(message = "This Field is required")
+	@NotNull(message = "Heigt is required")
+	@DecimalMax("1.9") @DecimalMin("1.45") 
 	private Double height;
 	/**
 	 * The constant temperature - Long
 	 */
+	@NotNull(message = "temperature is required")
+	@DecimalMax("45") @DecimalMin("30") 
 	private Double temperature;
 	/**
 	 * The constant bloodPressure - Double
 	 */
+	@NotNull(message = "bloodPressure is required")
 	private Double bloodPressure;
 	private String patientNumber;
 	public String getPatientNumber() {
@@ -28,8 +32,12 @@ public class AdmissionDto {
 	/**
 	 * The constant weight - Double
 	 */
+	@NotNull(message = "heartRate is required")
 	private Double heartRate;
+	@NotNull(message = "weight is required")
+	@DecimalMax("35.0") @DecimalMin("160.0") 
 	private Double weight;
+	@NotNull(message = "Please Select Departement")
 	private String departemtName;
 	public String getDepartemtName() {
 		return departemtName;

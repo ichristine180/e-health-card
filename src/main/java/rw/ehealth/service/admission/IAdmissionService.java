@@ -111,6 +111,6 @@ public interface IAdmissionService {
 	 * @param status       the status
 	 * @return the list
 	 */
-	List<Admission> Admissions(Long hospitalId, Long departmentId, String status);
+	List<Admission> midleAdmissions(Long hospitalId, Long department);
 
 }

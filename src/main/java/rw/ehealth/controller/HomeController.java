@@ -78,7 +78,7 @@ public class HomeController {
 		long admissions = admissionService.countAdmissionfodoctor(hospitalId);
 		long patients = consultationService.countConsultation(hospitalId,doctor.getDepertment().getDepartmentId());
 		model.addAttribute("docAdmissions",
-				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
+				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId()));
 		model.addAttribute("consultedpatients", consultedp);
 
 		model.addAttribute("patientsSize", patients);
@@ -97,7 +97,7 @@ public class HomeController {
 				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId()));
 
 		model.addAttribute("docAdmissions",
-				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "PENDING"));
+				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId()));
 
 		return "consultationD";
 	}
@@ -110,7 +110,7 @@ public class HomeController {
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
 		model.addAttribute("consultedpatients",
-				admissionService.Admissions(hospitalId, doctor.getDepertment().getDepartmentId(), "MIDLE"));
+				admissionService.midleAdmissions(hospitalId, doctor.getDepertment().getDepartmentId()));
 
 		return "consultationD";
 	}

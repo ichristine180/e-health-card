@@ -49,6 +49,7 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 */
 	@Query("SELECT count(h.hospitalId) from Admission a Join a.hospital h WHERE h.hospitalId=:hospitalId and a.releasedDate is null")
 	long countAdmission(@Param("hospitalId") Long hospitalId);
+
 	@Query("SELECT count(h.hospitalId) from Admission a Join a.hospital h WHERE h.hospitalId=:hospitalId and a.status is 'PENDING'")
 	long countAdmissionFordoctor(@Param("hospitalId") Long hospitalId);
 
@@ -65,8 +66,12 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
 			@Param("hospitalId") Long hospitalId);
 
-	@Query("SELECT a from Admission a Join a.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and a.releasedDate is null and a.status=:status and d.id=:id")
-	List<Admission> Admissions(@Param("hospitalId") Long hospitalId, @Param("status") String status,
+	@Query("SELECT a from Admission a Join a.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and a.releasedDate is null and a.status is 'PENDING' and d.id=:id")
+	List<Admission> Admissions(@Param("hospitalId") Long hospitalId,
+
+			@Param("id") Long id);
+	@Query("SELECT a from Admission a Join a.hospital h JOIN a.departement d WHERE h.hospitalId=:hospitalId and a.releasedDate is null and a.status is 'MIDLE' and d.id=:id")
+	List<Admission> midleAdmissions(@Param("hospitalId") Long hospitalId,
 
 			@Param("id") Long id);
 
@@ -101,7 +106,7 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 */
 	@Query("SELECT a from Admission a where a.admittedPatient.patientNumber =:patientNumber and releasedDate is null")
 	Admission findActiveAdmission(@Param("patientNumber") String patientNumber);
-	
+
 	@Query("SELECT a from Admission a Join a.admittedPatient p Join a.hospital h WHERE p.patientNumber=:patientNumber and a.releasedDate is null")
 	Admission listAdmissions(@Param("patientNumber") String patientNumber);
 
