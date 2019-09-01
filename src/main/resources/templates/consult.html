@@ -86,7 +86,7 @@
 										<input type="hidden"
 											th:value="${admission.patientTrackingNumber}"
 											class="form-control" th:name="@{patientTrackingNumber}" />
-										<textarea class="textarea" th:name="@{description}"
+										<textarea class="textarea" th:field="*{description}"
 											placeholder="Place some text here"
 											style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 										<div class="box-footer">

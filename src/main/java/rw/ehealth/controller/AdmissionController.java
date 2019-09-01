@@ -127,7 +127,6 @@ public class AdmissionController {
 				System.out.println("We reach this page");
 				return "admit";
 			}
-		System.out.println(admission.getPatientNumber() + " THis is the patnbr to be saved");
 		String username = principal.getName();
 		Employee user = userService.findUserByUsername(username);
 		Admission newadmission = new Admission();
@@ -137,7 +136,7 @@ public class AdmissionController {
 		newadmission.setWeight(admission.getWeight());
 		newadmission.setTemperature(admission.getTemperature());
 		newadmission.setStatus("PENDING");
-
+		System.out.println(admission.getPatientNumber() + " THis is the patnbr to be saved");
 		Department depertment = departemtService.findPerName(admission.getDepartemtName());
 		newadmission.setDepartement(depertment);
 		newadmission.setAdmissionDate(LocalDate.now().toString());

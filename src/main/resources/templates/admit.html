@@ -127,7 +127,7 @@
 											<select th:field="*{departemtName}"
 												class="form-control col-md-7 col-xs-12">
 												<option th:each="departemts: ${departemt}"
-													th:value="${departemts.departmentId}"
+													th:value="${departemts.name}"
 													th:text="${departemts.name}"></option>
 											</select>
 											<span class="error text-danger"

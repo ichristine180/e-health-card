@@ -35,7 +35,7 @@ public class AdmissionDto {
 	@NotNull(message = "heartRate is required")
 	private Double heartRate;
 	@NotNull(message = "weight is required")
-	@DecimalMax("35.0") @DecimalMin("160.0") 
+	@DecimalMax("160.0") @DecimalMin("35.0") 
 	private Double weight;
 	@NotNull(message = "Please Select Departement")
 	private String departemtName;

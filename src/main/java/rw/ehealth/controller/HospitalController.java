@@ -7,9 +7,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import rw.ehealth.enums.EViewRequestStatus;
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
+import rw.ehealth.model.Department;
 import rw.ehealth.model.Employee;
 import rw.ehealth.model.ExamRecord;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.model.MedicalExam;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
@@ -110,7 +115,7 @@ public class HospitalController {
 			boolean admissionInfo = true;
 			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
 			String department = activeUser.getDepertment().getName();
-			Consultation consultation = new Consultation();
+			ConsultationDto consultation = new ConsultationDto();
 			model.addAttribute("department", department);
 			model.addAttribute("consultation", consultation);
 			model.addAttribute("admission", results);
@@ -145,11 +150,21 @@ public class HospitalController {
 	}
 
 	@PostMapping("/patient/consultation")
-	public String pConsulatation(Model model, @ModelAttribute ConsultationDto consultationDto, Principal principal) {
-		Employee activeUser = userService.findDoctor(principal.getName());
-		Admission admit = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
-		Consultation consultation = new Consultation();
+	public String pConsulatation(Model model, @ModelAttribute @Valid ConsultationDto consultationDto,BindingResult result, Principal principal) {
+		if(consultationDto.getPatientTrackingNumber() != null) {
+			Employee activeUser = userService.findDoctor(principal.getName());
+			Admission admit = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+			Consultation consultation = new Consultation();
 
+			if (result.hasErrors()) {
+				Admission results = admissionService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
+				String department = activeUser.getDepertment().getName();
+				model.addAttribute("department", department);
+				model.addAttribute("admission", results);
+				model.addAttribute("admissionInfo", true);
+
+				return "consult";
+			}
 		consultation.setDescription(consultationDto.getDescription());
 		consultation.setStatus("PENDING");
 		consultation.setDoctor(activeUser);
@@ -182,7 +197,8 @@ public class HospitalController {
 		return "consult";
 
 	}
-
+		return "redirect:/gdoctor";
+	}
 	@GetMapping("/details/show/{patientTrackingNumber}")
 	public String showdetails(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber != null) {
