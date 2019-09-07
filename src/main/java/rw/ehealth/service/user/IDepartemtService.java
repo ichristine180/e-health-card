@@ -10,7 +10,16 @@ public interface IDepartemtService {
 	List<Department> findAllDepartemts();
 
 	Department findPerName(String name);
+
 	List<Department> findPerHospital(Hospital hospital);
 
 	Department findPerId(Long id);
+
+	/**
+	 * Find lvel one departments per hospital.
+	 *
+	 * @param hospital the hospital
+	 * @return the list
+	 */
+	List<Department> findLvelOneDepartmentsPerHospital(Hospital hospital);
 }

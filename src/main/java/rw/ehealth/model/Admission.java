@@ -77,7 +77,7 @@ public class Admission {
 	/**
 	 * The constant weight - Double
 	 */
-	private Double weight;
+	private int weight;
 
 	private String status;
 
@@ -216,11 +216,17 @@ public class Admission {
 		this.bloodPressure = bloodPressure;
 	}
 
-	public Double getWeight() {
+	/**
+	 * @return the weight
+	 */
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Double weight) {
+	/**
+	 * @param weight the weight to set
+	 */
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 

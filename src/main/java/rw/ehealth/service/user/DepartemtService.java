@@ -1,10 +1,12 @@
 package rw.ehealth.service.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rw.ehealth.enums.ELevelType;
 import rw.ehealth.model.Department;
 import rw.ehealth.model.Hospital;
 import rw.ehealth.repo.user.DepartemtRepository;
@@ -33,6 +35,7 @@ public class DepartemtService implements IDepartemtService {
 		}
 
 	}
+
 	@Override
 	public Department findPerId(Long id) {
 		try {
@@ -51,6 +54,27 @@ public class DepartemtService implements IDepartemtService {
 			throw e;
 		}
 
+	}
+
+	/**
+	 * @param hospital
+	 * @return
+	 */
+	@Override
+	public List<Department> findLvelOneDepartmentsPerHospital(Hospital hospital) {
+		List<Department> levelOneDepartments = new ArrayList<>();
+		try {
+			List<Department> departments = dRepository.findByHospitals(hospital);
+			for (Department department : departments) {
+				if (department.getLevel().equals(ELevelType.LEVEL_ONE)) {
+					levelOneDepartments.add(department);
+				}
+			}
+			System.out.println(levelOneDepartments.size() + " jsss");
+			return levelOneDepartments;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

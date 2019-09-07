@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import rw.ehealth.enums.ELevelType;
 
 @Entity
 @Table(name = "departemt")
@@ -32,6 +36,24 @@ public class Department {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "departments")
 	private Set<Hospital> hospitals = new HashSet<>();
+
+	@Column(name = "LEVEL")
+	@Enumerated(EnumType.STRING)
+	private ELevelType level;
+
+	/**
+	 * @return the level
+	 */
+	public ELevelType getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(ELevelType level) {
+		this.level = level;
+	}
 
 	/**
 	 * @return the departmentId

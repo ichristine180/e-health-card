@@ -173,7 +173,7 @@ public class AdmissionController {
 				AdmissionDto admission = new AdmissionDto();
 				Employee activeUser = userService.findDoctor(principal.getName());
 				Hospital hospital = activeUser.getHospital();
-				Iterable<Department> departemt = departemtService.findPerHospital(hospital);
+				Iterable<Department> departemt = departemtService.findLvelOneDepartmentsPerHospital(hospital);
 				model.addAttribute("departemt", departemt);
 				model.addAttribute("admission", admission);
 				System.out.println("We reach this page");
