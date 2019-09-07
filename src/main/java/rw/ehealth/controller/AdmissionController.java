@@ -140,7 +140,7 @@ public class AdmissionController {
 			newadmission.setDepartement(depertment);
 			newadmission.setAdmissionDate(LocalDate.now().toString());
 			newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
-			newadmission.setPatientTrackingNumber(IDGenerator.generateTrackingNumber());
+			newadmission.setPatientTrackingNumber(IDGenerator.generateTrackingNumber().toUpperCase());
 			newadmission.setAdmittedBy(user);
 			newadmission.setHospital(user.getHospital());
 			System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
