@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,18 +27,12 @@ public class Consultation {
 	 * The constant description - String
 	 */
 	@Column(name = "DESCRIPTON", length = 1000)
+	@NotNull(message = "Invalid consultation data")
 	private String description;
 
 	private String dateTaken;
+
 	private String status;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
@@ -52,6 +47,14 @@ public class Consultation {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getDateTaken() {
 		return dateTaken;
