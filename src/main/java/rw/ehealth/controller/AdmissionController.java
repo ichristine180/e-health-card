@@ -24,7 +24,6 @@ import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.model.Prescription;
 import rw.ehealth.service.admission.IAdmissionService;
-import rw.ehealth.service.hospital.IHospitalService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.prescription.IPrescriptionService;
 import rw.ehealth.service.user.DepartemtService;
@@ -111,10 +110,10 @@ public class AdmissionController {
 		return "registration";
 	}
 
-
 	@PostMapping("/patient/admission")
-	public String admitPatient(Model model, @ModelAttribute("admission") @Valid AdmissionDto admission, BindingResult results,Principal principal) {
-		if(admission.getPatientNumber() != null) {
+	public String admitPatient(Model model, @ModelAttribute("admission") @Valid AdmissionDto admission,
+			BindingResult results, Principal principal) {
+		if (admission.getPatientNumber() != null) {
 			Patient result = patientService.findPatientByPatientNumber(admission.getPatientNumber());
 			if (results.hasErrors()) {
 				model.addAttribute("patients", result);
@@ -127,35 +126,35 @@ public class AdmissionController {
 				System.out.println("We reach this page");
 				return "admit";
 			}
-		String username = principal.getName();
-		Employee user = userService.findUserByUsername(username);
-		Admission newadmission = new Admission();
-		newadmission.setBloodPressure(admission.getBloodPressure());
-		newadmission.setHeartRate(admission.getHeartRate());
-		newadmission.setHeight(admission.getHeight());
-		newadmission.setWeight(admission.getWeight());
-		newadmission.setTemperature(admission.getTemperature());
-		newadmission.setStatus("PENDING");
-		System.out.println(admission.getPatientNumber() + " THis is the patnbr to be saved");
-		Department depertment = departemtService.findPerName(admission.getDepartemtName());
-		newadmission.setDepartement(depertment);
-		newadmission.setAdmissionDate(LocalDate.now().toString());
-		newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
-		newadmission.setPatientTrackingNumber(IDGenerator.generateTrackingNumber());
-		newadmission.setAdmittedBy(user);
-		newadmission.setHospital(user.getHospital());
-		System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
+			String username = principal.getName();
+			Employee user = userService.findUserByUsername(username);
+			Admission newadmission = new Admission();
+			newadmission.setBloodPressure(admission.getBloodPressure());
+			newadmission.setHeartRate(admission.getHeartRate());
+			newadmission.setHeight(admission.getHeight());
+			newadmission.setWeight(admission.getWeight());
+			newadmission.setTemperature(admission.getTemperature());
+			newadmission.setStatus("PENDING");
+			System.out.println(admission.getPatientNumber() + " THis is the patnbr to be saved");
+			Department depertment = departemtService.findPerName(admission.getDepartemtName());
+			newadmission.setDepartement(depertment);
+			newadmission.setAdmissionDate(LocalDate.now().toString());
+			newadmission.setAdmittedPatient(patientService.findPatientByPatientNumber(admission.getPatientNumber()));
+			newadmission.setPatientTrackingNumber(IDGenerator.generateTrackingNumber());
+			newadmission.setAdmittedBy(user);
+			newadmission.setHospital(user.getHospital());
+			System.out.println(newadmission.toString() + " THis is the admisssion to be saved");
 
-		Admission savedadmission = admissionService.createNewPatientAdmission(newadmission);
-		// Update the patient admission status
-		Patient patient = savedadmission.getAdmittedPatient();
-		patient.setAdmissionStatus(true);
-		patientService.updatePatient(patient);
-		if (savedadmission != null) {
-			model.addAttribute("admission", savedadmission);
-			return "registrationSuccess";
+			Admission savedadmission = admissionService.createNewPatientAdmission(newadmission);
+			// Update the patient admission status
+			Patient patient = savedadmission.getAdmittedPatient();
+			patient.setAdmissionStatus(true);
+			patientService.updatePatient(patient);
+			if (savedadmission != null) {
+				model.addAttribute("admission", savedadmission);
+				return "registrationSuccess";
 
-		}
+			}
 		}
 		model.addAttribute("error", true);
 		model.addAttribute("message", "The Admission Failed! Try Again");

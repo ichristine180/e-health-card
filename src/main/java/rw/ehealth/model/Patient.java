@@ -33,6 +33,7 @@ public class Patient {
 	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
 	@Column(name = "FIRST_NAME")
 	private String fname;
+
 	@NotBlank(message = "Birth Day  is required")
 	@Column(name = "DATE_OF_BIRTH")
 	private String dateOfBirth;
@@ -58,7 +59,6 @@ public class Patient {
 	@Size(min = 16, max = 16, message = "Valid National Identification is 16 Digits")
 	@Pattern(regexp = "\\d{16}", message = "Invalid characters. Use digits only")
 	@NotNull(message = " This field cant be null")
-
 	@Column(name = "IDENTIFICATION_NUMBER", nullable = false, unique = true)
 	private String identificationNumber;
 

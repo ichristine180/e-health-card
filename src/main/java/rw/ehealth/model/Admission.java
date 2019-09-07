@@ -1,9 +1,7 @@
 
 package rw.ehealth.model;
 
-import javax.persistence.Column
-;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -63,6 +63,7 @@ public class Admission {
 	/**
 	 * The constant height - Double
 	 */
+
 	private Double height;
 	/**
 	 * The constant temperature - Long
@@ -71,12 +72,15 @@ public class Admission {
 	/**
 	 * The constant bloodPressure - Double
 	 */
-	private Double bloodPressure;
+	@Pattern(regexp = "\\d{2}-\\d{3}", message = "Invalid Blood Pressure Format")
+	private String bloodPressure;
 	/**
 	 * The constant weight - Double
 	 */
 	private Double weight;
+
 	private String status;
+
 	public String getStatus() {
 		return status;
 	}
@@ -142,7 +146,7 @@ public class Admission {
 	/**
 	 * @return the height
 	 */
-	
+
 	/**
 	 * @param admissionId the admissionId to set
 	 */
@@ -174,7 +178,7 @@ public class Admission {
 	/**
 	 * @param height the height to set
 	 */
-	
+
 	/**
 	 * @return the admissionDate
 	 */
@@ -198,11 +202,17 @@ public class Admission {
 		this.temperature = temperature;
 	}
 
-	public Double getBloodPressure() {
+	/**
+	 * @return the bloodPressure
+	 */
+	public String getBloodPressure() {
 		return bloodPressure;
 	}
 
-	public void setBloodPressure(Double bloodPressure) {
+	/**
+	 * @param bloodPressure the bloodPressure to set
+	 */
+	public void setBloodPressure(String bloodPressure) {
 		this.bloodPressure = bloodPressure;
 	}
 
