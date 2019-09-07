@@ -253,13 +253,19 @@
 
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Name</label>
-											<input type="text" th:name="@{hospitalName}"
+											<input type="text" th:field="*{hospitalName}"
 												class="form-control" />
+												<span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('hospitalName')}" th:errors="*{hospitalName}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">Hospital_Code</label>
-											<input type="text" th:name="@{hospitalCode}"
+											<input type="text" th:field="*{hospitalCode}"
 												class="form-control" />
+												<span
+												class="error text-danger"
+												th:if="${#fields.hasErrors('hospitalCode')}" th:errors="*{hospitalCode}"></span>
 										</div>
 										<div class="form-group">
 											<label for="inputPassword3" class="col-sm-2 control-label">Type</label>
@@ -314,6 +320,7 @@
 											<table>
 												<tr>Exams
 												</tr>
+												<tr> <span th:text="${message}" style="color: red;"></span></tr>
 												<tr>
 													<td><th:block th:each="exams : ${examss}">
 															<input type="checkbox" name="examId"
@@ -327,6 +334,7 @@
 											<table>
 												<tr>Department
 												</tr>
+												<tr> <span th:text="${Dmessage}" style="color: red;"></span></tr>
 												<tr>
 													<td><th:block th:each="dpt : ${departments}">
 															<input type="checkbox" name="departmentId"
@@ -339,7 +347,7 @@
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
-									<a th:href="/listHospital" class="btn btn-info pull-right">Register
+									<a href="/listHospital" class="btn btn-default">cancel
 										</a>
 										<button type="submit" class="btn btn-info pull-right">Register
 										</button>

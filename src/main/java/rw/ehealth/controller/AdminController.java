@@ -55,10 +55,26 @@ public class AdminController {
 
 	@PostMapping("/hospregistration")
 	public String registerhospital(@RequestParam(value = "examId", required = false) int[] examId,
-			@RequestParam(value = "departmentId", required = false) Long[] departmentId, @ModelAttribute Hospital hdata,
+			@RequestParam(value = "departmentId", required = false) Long[] departmentId, @ModelAttribute("hospital") @Valid Hospital hdata, BindingResult results ,
 			Model model, Principal principal) {
-		if (examId != null && departmentId != null) {
-
+		if (results.hasErrors()) {
+			model.addAttribute("examss", examService.findExams());
+			model.addAttribute("departments", departemtService.findAllDepartemts());
+			return "registration";
+		}
+		if (examId == null){
+			model.addAttribute("message","Please select exams");
+			model.addAttribute("examss", examService.findExams());
+			model.addAttribute("departments", departemtService.findAllDepartemts());
+			return "registration";
+		}
+		if (departmentId == null) {
+			model.addAttribute("Dmessage","Please select Departement");
+			model.addAttribute("examss", examService.findExams());
+			model.addAttribute("departments", departemtService.findAllDepartemts());
+			return "registration";
+		}
+		else {
 			Hospital hospital = new Hospital();
 			hospital.setAddress(hdata.getAddress());
 			hospital.setHospitalCode(hdata.getHospitalCode());

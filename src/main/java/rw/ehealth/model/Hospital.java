@@ -35,12 +35,15 @@ public class Hospital {
 	/**
 	 * The constant hospitalName - String
 	 */
+	@NotNull
+	@NotBlank(message = "The hospital name is required")
 	@Column(name = "hospitalname")
 	private String hospitalName;
 
 	/** The hospital code. */
-	@NotBlank
+	
 	@NotNull
+	@NotBlank(message = "The hospital code is required")
 	@Column(name = "hospitalCode", unique = true, nullable = false)
 	private String hospitalCode;
 	/**

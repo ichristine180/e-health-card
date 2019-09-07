@@ -1,11 +1,16 @@
 package rw.ehealth.utils;
 
+import javax.validation.constraints.NotNull;
+
 import rw.ehealth.enums.EHealthFacilityType;
 
 public class HopitaData {
+@NotNull(message = "hospitalname is required")
 private String hospitalname;
 private EHealthFacilityType type;
+@NotNull(message = "address is required")
 private String address;
+@NotNull(message = "hospitalCode is required")
 private String hospitalCode;
 
 

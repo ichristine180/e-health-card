@@ -157,7 +157,7 @@
 									<tbody>
 										<tr th:each="hospital, iStat: ${hospitals}">
 											<td th:text="${iStat.index+1}" />
-											<td><a th:href="@{'/admin/report/'+${hospital.hospitalCode}}"><span th:text="${hospital.hospitalCode}"/></a></td>
+											<td th:text="${hospital.hospitalCode}" />
 											<td th:text="${hospital.hospitalName}" />
 											<td th:text="${hospital.address}" />
 											<td th:text="${hospital.departmentCount}" />
