@@ -1,8 +1,6 @@
 
 package rw.ehealth.utils;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -26,6 +24,20 @@ public class AdmissionDto {
 	 */
 	@Pattern(regexp = "\\d{2}-\\d{3}", message = "Invalid Blood Pressure Format")
 	private String bloodPressure;
+	/**
+	 * The constant weight - Double
+	 */
+	@NotNull(message = "heartRate is required")
+	@Min(value = 0, message = "May be a dead person! Invalid heart rate")
+	@Max(value = 100, message = "Too fast heart rate")
+	private Double heartRate;
+
+	@NotNull(message = "Weight is required")
+	@Min(value = 0L, message = "Invalid weight")
+	private Double weight;
+
+	@NotNull(message = "Please Select Departement")
+	private String departemtName;
 
 	private String patientNumber;
 
@@ -36,18 +48,6 @@ public class AdmissionDto {
 	public void setPatientNumber(String patientNumber) {
 		this.patientNumber = patientNumber;
 	}
-
-	/**
-	 * The constant weight - Double
-	 */
-	@NotNull(message = "heartRate is required")
-	private Double heartRate;
-	@NotNull(message = "weight is required")
-	@DecimalMax("160.0")
-	@DecimalMin("35.0")
-	private Double weight;
-	@NotNull(message = "Please Select Departement")
-	private String departemtName;
 
 	public String getDepartemtName() {
 		return departemtName;
