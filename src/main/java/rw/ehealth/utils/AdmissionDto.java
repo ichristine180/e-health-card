@@ -1,6 +1,8 @@
 
 package rw.ehealth.utils;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -16,9 +18,10 @@ public class AdmissionDto {
 	 * The constant temperature - Long
 	 */
 	@NotNull(message = "Temperature is required")
-	@Min(value = 30, message = "Below the minimum temperature of a living person")
-	@Max(value = 45, message = "Above the maximum temperature of a living person")
-	private Double temperature;
+	@DecimalMin(value = "30.0", message = "Below the minimum temperature of a living person")
+	@DecimalMax(value = "45.0", message = "Above the maximum temperature of a living person")
+	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
+	private String temperature;
 	/**
 	 * The constant bloodPressure - Double
 	 */
@@ -28,13 +31,15 @@ public class AdmissionDto {
 	 * The constant weight - Double
 	 */
 	@NotNull(message = "heartRate is required")
-	@Min(value = 30, message = "May be a dead person! Invalid heart rate")
-	@Max(value = 100, message = "Too fast heart rate")
-	private Double heartRate;
+	@DecimalMin(value = "30.0", message = "May be a dead person! Invalid heart rate")
+	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
+	@DecimalMax(value = "100.0", message = "Too fast heart rate")
+	private String heartRate;
 
 	@NotNull(message = "Weight is required")
+	@Pattern(regexp = "\\d{3}", message = "Invalid weight")
 	@Min(value = 0, message = "Invalid weight")
-	private int weight;
+	private String weight;
 
 	@NotNull(message = "Please Select Departement")
 	private String departemtName;
@@ -65,14 +70,6 @@ public class AdmissionDto {
 		this.height = height;
 	}
 
-	public Double getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
-	}
-
 	/**
 	 * @return the bloodPressure
 	 */
@@ -88,25 +85,45 @@ public class AdmissionDto {
 	}
 
 	/**
+	 * @return the temperature
+	 */
+	public String getTemperature() {
+		return temperature;
+	}
+
+	/**
+	 * @return the heartRate
+	 */
+	public String getHeartRate() {
+		return heartRate;
+	}
+
+	/**
 	 * @return the weight
 	 */
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
+	}
+
+	/**
+	 * @param temperature the temperature to set
+	 */
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
+
+	/**
+	 * @param heartRate the heartRate to set
+	 */
+	public void setHeartRate(String heartRate) {
+		this.heartRate = heartRate;
 	}
 
 	/**
 	 * @param weight the weight to set
 	 */
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
-	}
-
-	public Double getHeartRate() {
-		return heartRate;
-	}
-
-	public void setHeartRate(Double heartRate) {
-		this.heartRate = heartRate;
 	}
 
 }

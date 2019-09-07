@@ -64,11 +64,16 @@ public class Admission {
 	 * The constant height - Double
 	 */
 
-	private Double height;
+	private String height;
 	/**
 	 * The constant temperature - Long
 	 */
-	private Double temperature;
+	private String temperature;
+
+	/**
+	 * The constant heartRate - String
+	 */
+	private String heartRate;
 	/**
 	 * The constant bloodPressure - Double
 	 */
@@ -77,7 +82,7 @@ public class Admission {
 	/**
 	 * The constant weight - Double
 	 */
-	private int weight;
+	private String weight;
 
 	private String status;
 
@@ -88,11 +93,6 @@ public class Admission {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	/**
-	 * The constant heartRate - String
-	 */
-	private Double heartRate;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -186,22 +186,6 @@ public class Admission {
 		return admissionDate;
 	}
 
-	public Double getHeight() {
-		return height;
-	}
-
-	public void setHeight(Double height) {
-		this.height = height;
-	}
-
-	public Double getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
-	}
-
 	/**
 	 * @return the bloodPressure
 	 */
@@ -219,22 +203,56 @@ public class Admission {
 	/**
 	 * @return the weight
 	 */
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
 	/**
 	 * @param weight the weight to set
 	 */
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
-	public Double getHeartRate() {
+	/**
+	 * @return the height
+	 */
+	public String getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the temperature
+	 */
+	public String getTemperature() {
+		return temperature;
+	}
+
+	/**
+	 * @return the heartRate
+	 */
+	public String getHeartRate() {
 		return heartRate;
 	}
 
-	public void setHeartRate(Double heartRate) {
+	/**
+	 * @param height the height to set
+	 */
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	/**
+	 * @param temperature the temperature to set
+	 */
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
+
+	/**
+	 * @param heartRate the heartRate to set
+	 */
+	public void setHeartRate(String heartRate) {
 		this.heartRate = heartRate;
 	}
 
