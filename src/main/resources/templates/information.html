@@ -68,38 +68,58 @@
 											<td
 												th:text="${personalRecord.admission.hospital.hospitalCode}" />
 											<td th:text="${personalRecord.consultation.description}" />
-											<td>
-												<!-- Button trigger modal -->
-												<button type="button" class="btn btn-primary"
-													data-toggle="modal" data-target="#exampleModal">
-													Launch demo modal</button>
-											</td>
+											<td><a
+												th:onclick="'javascript:viewExams(\'' + ${personalRecord.admission.patientTrackingNumber} +'\');'"
+												class="btn btn-info"><i class="material-icons">Medical
+														Exams</i></a></td>
 											<td th:if="${personalRecord.prescription !=null}"
 												th:text="${personalRecord.prescription.name}" />
 											<td th:if="${personalRecord.prescription == null}">N/A</td>
 										</tr>
 									</tbody>
 								</table>
+								<div id="exampleModalHolder"></div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel"
-					aria-hidden="true">
+					aria-hidden="true" th:fragment="modalContents">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">
-									Exam Details for <span th:text="${patient.patientNumber}"></span>
-								</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Exam Details
+									for</h5>
 								<button type="button" class="close" data-dismiss="modal"
 									aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<div class="modal-body"></div>
+							<div class="modal-body">
+								<table id="records" class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Exam Name</th>
+											<th>Date Taken</th>
+											<th>Results</th>
+											<th>Taken By</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="examRecord, iStat: ${examRecords}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${examRecord.medicalExam.name}" />
+											<td th:text="${examRecord.datetaken}" />
+											<td th:text="${examRecord.results}" />
+											<td th:text="${examRecord.examResponseEmployee.fname}" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-dismiss="modal">Close</button>
@@ -131,9 +151,9 @@
 			$.ajax({
 				url : "/exams/details/" + patientTrackingNumber,
 				success : function(response) {
-					console.log(response);
-					$('#viewUserHolder').html(response);
-					$('#exampleModal').modal('open');
+					console.log("Response: "+response);
+					$('#exampleModalHolder').html(response);
+					$('#exampleModal').modal('show');
 				}
 			});
 		}
