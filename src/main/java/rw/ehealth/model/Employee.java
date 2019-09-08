@@ -36,7 +36,7 @@ public class Employee {
 	 */
 	@NotNull
 	@NotBlank(message = "The first name is required")
-	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
+	@Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
 	@Column(name = "fname", nullable = false)
 	private String fname;
 	/**
@@ -44,7 +44,7 @@ public class Employee {
 	 */
 	@NotNull
 	@NotBlank(message = "The Last name is required")
-	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
+	@Pattern(regexp = "[a-z-A-Z]*", message = "Last name has invalid characters")
 	@Column(name = "lname", nullable = false)
 	private String lname;
 	/**
@@ -58,8 +58,7 @@ public class Employee {
 	/**
 	 * The constant phone - String
 	 */
-	@Size(min = 10, max = 10, message = "Valid Phone Number is 10 Digits")
-	@Pattern(regexp = "\\d{10}", message = "Invalid characters. Use digits only")
+	@Pattern(regexp = "^07(8|3|2)\\d{7}/", message = "valid phone number shuold be 10 digits start with 07(3/2/8)")
 	@NotNull(message = " This field cant be null")
 	@Column(name = "phone", nullable = false)
 	private String phone;

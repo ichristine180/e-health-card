@@ -131,7 +131,7 @@ public class AdmissionController {
 			Admission newadmission = new Admission();
 			newadmission.setBloodPressure(admission.getBloodPressure());
 			newadmission.setHeartRate(admission.getHeartRate());
-			newadmission.setHeartRate(admission.getHeartRate());
+			newadmission.setHeight(admission.getHeight());
 			newadmission.setWeight(admission.getWeight());
 			newadmission.setTemperature(admission.getTemperature());
 			newadmission.setStatus("PENDING");
