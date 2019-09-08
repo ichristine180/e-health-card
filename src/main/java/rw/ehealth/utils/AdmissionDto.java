@@ -13,7 +13,7 @@ public class AdmissionDto {
 	@NotNull(message = "Heigt is required")
 	@Min(value = 30, message = "Too short to be a person")
 	@Max(value = 250, message = "To tall to be a person")
-	private Double height;
+	private String height;
 	/**
 	 * The constant temperature - Long
 	 */
@@ -25,7 +25,7 @@ public class AdmissionDto {
 	/**
 	 * The constant bloodPressure - Double
 	 */
-	@Pattern(regexp = "\\d{2}-\\d{3}", message = "Invalid Blood Pressure Format")
+	@Pattern(regexp = "\\d{3}/\\d{2}", message = "Invalid Blood Pressure Format")
 	private String bloodPressure;
 	/**
 	 * The constant weight - Double
@@ -37,7 +37,7 @@ public class AdmissionDto {
 	private String heartRate;
 
 	@NotNull(message = "Weight is required")
-	@Pattern(regexp = "\\d{3}", message = "Invalid weight")
+	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
 	@Min(value = 0, message = "Invalid weight")
 	private String weight;
 
@@ -62,11 +62,12 @@ public class AdmissionDto {
 		this.departemtName = departemtName;
 	}
 
-	public Double getHeight() {
+	
+	public String getHeight() {
 		return height;
 	}
 
-	public void setHeight(Double height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
