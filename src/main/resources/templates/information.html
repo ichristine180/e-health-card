@@ -92,7 +92,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="exampleModalLabel">
-									Exam Details for <span th:text="${patient.patientNumber}"></span></span>
+									Exam Details for <span th:text="${patient.patientNumber}"></span>
 								</h5>
 								<button type="button" class="close" data-dismiss="modal"
 									aria-label="Close">
@@ -102,7 +102,7 @@
 							<div class="modal-body"></div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Close</button>								
+									data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
@@ -125,6 +125,18 @@
 				'pageLength' : 4
 			})
 		})
+	</script>
+	<script>
+		function viewExams(patientTrackingNumber) {
+			$.ajax({
+				url : "/exams/details/" + patientTrackingNumber,
+				success : function(response) {
+					console.log(response);
+					$('#viewUserHolder').html(response);
+					$('#exampleModal').modal('open');
+				}
+			});
+		}
 	</script>
 </body>
 </html>
