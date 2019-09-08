@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -37,6 +38,7 @@ public class Hospital {
 	 */
 	@NotNull
 	@NotBlank(message = "The hospital name is required")
+	@Pattern(regexp = "[a-z-A-Z\\s_]*", message = "invalid characters use Alphabet!")
 	@Column(name = "hospitalname")
 	private String hospitalName;
 
@@ -44,6 +46,7 @@ public class Hospital {
 	
 	@NotNull
 	@NotBlank(message = "The hospital code is required")
+	@Pattern(regexp = "[A-Z]*", message = "invalid characters use Upper case Alphabet")
 	@Column(name = "hospitalCode", unique = true, nullable = false)
 	private String hospitalCode;
 	/**
