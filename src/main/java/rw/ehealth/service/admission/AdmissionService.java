@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Admission;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.repo.medical.AdmissionRepository;
 import rw.ehealth.report.AdmissionReport;
@@ -255,6 +257,7 @@ public class AdmissionService implements IAdmissionService {
 		}
 
 	}
+
 	@Override
 	public long countAdmissionfodoctor(Long hospitalId) {
 		try {
@@ -273,5 +276,26 @@ public class AdmissionService implements IAdmissionService {
 			throw e;
 		}
 
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.admission.IAdmissionService#findUniqueHospitalByPatient(rw.ehealth.model.Patient)
+	 */
+	@Override
+	public List<Hospital> findUniqueHospitalByPatient(Patient patient) {
+		List<Hospital> uniqueHospital = new ArrayList<>();
+		try {
+			List<Admission> patientAdmissions = aRepository.findByAdmittedPatient(patient);
+			if (!patientAdmissions.isEmpty()) {
+				for (Admission admission : patientAdmissions) {
+					uniqueHospital.add(admission.getHospital());
+				}
+			}
+			return uniqueHospital.stream().distinct().collect(Collectors.toList());
+
+		} catch (Exception ex) {
+			throw ex;
+		}
 	}
 }

@@ -49,11 +49,16 @@ public class Admission {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admittedBy")
 	private Employee admittedBy;
+
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "hospitalId", nullable = false)
 	private Hospital hospital;
 
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "departmentId")
+	private Department departement;
 	/**
 	 * The constant patientTrackingNumber - String
 	 */
@@ -93,11 +98,6 @@ public class Admission {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "departmentId")
-	private Department departement;
 
 	public Department getDepartement() {
 		return departement;

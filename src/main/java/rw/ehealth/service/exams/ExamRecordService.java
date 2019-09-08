@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Hospital;
+import rw.ehealth.model.Patient;
 import rw.ehealth.repo.medical.ExamRecordRepository;
 import rw.ehealth.report.ExamReport;
 
@@ -179,6 +180,19 @@ public class ExamRecordService implements IExamRecordService {
 	public Long countresults(Long hospitalId) {
 		try {
 			return eRepository.countresults(hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	/*
+	 *
+	 * @see rw.ehealth.service.exams.IExamRecordService#findExamRecordsByPatient(rw.ehealth.model.Patient)
+	 */
+	@Override
+	public List<ExamRecord> findExamRecordsByPatient(Patient patient) {
+		try {
+			return eRepository.findInfo(patient.getPatientNumber());
 		} catch (Exception e) {
 			throw e;
 		}

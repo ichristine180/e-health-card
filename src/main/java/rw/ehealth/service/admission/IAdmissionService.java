@@ -2,9 +2,8 @@ package rw.ehealth.service.admission;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import rw.ehealth.model.Admission;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.model.Patient;
 import rw.ehealth.report.AdmissionReport;
 
@@ -24,11 +23,13 @@ public interface IAdmissionService {
 	Admission createNewPatientAdmission(Admission info);
 
 	long countAdmission(Long hospitalId);
+
 	long countAdmissionfodoctor(Long hospitalId);
 
 	Admission findBYpatientNumber(String patientNumber);
 
 	List<AdmissionReport> findBydoctor(String email);
+
 	Admission listAdmissions(String patientNumber);
 
 	/**
@@ -112,5 +113,11 @@ public interface IAdmissionService {
 	 * @return the list
 	 */
 	List<Admission> midleAdmissions(Long hospitalId, Long department);
+
+	/**
+	 * @param patient
+	 * @return
+	 */
+	List<Hospital> findUniqueHospitalByPatient(Patient patient);
 
 }

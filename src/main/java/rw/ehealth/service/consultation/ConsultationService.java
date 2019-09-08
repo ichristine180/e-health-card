@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Consultation;
-import rw.ehealth.model.ViewRecordRequest;
 import rw.ehealth.repo.medical.ConsultationRepository;
 import rw.ehealth.service.medical.ViewRequestService;
 
@@ -46,16 +45,11 @@ public class ConsultationService implements IConsultationService {
 
 	@Override
 	public List<Consultation> findAllInfoByPatient(String pnumber) {
-		ViewRecordRequest requestt = rService.findRequestByPatient(pnumber);
-		if (requestt != null) {
-			try {
-				return cRepository.findAllInfoByPatient(pnumber);
-			} catch (Exception e) {
-				throw e;
-
-			}
+		try {
+			return cRepository.findAllInfoByPatient(pnumber);
+		} catch (Exception ex) {
+			throw ex;
 		}
-		return null;
 	}
 
 	@Override
@@ -89,7 +83,7 @@ public class ConsultationService implements IConsultationService {
 	@Override
 	public long countConsultation(Long hospitalId, Long departmentId) {
 		try {
-			return cRepository.countConsultation(hospitalId,departmentId);
+			return cRepository.countConsultation(hospitalId, departmentId);
 		} catch (Exception e) {
 			throw e;
 		}

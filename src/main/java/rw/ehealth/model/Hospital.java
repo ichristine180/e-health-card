@@ -41,7 +41,7 @@ public class Hospital {
 	private String hospitalName;
 
 	/** The hospital code. */
-	
+
 	@NotNull
 	@NotBlank(message = "The hospital code is required")
 	@Column(name = "hospitalCode", unique = true, nullable = false)
@@ -107,7 +107,7 @@ public class Hospital {
 	}
 
 	public void setConsultations(Set<Consultation> consultations) {
-		consultations = consultations;
+		this.consultations = consultations;
 	}
 
 	public Set<Prescription> getPrescriptions() {
@@ -115,7 +115,7 @@ public class Hospital {
 	}
 
 	public void setPrescriptions(Set<Prescription> prescriptions) {
-		prescriptions = prescriptions;
+		this.prescriptions = prescriptions;
 	}
 
 	public Set<ExamRecord> getExamRecords() {
@@ -278,6 +278,70 @@ public class Hospital {
 	 */
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
+	}
+
+	/*
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ExamRecords == null) ? 0 : ExamRecords.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((admissions == null) ? 0 : admissions.hashCode());
+		result = prime * result + ((consultations == null) ? 0 : consultations.hashCode());
+		result = prime * result + departmentCount;
+		result = prime * result + ((departments == null) ? 0 : departments.hashCode());
+		result = prime * result + ((employees == null) ? 0 : employees.hashCode());
+		result = prime * result + ((exams == null) ? 0 : exams.hashCode());
+		result = prime * result + ((hospitalCode == null) ? 0 : hospitalCode.hashCode());
+		result = prime * result + ((hospitalId == null) ? 0 : hospitalId.hashCode());
+		result = prime * result + ((hospitalName == null) ? 0 : hospitalName.hashCode());
+		result = prime * result + ((prescriptions == null) ? 0 : prescriptions.hashCode());
+		result = prime * result + serviceCount;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	/*
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hospital other = (Hospital) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+
+		if (hospitalCode == null) {
+			if (other.hospitalCode != null)
+				return false;
+		} else if (!hospitalCode.equals(other.hospitalCode))
+			return false;
+		if (hospitalId == null) {
+			if (other.hospitalId != null)
+				return false;
+		} else if (!hospitalId.equals(other.hospitalId))
+			return false;
+		if (hospitalName == null) {
+			if (other.hospitalName != null)
+				return false;
+		} else if (!hospitalName.equals(other.hospitalName))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
 	}
 
 }

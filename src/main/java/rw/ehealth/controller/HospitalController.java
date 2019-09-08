@@ -36,15 +36,20 @@ import rw.ehealth.service.medical.IViewRecordHistoryService;
 import rw.ehealth.service.medical.IViewRequestService;
 import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.prescription.PrescriptionService;
+import rw.ehealth.service.record.IMedicalRecordService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
 import rw.ehealth.utils.ExamRecordsDto;
 import rw.ehealth.utils.IDGenerator;
 import rw.ehealth.utils.PrescriptionsDto;
+import rw.ehealth.utils.report.MedicalRecordUtil;
 
 @Controller
 public class HospitalController {
+
+	@Autowired
+	private IMedicalRecordService medicalRecordService;
 
 	@Autowired
 	private IAdmissionService admissionService;
@@ -69,6 +74,7 @@ public class HospitalController {
 
 	@Autowired
 	private IViewRecordHistoryService vService;
+
 	@Autowired
 	private IPatientService patientService;
 
@@ -263,24 +269,27 @@ public class HospitalController {
 				model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 				return "vRecordAccess";
 			} else if (status.equals(EViewRequestStatus.APPROVED)) {
-				List<Consultation> results = consultationService.findAllInfoByPatient(patient.getPatientNumber());
+
+				List<MedicalRecordUtil> personalRecordList = medicalRecordService.findPersonalMedicalRecord(patient);
 				Patient result = patientService.findPatientByPatientNumber(patient.getPatientNumber());
-				List<Admission> admissionList = admissionService.listInfosByPatients(patient.getPatientNumber());
+
 				RecordHistoryLog vHistory = new RecordHistoryLog();
 				vHistory.setViewer(activeUser);
 				vHistory.setPatient(patient);
 				vHistory.setHospital(activeUser.getHospital());
 				vHistory.setViewOn(LocalDate.now().toString());
 				vService.create(vHistory);
+
+				// Send data to UI
+				model.addAttribute("personalRecordList", personalRecordList);
+				// Old Ones!
 				model.addAttribute("department", department);
-				model.addAttribute("consultation", results);
 				model.addAttribute("patient", result);
-				model.addAttribute("admissionindetails", admissionList);
 				model.addAttribute("results", examRecordService.findExamrecords(patientTrackingNumber));
 				ViewRecordRequest resultR = rService.findPRequest(patientTrackingNumber);
 				resultR.setRequestStatus(EViewRequestStatus.CLOSED);
 				resultR.setActive(false);
-				rService.update(resultR);
+				// rService.update(resultR);
 				return "information";
 			} else if (status.equals(EViewRequestStatus.DENIED)) {
 				resultRequest.setRequestStatus(EViewRequestStatus.PENDING);
@@ -365,7 +374,7 @@ public class HospitalController {
 	public String closerequest(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
 		Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
-		if (patientTrackingNumber.isEmpty() == false) {
+		if (!patientTrackingNumber.isEmpty()) {
 			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
 			ViewRecordRequest resultRequest = rService.findPRequest(patientTrackingNumber);
 			resultRequest.setRequestStatus(EViewRequestStatus.CLOSED);

@@ -5,6 +5,7 @@ import java.util.List;
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Hospital;
+import rw.ehealth.model.Patient;
 import rw.ehealth.report.ExamReport;
 
 public interface IExamRecordService {
@@ -22,6 +23,7 @@ public interface IExamRecordService {
 	ExamRecord update(ExamRecord examRecords);
 
 	Long countPatient(Long hospitalId);
+
 	Long countresults(Long hospitalId);
 
 	ExamRecord findExamRecordByExamId(int i);
@@ -51,5 +53,13 @@ public interface IExamRecordService {
 	 * @return
 	 */
 	List<ExamRecord> findActiveExamRecords(Hospital hospital);
+
+	/**
+	 * Find exam records by patient.
+	 *
+	 * @param patient the patient
+	 * @return the list
+	 */
+	List<ExamRecord> findExamRecordsByPatient(Patient patient);
 
 }

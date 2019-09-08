@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="common/header :: common-header"></head>
+<head th:replace="common/header :: common-header">
+<style>
+.example-modal .modal {
+	position: relative;
+	top: auto;
+	bottom: auto;
+	right: auto;
+	left: auto;
+	display: block;
+	z-index: 1;
+}
+
+.example-modal .modal {
+	background: transparent !important;
+}
+</style>
+</head>
 <body class="hold-transition skin-blue fixed layout-top-nav">
 	<div class="wrapper">
 		<!-- Main Header -->
@@ -10,11 +26,11 @@
 			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
 			<!-- Content Header (Page header) -->
 			<div class="container">
-			<div class="btn-group-vertical" style="margin-top: 30px;">
-								<a class="btn btn-success pull-left"
-									th:href="@{'/prescription/close/' + ${patientTrackingNumber}}">Back To Consultation
-									</a>
-							</div>
+				<div class="btn-group-vertical" style="margin-top: 30px;">
+					<a class="btn btn-success pull-left"
+						th:href="@{'/prescription/close/' + ${patientTrackingNumber}}">Back
+						To Consultation </a>
+				</div>
 				<div class="box-header">
 					<h1 class="box-title" th:text="${Message}"></h1>
 				</div>
@@ -26,117 +42,69 @@
 						</div>
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Patient Information</h3>
+								<h3 class="box-title">
+									Medical Records Information for <span
+										th:text="${patient.patientNumber}"></span>
+								</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
-								<table id="patients" class="table table-bordered table-hover">
-									<thead>
-										<tr>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Gender</th>
-											<th>Date Of Birth</th>
-											<th>Identification Number</th>
-											<th>Address</th> 
-											</tr>
-									</thead>
-
-									<tbody>
-										<tr th:each="patients, iStat: ${patient}">
-											<td th:text="${patients.fname}" />
-											<td th:text="${patients.lname}" />
-											<td th:text="${patients.gender}" />
-											<td th:text="${patients.dateOfBirth}" />
-											<td th:text="${patients.identificationNumber}" />
-											<td th:text="${patients.address}" />
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<!-- /.box -->
-						<div class="box">
-							<div class="box-header with-border">
-								<h3 class="box-title">Admission Information Details</h3>
-							</div>
-							<div class="box-body">
-								<table id="example1" class="table table-bordered table-striped">
+								<table id="records" class="table table-bordered table-hover">
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Hospital</th>
-											<th>Admission Date</th>
-											<th>Released Date</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="admission, iStat: ${admissionindetails}">
-											<td th:text="${iStat.index+1}" />
-											<td th:text="${admission.hospital.hospitalName}" />
-											<td th:text="${admission.admissionDate}" />
-											<td th:text="${admission.releasedDate}" />
-											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/details/show/' + ${admission.patientTrackingNumber}}">Details
-											</a></td>
-										</tr>
-									</tbody>
-
-								</table>
-							</div>
-							<!-- /.box-body -->
-						</div>
-						<div class="box">
-							<div class="box-header">
-								<h3 class="box-title">Consultation Information</h3>
-							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<table id="example1" class="table table-bordered table-striped">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>Hospital</th>
-											<th>Consultation Date</th>
-											<th>Symptoms</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="consultations, iStat: ${consultation}">
-											<td th:text="${iStat.index+1}" />
-											<td th:text="${consultations.hospital.hospitalName}" />
-											<td th:text="${consultations.dateTaken}" />
-											<td th:text="${consultations.description}" />
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="box">
-							<div class="box-header">
-								<h3 class="box-title">Medical Exams Information</h3>
-							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<table id="example1" class="table table-bordered table-striped">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>Hospital</th>
 											<th>Date</th>
+											<th>Hospital</th>
+											<th>Symptoms</th>
+											<th>Exams</th>
+											<th>Prescription</th>
 										</tr>
 									</thead>
+
 									<tbody>
-										<tr th:each="exam, iStat: ${results}">
+										<tr th:each="personalRecord, iStat: ${personalRecordList}">
 											<td th:text="${iStat.index+1}" />
-											<td th:text="${exam.hospital.hospitalName}" />
-											<td th:text="${exam.datetaken}" />
-											<td><a class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/details/show/' + ${exam.admissionInfo.patientTrackingNumber}}">Details
-											</a></td>
+											<td th:text="${personalRecord.admission.admissionDate}" />
+											<td
+												th:text="${personalRecord.admission.hospital.hospitalCode}" />
+											<td th:text="${personalRecord.consultation.description}" />
+											<td>
+												<!-- Button trigger modal -->
+												<button type="button" class="btn btn-primary"
+													data-toggle="modal" data-target="#exampleModal">
+													Launch demo modal</button>
+											</td>
+											<td th:if="${personalRecord.prescription !=null}"
+												th:text="${personalRecord.prescription.name}" />
+											<td th:if="${personalRecord.prescription == null}">N/A</td>
 										</tr>
 									</tbody>
 								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">
+									Exam Details for <span th:text="${patient.patientNumber}"></span></span>
+								</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body"></div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save
+									changes</button>
 							</div>
 						</div>
 					</div>
@@ -187,5 +155,19 @@
 		<footer th:replace="common/header :: footer"></footer>
 	</div>
 	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#records').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false,
+				'pageLength' : 4
+			})
+		})
+	</script>
 </body>
 </html>

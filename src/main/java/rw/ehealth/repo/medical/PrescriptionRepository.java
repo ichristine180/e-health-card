@@ -42,4 +42,11 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Long
 	@Query("SELECT p FROM Prescription p JOIN p.admission a WHERE a.patientTrackingNumber=:patientTrackingNumber")
 	Prescription findByPatientTruckingNumber(@Param("patientTrackingNumber") String patientTrackingNumber);
 
+	/**
+	 * @param admission
+	 * @return
+	 */
+	@Query("SELECT p from Prescription p where p.admission=:admission and p.name is not null")
+	Prescription findPrescribedByAdmission(@Param("admission") Admission admission);
+
 }
