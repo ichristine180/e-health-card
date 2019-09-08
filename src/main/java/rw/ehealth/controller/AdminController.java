@@ -101,6 +101,9 @@ public class AdminController {
 			}
 
 		}
+		model.addAttribute("Hmessage","This hospital is already registered");
+		model.addAttribute("examss", examService.findExams());
+		model.addAttribute("departments", departemtService.findAllDepartemts());
 		return "registration";
 	}
 
