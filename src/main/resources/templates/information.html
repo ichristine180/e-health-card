@@ -102,55 +102,12 @@
 							<div class="modal-body"></div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save
-									changes</button>
+									data-dismiss="modal">Close</button>								
 							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row" th:if="${admissionList}" style="margin-top: 80px;">
-					<div class="col-md-6">
-						<div class="box">
-							<div class="box-header with-border">
-								<h3 class="box-title">Admission Information Details</h3>
-							</div>
-							<div class="box-body">
-								<table class="table table-bordered">
-									<tr>
-										<td>Blood Pressure</td>
-										<td th:text="${admissionList.bloodPressure}" />
-									</tr>
-									<tr>
-										<td>Heart Rate</td>
-										<td th:text="${admissionList.heartRate}" />
-									</tr>
-									<tr>
-										<td>Temperature</td>
-										<td th:text="${admissionList.temperature}" />
-									</tr>
-									<tr>
-										<td>Height</td>
-										<td th:text="${admissionList.height}" />
-									</tr>
-									<tr>
-										<td>Weight</td>
-										<td th:text="${admissionList.weight}" />
-									</tr>
-
-								</table>
-							</div>
-						</div>
-						<div class="col-xs-12">
-							<a class="btn btn-success pull-left"
-								th:href="@{'/details/consultation/' + ${admissionList.patientTrackingNumber}}">
-								<i></i> Back
-							</a>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<footer th:replace="common/header :: footer"></footer>
 	</div>
