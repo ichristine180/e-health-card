@@ -77,7 +77,7 @@ public class Admission {
 	/**
 	 * The constant bloodPressure - Double
 	 */
-	@Pattern(regexp = "\\d{2}-\\d{3}", message = "Invalid Blood Pressure Format")
+	@Pattern(regexp = "\\d{3}/\\d{2}", message = "Invalid Blood Pressure Format")
 	private String bloodPressure;
 	/**
 	 * The constant weight - Double
