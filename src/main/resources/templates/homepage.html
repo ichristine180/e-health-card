@@ -332,7 +332,7 @@
 											<td th:if="${p.status=='PENDING'}">NO</td>
 											<td th:if="${p.status=='PENDING'}"><a
 												class="btn btn-block btn-primary btn-sm"
-												th:href="@{'/consultation/' + ${p.admission.patientTrackingNumber}}">Details
+												th:href="@{'/prescription/' + ${p.admission.patientTrackingNumber}}">Details
 											</a></td>
 											<td th:if="${p.status=='COMPLETE'}"><a
 												class="btn btn-block btn-primary btn-sm"
