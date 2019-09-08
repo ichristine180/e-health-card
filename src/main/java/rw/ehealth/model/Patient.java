@@ -30,7 +30,7 @@ public class Patient {
 	 */
 	@NotNull
 	@NotBlank(message = "The first name is required")
-	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
+	@Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters! use letter only!")
 	@Column(name = "FIRST_NAME")
 	private String fname;
 
@@ -42,7 +42,7 @@ public class Patient {
 	 */
 	@NotNull
 	@NotBlank(message = "The last name is required")
-	@Size(min = 3, max = 100, message = "Invalid name format! Names should be between 3 and 100 characters")
+	@Pattern(regexp = "[a-z-A-Z]*", message = "Last name has invalid characters! use letter only!")
 	@Column(name = "LAST_NAME")
 	private String lname;
 
@@ -53,12 +53,15 @@ public class Patient {
 	 * The constant address - String
 	 */
 	@NotBlank(message = "Address  is required")
+	@Pattern(regexp = "[a-z-A-Z]*", message = "address has invalid characters! use letter only!")
 	@Column(name = "ADDRESS")
 	private String address;
 
-	@Size(min = 16, max = 16, message = "Valid National Identification is 16 Digits")
-	@Pattern(regexp = "\\d{16}", message = "Invalid characters. Use digits only")
+	
+	
 	@NotNull(message = " This field cant be null")
+	@Pattern(regexp = "[0-9]+", message = "Invalid characters. Use digits only")
+	@Size(min = 16, max = 16, message = "Valid National Identification is 16 Digits")
 	@Column(name = "IDENTIFICATION_NUMBER", nullable = false, unique = true)
 	private String identificationNumber;
 

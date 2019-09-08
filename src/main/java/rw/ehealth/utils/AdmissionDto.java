@@ -20,7 +20,7 @@ public class AdmissionDto {
 	@NotNull(message = "Temperature is required")
 	@DecimalMin(value = "30.0", message = "Below the minimum temperature of a living person")
 	@DecimalMax(value = "45.0", message = "Above the maximum temperature of a living person")
-	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
+	@Pattern(regexp = "\\d{2}", message = "Invalid temperature")
 	private String temperature;
 	/**
 	 * The constant bloodPressure - Double
@@ -32,13 +32,13 @@ public class AdmissionDto {
 	 */
 	@NotNull(message = "heartRate is required")
 	@DecimalMin(value = "30.0", message = "May be a dead person! Invalid heart rate")
-	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
+	@Pattern(regexp = "\\d{2}", message = "Invalid heartRate format")
 	@DecimalMax(value = "100.0", message = "Too fast heart rate")
 	private String heartRate;
 
 	@NotNull(message = "Weight is required")
-	@Pattern(regexp = "\\d{2}", message = "Invalid weight")
-	@Min(value = 0, message = "Invalid weight")
+	@Pattern(regexp = "\\d{2}", message = "Invalid weight format")
+	@Min(value = 0, message = "Invalid Weight")
 	private String weight;
 
 	@NotNull(message = "Please Select Departement")
