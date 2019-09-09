@@ -346,8 +346,9 @@ public class HospitalController {
 			Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
 			if (consult != null) {
 				String department = activeUser.getDepertment().getName();
-
+				Boolean patientprescription = true;
 				Prescription prescriptions = new Prescription();
+				model.addAttribute("patientprescription", patientprescription);
 				model.addAttribute("prescriptions", prescriptions);
 				model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 				model.addAttribute("department", department);
@@ -408,7 +409,26 @@ public class HospitalController {
 	}
 
 	@PostMapping("/patient/prescription")
-	public String pPrescriptions(Model model, @ModelAttribute PrescriptionsDto prescriptionsDto, Principal principal) {
+	public String pPrescriptions(Model model, @ModelAttribute @Valid PrescriptionsDto prescriptionsDto,
+			BindingResult results, Principal principal) {
+		if (results.hasErrors()) {
+			Employee activeUser = userService.findDoctor(principal.getName());
+			String department = activeUser.getDepertment().getName();
+			Boolean patientprescription = true;
+			Consultation consult = consultationService
+					.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+			Admission result = admissionService
+					.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
+			model.addAttribute("patientTrackingNumber", prescriptionsDto.getPatientTrackingNumber());
+			model.addAttribute("department", department);
+		
+			model.addAttribute("patientprescription", patientprescription);
+			model.addAttribute("admission", result);
+			model.addAttribute("consultation", consult);
+			model.addAttribute("examss", examRecordService.findErecords(prescriptionsDto.getPatientTrackingNumber()));
+
+			return "consultationD";
+		}
 		Employee activeUser = userService.findDoctor(principal.getName());
 		Admission admit = admissionService.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 		Prescription prescriptions = new Prescription();

@@ -114,7 +114,7 @@
 							<div class="box-body">
 								<a class="btn bg-maroon btn-flat margin"
 									th:href="@{'/details/consultation/' + ${admission.patientTrackingNumber}}">View
-									Patient's Records</a> <a class="btn bg-navy btn-flat margin"
+									Patient's Records</a> <a class="btn bg-navy btn-flat margin" th:if="${consultation.status=='PENDING'}"
 									th:href="@{'/consultation/sendToLabo/' + ${admission.patientTrackingNumber}}">Exams
 								</a> <a class="btn bg-maroon btn-flat margin"
 									th:href="@{'/prescription/' + ${admission.patientTrackingNumber}}">Prescriptions</a>

@@ -1,8 +1,3 @@
-/*
- * Copyright (c)  2018. Irembo
- *
- * All rights reserved.
- */
 
 package rw.ehealth.controller;
 

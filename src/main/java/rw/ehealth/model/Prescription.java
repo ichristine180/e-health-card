@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,10 +26,14 @@ public class Prescription {
 	/**
 	 * The constant name - String
 	 */
+	@Column(name = "name", length = 200)
+	@NotNull(message = "Invalid Prescription data")
 	private String name;
 	/**
 	 * The constant description - String
 	 */
+	@Column(name = "description", length = 200)
+	@NotNull(message = "Invalid description data")
 	private String description;
 
 	@JsonIgnore
