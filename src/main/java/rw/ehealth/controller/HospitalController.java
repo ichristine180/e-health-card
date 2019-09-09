@@ -289,7 +289,7 @@ public class HospitalController {
 				ViewRecordRequest resultR = rService.findPRequest(patientTrackingNumber);
 				resultR.setRequestStatus(EViewRequestStatus.CLOSED);
 				resultR.setActive(false);
-				// rService.update(resultR);
+				rService.update(resultR);
 				return "information";
 			} else if (status.equals(EViewRequestStatus.DENIED)) {
 				resultRequest.setRequestStatus(EViewRequestStatus.PENDING);
@@ -421,7 +421,7 @@ public class HospitalController {
 					.findByPatientTruckingNumber(prescriptionsDto.getPatientTrackingNumber());
 			model.addAttribute("patientTrackingNumber", prescriptionsDto.getPatientTrackingNumber());
 			model.addAttribute("department", department);
-		
+
 			model.addAttribute("patientprescription", patientprescription);
 			model.addAttribute("admission", result);
 			model.addAttribute("consultation", consult);
