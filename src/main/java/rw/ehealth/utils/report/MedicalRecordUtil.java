@@ -1,8 +1,3 @@
-/*
- * Copyright (c)  2018. Irembo
- *
- * All rights reserved.
- */
 
 package rw.ehealth.utils.report;
 
@@ -13,14 +8,6 @@ import rw.ehealth.model.Consultation;
 import rw.ehealth.model.ExamRecord;
 import rw.ehealth.model.Prescription;
 
-/**
- * @Author: chabiman
- * @FileName: MedicalRecordUtil.java
- * @Date: Sep 8, 2019
- * @Package: rw.ehealth.utils.report
- * @ProjectName: e-health-card
- *
- */
 public class MedicalRecordUtil {
 
 	private Admission admission;
