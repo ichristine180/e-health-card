@@ -36,7 +36,7 @@ public interface IExamRecordService {
 
 	List<ExamRecord> findErecords(String patientTrackingNumber);
 
-	List<ExamRecord> findResults(Long hospitalId, String status);
+	List<ExamRecord> findResults(Long hospitalId);
 
 	boolean isNotCreated(ExamRecord examRecords);
 

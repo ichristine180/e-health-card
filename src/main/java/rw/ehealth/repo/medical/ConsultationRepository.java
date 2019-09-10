@@ -40,6 +40,7 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 
 	@Query("SELECT count(h.hospitalId) from Consultation c  JOIN c.hospital h  JOIN c.admission a JOIN a.departement d "
 			+ "WHERE h.hospitalId=:hospitalId "
+			+ "AND a.status is not 'COMPLETE'"
 			+ "AND a.departement.departmentId=:departmentId")
 	long countConsultation(@Param("hospitalId") Long hospitalId,
 			@Param("departmentId") Long departmentId);

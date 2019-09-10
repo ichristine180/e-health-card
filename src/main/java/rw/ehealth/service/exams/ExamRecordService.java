@@ -149,9 +149,9 @@ public class ExamRecordService implements IExamRecordService {
 	}
 
 	@Override
-	public List<ExamRecord> findResults(Long hospitalId, String status) {
+	public List<ExamRecord> findResults(Long hospitalId) {
 		try {
-			return eRepository.findResults(hospitalId, status);
+			return eRepository.findResults(hospitalId);
 		} catch (Exception e) {
 			throw e;
 		}

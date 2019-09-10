@@ -122,7 +122,7 @@ public class HomeController {
 		Long hospitalId = doctor.getHospital().getHospitalId();
 		String department = doctor.getDepertment().getName();
 		model.addAttribute("department", department);
-		model.addAttribute("results", examRecordService.findResults(hospitalId, "MIDLE"));
+		model.addAttribute("results", examRecordService.findResults(hospitalId));
 
 		return "consultationD";
 	}
@@ -137,7 +137,7 @@ public class HomeController {
 		model.addAttribute("pcount",patients);
 		model.addAttribute("countresults",presults);
 		model.addAttribute("pExam", examRecordService.findActiveExamRecords(activeUser.getHospital()));
-		model.addAttribute("presults", examRecordService.findResults(activeUser.getHospital().getHospitalId(),"MIDLE"));
+		model.addAttribute("presults", examRecordService.findResults(activeUser.getHospital().getHospitalId()));
 		return "homepage";
 	}
 

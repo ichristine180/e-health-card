@@ -107,8 +107,8 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	 * @param status     the status
 	 * @return the list
 	 */
-	@Query("SELECT  e from ExamRecord e Join e.hospital h join e.admissionInfo a WHERE h.hospitalId=:hospitalId and e.results is not null and a.status=:status group by a.patientTrackingNumber")
-	List<ExamRecord> findResults(@Param("hospitalId") Long hospitalId, @Param("status") String status);
+	@Query("SELECT  e from ExamRecord e Join e.hospital h join e.admissionInfo a  WHERE h.hospitalId=:hospitalId and e.closedWithResult is true group by a.patientTrackingNumber")
+	List<ExamRecord> findResults(@Param("hospitalId") Long hospitalId);
 
 	/**
 	 * Find by admission info.
@@ -129,7 +129,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	ExamRecord findByAdmissionInfoAndExam(@Param("admissionInfo") Admission admissionInfo,
 			@Param("medicalExam") MedicalExam medicalExam);
 
-	@Query("SELECT count(distinct a.patientTrackingNumber) FROM ExamRecord e JOIN e.admissionInfo a  JOIN e.hospital h WHERE h.hospitalId=:hospitalId and e.results is not null")
+	@Query("SELECT count(distinct a.patientTrackingNumber) FROM ExamRecord e JOIN e.admissionInfo a  JOIN e.hospital h WHERE h.hospitalId=:hospitalId and e.closedWithResult is true")
 	Long countresults(@Param("hospitalId") Long hospitalId);
 
 	/**
