@@ -485,45 +485,47 @@ public class HospitalController {
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
-		System.out.println(id.length + " exams ids and: " + results.length + " their response");
-		Employee employee = userService.findDoctor(principal.getName());
-		Admission admission = new Admission();
 
 		boolean errorFound = false;
+
+		List<ExamRecord> recordsWithError = new ArrayList<>();
 		for (int i = 0; i < results.length; i++) {
 			if (results[i].isEmpty() || results[i] == null) {
+				ExamRecord record = examRecordService.findExamRecordByExamId(id[i]);
+				recordsWithError.add(record);
 				errorFound = true;
-				// Validate your things here
-				System.out.println(id[i] + " is missing results");
 			}
+			if (errorFound)
+				break;
+
 		}
-		if (!errorFound) {
-			for (int i = 0; i < id.length; i++) {
-				ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
-				records.setResults(results[i]);
-				records.setClosedWithResult(true);
-				records.setExamResponseEmployee(employee);
-				ExamRecord updatedRecord = examRecordService.update(records);
-				admission = updatedRecord.getAdmissionInfo();
 
-			}
-			Consultation consult = consultationService
-					.findByPatientTruckingNumber(admission.getPatientTrackingNumber());
-			consult.setStatus("COMPLETE");
-			consultationService.update(consult);
-			System.out.println(admission.getPatientTrackingNumber() + " " + admission.toString());
-			model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
-			model.addAttribute(employee.getDepertment().getName());
-			return "labo/exam_result_summary";
+		if (errorFound) {
+			ExamRecord examRecord = new ExamRecord();
+			model.addAttribute("examRecord", examRecord);
+			model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
+			model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
+			model.addAttribute("errors", recordsWithError);
+			model.addAttribute("errorFound", errorFound);
+			return "labo/labo";
 		}
-		ExamRecord examRecord = new ExamRecord();
-		model.addAttribute("examRecord", examRecord);
-		model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
-		model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
-		model.addAttribute("messageR", "resulty is required!");
+		Employee employee = userService.findDoctor(principal.getName());
+		Admission admission = new Admission();
+		for (int i = 0; i < id.length; i++) {
 
-		return "labo/labo";
-
+			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
+			records.setResults(results[i]);
+			records.setClosedWithResult(true);
+			records.setExamResponseEmployee(employee);
+			ExamRecord updatedRecord = examRecordService.update(records);
+			admission = updatedRecord.getAdmissionInfo();
+		}
+		Consultation consult = consultationService.findByPatientTruckingNumber(admission.getPatientTrackingNumber());
+		consult.setStatus("COMPLETE");
+		consultationService.update(consult);
+		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
+		model.addAttribute(employee.getDepertment().getName());
+		return "labo/exam_result_summary";
 	}
 
 	@GetMapping("/showresults/{patientTrackingNumber}")
