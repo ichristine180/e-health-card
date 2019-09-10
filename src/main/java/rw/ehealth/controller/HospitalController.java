@@ -461,7 +461,7 @@ public class HospitalController {
 			model.addAttribute("department", department);
 			model.addAttribute("consultation", consult);
 			model.addAttribute("admission", results);
-			model.addAttribute("messageE","please select exam!");
+			model.addAttribute("messageE", "please select exam!");
 			return "consultationD";
 		}
 	}
@@ -488,33 +488,35 @@ public class HospitalController {
 
 		Employee employee = userService.findDoctor(principal.getName());
 		Admission admission = null;
-		if(id.length!=0|| id== null) {
-		for (int i = 0; i < id.length; i++) {
-			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
-			records.setResults(results[i]);
-			records.setClosedWithResult(true);
-			records.setExamResponseEmployee(employee);
-			ExamRecord updatedRecord = examRecordService.update(records);
-			admission = updatedRecord.getAdmissionInfo();
+		if (id.length != 0 || id == null) {
+			for (int i = 0; i < id.length; i++) {
+				ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
+				records.setResults(results[i]);
+				records.setClosedWithResult(true);
+				records.setExamResponseEmployee(employee);
+				ExamRecord updatedRecord = examRecordService.update(records);
+				admission = updatedRecord.getAdmissionInfo();
 
+			}
+			Consultation consult = consultationService
+					.findByPatientTruckingNumber(admission.getPatientTrackingNumber());
+			consult.setStatus("COMPLETE");
+			consultationService.update(consult);
+			System.out.println(admission.getPatientTrackingNumber() + " " + admission.toString());
+			model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
+			model.addAttribute(employee.getDepertment().getName());
+			return "labo/exam_result_summary";
+		} else {
+			ExamRecord examRecord = new ExamRecord();
+			model.addAttribute("examRecord", examRecord);
+			model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
+			model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
+			model.addAttribute("messageR", "resulty is required!");
+
+			return "labo/labo";
 		}
-		Consultation consult = consultationService.findByPatientTruckingNumber(admission.getPatientTrackingNumber());
-		consult.setStatus("COMPLETE");
-		consultationService.update(consult);
-		System.out.println(admission.getPatientTrackingNumber() + " " + admission.toString());
-		model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
-		model.addAttribute(employee.getDepertment().getName());
-		return "labo/exam_result_summary";
-	}else {
-		ExamRecord examRecord = new ExamRecord();
-		model.addAttribute("examRecord", examRecord);
-		model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
-		model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
-		model.addAttribute("messageR","resulty is required!");
+	}
 
-		return "labo/labo";
-	}
-	}
 	@GetMapping("/showresults/{patientTrackingNumber}")
 	public String showresults(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		if (patientTrackingNumber != null) {
