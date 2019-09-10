@@ -42,7 +42,7 @@ public class MedicalRecordService implements IMedicalRecordService {
 		List<MedicalRecordUtil> personalMedicalRecordList = new ArrayList<>();
 		try {
 
-			List<Admission> admissionList = aRepository.findByAdmittedPatient(patient);
+			List<Admission> admissionList = aRepository.listcompleteAdmissions(patient.getPatientNumber());
 			for (Admission admission : admissionList) {
 				MedicalRecordUtil medicalRecordUtil = new MedicalRecordUtil();
 

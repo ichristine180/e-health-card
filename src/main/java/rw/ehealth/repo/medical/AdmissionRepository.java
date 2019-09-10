@@ -24,7 +24,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 * @param patient
 	 * @return
 	 */
-
 	List<Admission> findByAdmittedPatient(Patient patient);
 
 	/*
@@ -38,7 +37,8 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 * @param patientTrackingNumber
 	 * @return
 	 */
-
+	@Query("SELECT a from Admission a Join a.admittedPatient p WHERE p.patientNumber=:patientNumber and  a.status is 'COMPLETE'")
+	List<Admission> listcompleteAdmissions(@Param("patientNumber") String patientNumber);
 	Admission findByPatientTrackingNumber(String patientTrackingNumber);
 
 	/**

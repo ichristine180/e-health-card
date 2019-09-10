@@ -13,6 +13,7 @@
 					<div class="box" style="width: 430px;">
 						<div class="box-header">
 							<h3 class="box-title">List Of Exams</h3>
+							<span th:text="${messageR}" style="color: red;"></span>
 						</div>
 						<div class="box-body" style="margin-left: 100px;">
 							<form class="form" th:action="@{/results}" method="POST">
