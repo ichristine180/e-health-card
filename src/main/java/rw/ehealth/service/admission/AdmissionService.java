@@ -58,6 +58,15 @@ public class AdmissionService implements IAdmissionService {
 		}
 
 	}
+	@Override
+	public List<Admission> countAllAdmission(Long hospitalId) {
+		try {
+			return aRepository.countAllAdmission(hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 
 	@Override
 	public List<Admission> allAdmissionsPerHospital(Long hospitalId) {
