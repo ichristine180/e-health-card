@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Employee;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.report.AdmissionReport;
 import rw.ehealth.report.ExamReport;
 import rw.ehealth.service.admission.IAdmissionService;
 import rw.ehealth.service.consultation.IConsultationService;
 import rw.ehealth.service.exams.IExamRecordService;
+import rw.ehealth.service.patient.IPatientService;
 import rw.ehealth.service.user.UserService;
 
 @Controller
@@ -37,10 +39,17 @@ public class ReportController {
 	public String Receptionist(Model model, Principal principal) {
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
+		Hospital hospital = doctor.getHospital();
 		List<AdmissionReport> admissions = admissionService.findBydoctor(doctor.getEmail());
+		model.addAttribute("admissionCount", admissionService.countAllAdmission(hospital.getHospitalId()).size());
+		model.addAttribute("DadmissionCount", admissionService.findBydoctor(doctor.getEmail()).size());
+		model.addAttribute("MaleAdmissionCount",admissionService.findByGender("MALE",hospital.getHospitalId()).size());
+		model.addAttribute("FeMaleAdmissionCount",admissionService.findByGender("FEMALE",hospital.getHospitalId()).size());
+		model.addAttribute("hospitalName", hospital.getHospitalName());
+		model.addAttribute("admissions", hospital.getAdmissions());
 		model.addAttribute("doctor", doctor);
 		model.addAttribute("admission", admissions);
-		return "report";
+		return "report/ReceptionReport";
 	}
 
 	@GetMapping("/consultation/report")

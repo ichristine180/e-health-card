@@ -23,6 +23,7 @@ public interface IAdmissionService {
 	Admission createNewPatientAdmission(Admission info);
 
 	long countAdmission(Long hospitalId);
+	List<Admission> countAllAdmission(Long hospitalId);
 
 	long countAdmissionfodoctor(Long hospitalId);
 

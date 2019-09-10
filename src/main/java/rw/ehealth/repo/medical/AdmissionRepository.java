@@ -19,7 +19,8 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 	 */
 
 	Admission findByAdmissionId(Long id);
-
+	@Query("SELECT a from Admission a Join a.hospital h WHERE h.hospitalId=:hospitalId")
+	List<Admission> countAllAdmission(@Param("hospitalId") Long hospitalId);
 	/**
 	 * @param patient
 	 * @return

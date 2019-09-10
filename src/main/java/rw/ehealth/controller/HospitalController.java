@@ -449,21 +449,20 @@ public class HospitalController {
 			consultationService.update(consult);
 
 			return "redirect:/gdoctor";
-		} else {
-			Admission results = admissionService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
-			Consultation consult = consultationService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
-			String department = activeUser.getDepertment().getName();
-			ExamRecord examRecord = new ExamRecord();
-			model.addAttribute("examRecord", examRecord);
-			model.addAttribute("department", department);
-			model.addAttribute("admission", results);
-			model.addAttribute("examss", examService.findExams());
-			model.addAttribute("department", department);
-			model.addAttribute("consultation", consult);
-			model.addAttribute("admission", results);
-			model.addAttribute("messageE", "please select exam!");
-			return "consultationD";
 		}
+		Admission results = admissionService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
+		Consultation consult = consultationService.findByPatientTruckingNumber(examDto.getPatientTrackingNumber());
+		String department = activeUser.getDepertment().getName();
+		ExamRecord examRecord = new ExamRecord();
+		model.addAttribute("examRecord", examRecord);
+		model.addAttribute("department", department);
+		model.addAttribute("admission", results);
+		model.addAttribute("examss", examService.findExams());
+		model.addAttribute("department", department);
+		model.addAttribute("consultation", consult);
+		model.addAttribute("admission", results);
+		model.addAttribute("messageE", "please select exam!");
+		return "consultationD";
 	}
 
 	@GetMapping("/labo/{patientTrackingNumber}")
@@ -497,10 +496,10 @@ public class HospitalController {
 			}
 			if (errorFound)
 				break;
-
 		}
 
 		if (errorFound) {
+			System.out.println("here we are: " + recordsWithError.size());
 			ExamRecord examRecord = new ExamRecord();
 			model.addAttribute("examRecord", examRecord);
 			model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
