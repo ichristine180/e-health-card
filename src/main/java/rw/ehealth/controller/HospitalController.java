@@ -40,7 +40,6 @@ import rw.ehealth.service.record.IMedicalRecordService;
 import rw.ehealth.service.user.IUserService;
 import rw.ehealth.utils.ConsultationDto;
 import rw.ehealth.utils.ExamDto;
-import rw.ehealth.utils.ExamRecordsDto;
 import rw.ehealth.utils.IDGenerator;
 import rw.ehealth.utils.PrescriptionsDto;
 import rw.ehealth.utils.report.MedicalRecordUtil;
@@ -482,8 +481,8 @@ public class HospitalController {
 
 	@PostMapping("/results")
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
-			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
-			Model model, Principal principal) {
+			@RequestParam(value = "results", required = true) String[] results,
+			@RequestParam String patientTrackingNumber, Model model, Principal principal) {
 
 		boolean errorFound = false;
 
@@ -494,16 +493,13 @@ public class HospitalController {
 				recordsWithError.add(record);
 				errorFound = true;
 			}
-			if (errorFound)
-				break;
 		}
 
-		if (errorFound) {
-			System.out.println("here we are: " + recordsWithError.size());
+		if (errorFound || !recordsWithError.isEmpty()) {
 			ExamRecord examRecord = new ExamRecord();
 			model.addAttribute("examRecord", examRecord);
-			model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
-			model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
+			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
+			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
 			model.addAttribute("errors", recordsWithError);
 			model.addAttribute("errorFound", errorFound);
 			return "labo/labo";
