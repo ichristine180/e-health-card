@@ -58,7 +58,8 @@ public class Employee {
 	/**
 	 * The constant phone - String
 	 */
-	@Pattern(regexp = "^07(8|3|2)\\d{7}/", message = "valid phone number shuold be 10 digits start with 07(3/2/8)")
+	@Pattern(regexp = "[0-9]+", message = "Invalid characters. Use digits only")
+	@Size(min = 10, max = 10, message = "Valid phone number is 10 Digits")
 	@NotNull(message = " This field cant be null")
 	@Column(name = "phone", nullable = false)
 	private String phone;
