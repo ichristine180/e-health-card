@@ -113,7 +113,7 @@ public class HospitalController {
 	@GetMapping("/consultation/{patientTrackingNumber}")
 	public String consultation(Model model, @PathVariable String patientTrackingNumber, Principal principal) {
 		Employee activeUser = userService.findDoctor(principal.getName());
-
+		Consultation consult = consultationService.findByPatientTruckingNumber(patientTrackingNumber);
 		if (patientTrackingNumber != null) {
 			boolean admissionInfo = true;
 			Admission results = admissionService.findByPatientTruckingNumber(patientTrackingNumber);
@@ -121,6 +121,7 @@ public class HospitalController {
 			ConsultationDto consultation = new ConsultationDto();
 			model.addAttribute("department", department);
 			model.addAttribute("consultation", consultation);
+			model.addAttribute("consultations", consult);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
 
@@ -164,9 +165,9 @@ public class HospitalController {
 			Admission results = admissionService
 					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
 			String department = activeUser.getDepertment().getName();
-			ConsultationDto consultation = new ConsultationDto();
+			Consultation consult = consultationService.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
 			model.addAttribute("department", department);
-			model.addAttribute("consultation", consultation);
+			model.addAttribute("consultations", consult);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
 
@@ -207,7 +208,7 @@ public class HospitalController {
 				model.addAttribute("admission", results);
 				model.addAttribute("admissionInfo", admissionInfo);
 				model.addAttribute("message", "The Consultation Successed!");
-				return "consult";
+				return "consultationD";
 			}
 
 			boolean admissionInfo = true;
@@ -215,10 +216,9 @@ public class HospitalController {
 					.findByPatientTruckingNumber(consultationDto.getPatientTrackingNumber());
 			String department = activeUser.getDepertment().getName();
 			model.addAttribute("department", department);
-			model.addAttribute("consultation", consultation);
 			model.addAttribute("admission", results);
 			model.addAttribute("admissionInfo", admissionInfo);
-			model.addAttribute("message", "Consultation Failed! Try Again");
+			model.addAttribute("message", "already consulted!");
 			return "consult";
 
 		}
