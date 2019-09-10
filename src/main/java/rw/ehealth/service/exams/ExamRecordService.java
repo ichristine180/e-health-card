@@ -197,4 +197,22 @@ public class ExamRecordService implements IExamRecordService {
 			throw e;
 		}
 	}
+
+	@Override
+	public Long countRecievedPatient(Long hospitalId) {
+		try {
+			return eRepository.countRecievedPatient(hospitalId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public Long countRecievedPatientByDoctor(Long hospitalId, Long employeeId) {
+		try {
+			return eRepository.countRecievedPatientByDoctor(hospitalId,employeeId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

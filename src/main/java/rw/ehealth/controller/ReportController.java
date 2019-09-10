@@ -62,8 +62,12 @@ public class ReportController {
 		List<ExamReport> results = examRecordService.countByExamName(id);
 		model.addAttribute("exam", results);
 		model.addAttribute("male", malePatients);
+		Hospital hospital = doctor.getHospital();
+		model.addAttribute("hospitalName", hospital.getHospitalName());
 		model.addAttribute("female", femalePatients);
-		return "report";
+		model.addAttribute("allconsultation", cService.countByHospital(hospital));
+		model.addAttribute("Dconsultation", cService.findByDoctor(doctor).size());
+		return "report/ConsultationReport";
 	}
 
 	@GetMapping("/report/labo")
@@ -71,37 +75,10 @@ public class ReportController {
 		String username = principal.getName();
 		Employee doctor = userService.findDoctor(username);
 		Long id = doctor.getHospital().getHospitalId();
-		Long patientExam = examRecordService.countPatient(id);
 		List<ExamReport> results = examRecordService.countByExamName(id);
-		model.addAttribute("patientExam", patientExam);
+		model.addAttribute("patientExam", examRecordService.countRecievedPatient(id));
+		model.addAttribute("DocpatientExam", examRecordService.countRecievedPatientByDoctor(id,doctor.getEmployeeId()));
 		model.addAttribute("exam", results);
-		return "report";
-	}
-
-	@GetMapping("/reception/reports/male")
-	public String getAdmissionByGender(Model model, Principal principal) {
-		String username = principal.getName();
-		Employee doctor = userService.findDoctor(username);
-		List<AdmissionReport> results = admissionService.findByGender("MALE", doctor.getHospital().getHospitalId());
-		model.addAttribute("maleAdmision", results);
-		return "report";
-	}
-
-	@GetMapping("/reception/reports/female")
-	public String getAdmissionByFemale(Model model, Principal principal) {
-		String username = principal.getName();
-		Employee doctor = userService.findDoctor(username);
-		List<AdmissionReport> results = admissionService.findByGender("FEMALE", doctor.getHospital().getHospitalId());
-		model.addAttribute("femaleAdmision", results);
-		return "report";
-	}
-
-	@GetMapping("reception/reports/month")
-	public String getAdmisionsReport(Model model, Principal principal) {
-		String username = principal.getName();
-		Employee doctor = userService.findDoctor(username);
-		List<Admission> results = admissionService.getAdmissionsPerMonth(7);
-		model.addAttribute("monthAdmision", results);
-		return "report";
+		return "report/LaboReport";
 	}
 }

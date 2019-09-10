@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import rw.ehealth.model.Admission;
 import rw.ehealth.model.Consultation;
 import rw.ehealth.model.Employee;
+import rw.ehealth.model.Hospital;
 
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
 
@@ -78,5 +79,7 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 	 */
 	@Query("SELECT count(p.gender) from Consultation c JOIN c.admission a JOIN a.admittedPatient p JOIN c.hospital h WHERE p.gender=:gender and h.hospitalId=:hospitalId ")
 	Long CountByGender(@Param("hospitalId") Long hospitalId, @Param("gender") String gender);
+
+	long countByHospital(Hospital hospital);
 
 }

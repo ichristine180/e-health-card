@@ -3,22 +3,20 @@ package rw.ehealth.service.consultation;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rw.ehealth.model.Consultation;
+import rw.ehealth.model.Employee;
+import rw.ehealth.model.Hospital;
 import rw.ehealth.repo.medical.ConsultationRepository;
-import rw.ehealth.service.medical.ViewRequestService;
 
 @Service
 public class ConsultationService implements IConsultationService {
 
 	@Autowired
 	private ConsultationRepository cRepository;
-
-	@Autowired
-	private ViewRequestService rService;
-
 	@Override
 	public Consultation createConsultation(Consultation consultation) {
 		Consultation admitConsultation = findByPatientTruckingNumber(
@@ -89,4 +87,21 @@ public class ConsultationService implements IConsultationService {
 		}
 	}
 
+	@Override
+	public long countByHospital(Hospital hospital) {
+		try {
+			return cRepository.countByHospital(hospital);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public List<Consultation> findByDoctor(Employee doctor) {
+		try {
+			return cRepository.findByDoctor(doctor);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

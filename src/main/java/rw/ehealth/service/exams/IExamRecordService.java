@@ -61,5 +61,6 @@ public interface IExamRecordService {
 	 * @return the list
 	 */
 	List<ExamRecord> findExamRecordsByPatient(Patient patient);
-
+	Long countRecievedPatient(Long hospitalId);
+	Long countRecievedPatientByDoctor(Long hospitalId,Long employeeId);
 }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"></head>
+<body class="hold-transition skin-blue fixed layout-top-nav">
+	<div class="wrapper">
+		<!-- Main Header -->
+		<header th:replace="common/header :: main-header"></header>
+		<!-- ADMIN container -->
+		<div class="content-wrapper"
+			sec:authorize="hasRole('ROLE_GENERAL_DOCTOR')">
+			<div class="container">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<h1>
+						<span th:text="${hospitalName}" /> <small> Consultation
+							Reporting Page</small>
+					</h1>
+				</section>
+				<!-- /.content -->
+				<section class="content">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3 th:text="${allconsultation}"></h3>
+									<p>Consultation</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-cyan">
+								<div class="inner">
+									<h3 th:text="${Dconsultation}"></h3>
+									<p>Consultation performed by You</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-red">
+								<div class="inner">
+									<h3 th:text="${male}"></h3>
+									<p>Male Consultation</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3 th:text="${female}"></h3>
+									<p>Female admission</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i
+									class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Exams count statistics</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body no-padding">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Exam Name</th>
+											<th>Count Number</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="exams, iStat: ${exam}">
+											<td th:text="${iStat.index+1}" />
+											<td th:text="${exams.exam.name}" />
+											<td th:text="${exams.examcount}" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
+				</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Main Footer -->
+
+		<footer th:replace="common/header :: footer"></footer>
+	</div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script>
+		$(function() {
+			$('#patients').DataTable({
+				'paging' : true,
+				'lengthChange' : false,
+				'searching' : true,
+				'ordering' : true,
+				'info' : true,
+				'autoWidth' : false
+			})
+		})
+	</script>
+</body>
+</html>
