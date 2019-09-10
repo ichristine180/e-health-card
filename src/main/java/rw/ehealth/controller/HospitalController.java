@@ -485,10 +485,19 @@ public class HospitalController {
 	public String saveResults(@RequestParam(value = "id", required = false) int[] id,
 			@RequestParam(value = "results", required = true) String[] results, @ModelAttribute ExamRecordsDto examDto,
 			Model model, Principal principal) {
-
+		System.out.println(id.length + " exams ids and: " + results.length + " their response");
 		Employee employee = userService.findDoctor(principal.getName());
-		Admission admission = null;
-		if (id.length != 0 || id == null) {
+		Admission admission = new Admission();
+
+		boolean errorFound = false;
+		for (int i = 0; i < results.length; i++) {
+			if (results[i].isEmpty() || results[i] == null) {
+				errorFound = true;
+				// Validate your things here
+				System.out.println(id[i] + " is missing results");
+			}
+		}
+		if (!errorFound) {
 			for (int i = 0; i < id.length; i++) {
 				ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 				records.setResults(results[i]);
@@ -506,15 +515,15 @@ public class HospitalController {
 			model.addAttribute("examRecords", examRecordService.findExamRecordByAddmission(admission));
 			model.addAttribute(employee.getDepertment().getName());
 			return "labo/exam_result_summary";
-		} else {
-			ExamRecord examRecord = new ExamRecord();
-			model.addAttribute("examRecord", examRecord);
-			model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
-			model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
-			model.addAttribute("messageR", "resulty is required!");
-
-			return "labo/labo";
 		}
+		ExamRecord examRecord = new ExamRecord();
+		model.addAttribute("examRecord", examRecord);
+		model.addAttribute("examss", examRecordService.findErecords(examDto.getPatientTracki()));
+		model.addAttribute("patientTrackingNumber", examDto.getPatientTracki());
+		model.addAttribute("messageR", "resulty is required!");
+
+		return "labo/labo";
+
 	}
 
 	@GetMapping("/showresults/{patientTrackingNumber}")
