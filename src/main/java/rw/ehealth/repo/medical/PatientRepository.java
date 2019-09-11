@@ -18,6 +18,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	 * @return the patient
 	 */
 	@Query("SELECT p from Patient p WHERE p.admissionStatus=false")
+	List<Patient>findpAll();
 	List<Patient>findAll();
 
 	Patient findByPatientId(Long id);

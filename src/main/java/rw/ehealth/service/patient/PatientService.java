@@ -92,14 +92,21 @@ public class PatientService implements IPatientService {
 	 * @return
 	 */
 	@Override
-	public List<Patient> findAll() {
+	public List<Patient> findpAll() {
 		try {
 			return pRepository.findAll();
 		} catch (Exception ex) {
 			throw ex;
 		}
 	}
-
+	@Override
+	public List<Patient> findAll() {
+		try {
+			return pRepository.findpAll();
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 	/*
 	 *
 	 * @see rw.ehealth.service.patient.IPatientService#updatePatient(rw.ehealth.model.Patient)

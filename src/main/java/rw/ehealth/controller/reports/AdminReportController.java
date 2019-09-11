@@ -36,7 +36,7 @@ public class AdminReportController {
 		model.addAttribute("hospitals", hospitalService.findAllHospitals());
 		model.addAttribute("hospitalCount", hospitalService.findAllHospitals().size());
 		model.addAttribute("admissionCount", admissionService.findAllAdmission().size());
-		model.addAttribute("patientCount", patientService.findAll().size());
+		model.addAttribute("patientCount", patientService.findpAll().size());
 		model.addAttribute("userCount", userService.findUserList().size());
 		return "report/admin";
 	}

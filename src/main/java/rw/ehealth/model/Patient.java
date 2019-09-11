@@ -30,7 +30,7 @@ public class Patient {
 	 */
 	@NotNull
 	@NotBlank(message = "The first name is required")
-	@Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters! use letter only!")
+	@Pattern(regexp = "[a-z-A-Z\\s]*", message = "First name has invalid characters! use letter only!")
 	@Column(name = "FIRST_NAME")
 	private String fname;
 
@@ -42,7 +42,7 @@ public class Patient {
 	 */
 	@NotNull
 	@NotBlank(message = "The last name is required")
-	@Pattern(regexp = "[a-z-A-Z]*", message = "Last name has invalid characters! use letter only!")
+	@Pattern(regexp = "[a-z-A-Z\\s]*", message = "Last name has invalid characters! use letter only!")
 	@Column(name = "LAST_NAME")
 	private String lname;
 

@@ -45,4 +45,6 @@ public interface IPatientService {
 
 	List<Patient> findAll();
 
+	List<Patient> findpAll();
+
 }

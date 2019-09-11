@@ -43,7 +43,7 @@
 								<div class="icon">
 									<i class="ion ion-ios-people"></i>
 								</div>
-								<a th:href="@{'/admin/report/departments/'+${hospital.hospitalCode}}" class="small-box-footer">More info <i
+								<a href="#" class="small-box-footer">More info <i
 									class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
@@ -66,20 +66,17 @@
 											<th>Patient Names</th>
 											<th>Admission Date</th>
 											<th>Release Status</th>
-											<th>Details</th>
 										</tr>
 									</thead>
 
 									<tbody>
 										<tr th:each="admission, iStat: ${admissions}">
 											<td th:text="${iStat.index+1}" />
-											<td><a
-												th:href="@{'/admin/report/record/'+${admission.patientTrackingNumber}}"><span
-													th:text="${admission.patientTrackingNumber}" /></a></td>
+											<td th:text="${admission.patientTrackingNumber}" />
 											<td th:text="${admission.admittedPatient.fname}" />
 											<td th:text="${admission.admissionDate}" />
-											<td />
-											<td  />
+											<td th:if="${admission.releasedDate == null}">Not Yet</td>
+											<td th:if="${admission.releasedDate != null}">Released</td>
 
 										</tr>
 									</tbody>
