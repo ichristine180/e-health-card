@@ -28,6 +28,10 @@
 											<td><input type="text" th:name="@{results}" /></td>
 										</tr>
 									</th:block>
+									<tr th:if="${errors==null and errorFound==true}">
+										<td></td>
+										<td class="error text-danger"> Result is missing</td>
+									</tr>
 									<tr th:if="${errorFound==true}" th:each="record:${errors}">
 										<td th:text="${record.medicalExam.name}" class="error text-danger"></td>
 										<td class="error text-danger"> Result is missing</td>

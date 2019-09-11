@@ -484,14 +484,24 @@ public class HospitalController {
 			@RequestParam(value = "results", required = true) String[] results,
 			@RequestParam String patientTrackingNumber, Model model, Principal principal) {
 
+		if (id.length != results.length) {
+			ExamRecord examRecord = new ExamRecord();
+			model.addAttribute("examRecord", examRecord);
+			model.addAttribute("examss", examRecordService.findErecords(patientTrackingNumber));
+			model.addAttribute("patientTrackingNumber", patientTrackingNumber);
+			model.addAttribute("errors", null);
+			model.addAttribute("errorFound", true);
+			return "labo/labo";
+		}
+
 		boolean errorFound = false;
 
 		List<ExamRecord> recordsWithError = new ArrayList<>();
-		for (int i = 0; i < results.length; i++) {
+		for (int i = 0; i < id.length; i++) {
 			if (results[i].isEmpty() || results[i] == null) {
 				ExamRecord record = examRecordService.findExamRecordByExamId(id[i]);
 				recordsWithError.add(record);
-				errorFound = true;
+
 			}
 		}
 
@@ -507,7 +517,6 @@ public class HospitalController {
 		Employee employee = userService.findDoctor(principal.getName());
 		Admission admission = new Admission();
 		for (int i = 0; i < id.length; i++) {
-
 			ExamRecord records = examRecordService.findExamRecordByExamId(id[i]);
 			records.setResults(results[i]);
 			records.setClosedWithResult(true);
