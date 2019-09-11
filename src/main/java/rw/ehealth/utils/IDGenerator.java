@@ -10,15 +10,6 @@ import rw.ehealth.model.Patient;
 public abstract class IDGenerator {
 
 	/**
-	 * Generate tracking number.
-	 *
-	 * @return the string
-	 */
-	public static String generateTrackingNumber() {
-		return "TRACK-" + RandomStringUtils.randomNumeric(6).toUpperCase();
-	}
-
-	/**
 	 * Generate patient number.
 	 *
 	 * @param patient the patient
@@ -27,11 +18,25 @@ public abstract class IDGenerator {
 	public static String generatePatientNumber(Patient patient) {
 		LocalDate date = LocalDate.now();
 		int year = date.getYear();
-		return "PN-" + year+"-"+RandomStringUtils.randomAlphabetic(3).toUpperCase();
+		return (year + "-" + RandomStringUtils.randomAlphabetic(5)).toUpperCase();
 	}
-	
+
 	public static String generateAccessCode() {
-		return "ACCESS-" + RandomStringUtils.randomNumeric(4);
+		return RandomStringUtils.randomNumeric(4);
+	}
+
+	/**
+	 * @param hospitalCode
+	 * @return
+	 */
+	public static String generateTrackingNumber(String hospitalCode) {
+		LocalDate date = LocalDate.now();
+		int year = date.getYear();
+		return (hospitalCode + "-" + RandomStringUtils.randomAlphanumeric(6) + "-" + year).toUpperCase();
+	}
+
+	public static void main(String[] args) {
+		System.out.println(IDGenerator.generateTrackingNumber("KFH"));
 	}
 
 }

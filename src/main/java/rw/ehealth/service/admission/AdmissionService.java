@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +36,6 @@ public class AdmissionService implements IAdmissionService {
 				System.out.println("A doctor is required to admit a patient");
 				return null;
 			} else {
-				// Generate a patient tracking number randomly and save the data
-				info.setPatientTrackingNumber(RandomStringUtils.random(10, true, true));
 				return aRepository.save(info);
 			}
 		} catch (
