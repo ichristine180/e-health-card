@@ -1,6 +1,8 @@
 
 package rw.ehealth.utils;
 
+import java.time.LocalDate;
+
 import org.apache.commons.lang.RandomStringUtils;
 
 import rw.ehealth.model.Patient;
@@ -23,7 +25,9 @@ public abstract class IDGenerator {
 	 * @return the string
 	 */
 	public static String generatePatientNumber(Patient patient) {
-		return "PN-" + RandomStringUtils.randomAlphanumeric(8).toUpperCase();
+		LocalDate date = LocalDate.now();
+		int year = date.getYear();
+		return "PN-" + year+"-"+RandomStringUtils.randomAlphabetic(3).toUpperCase();
 	}
 	
 	public static String generateAccessCode() {
